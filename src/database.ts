@@ -1,7 +1,7 @@
 import * as fs from 'fs'
 import * as crypt from 'crypto'
 import config from './config.js'
-import { boolean, Describe, Infer, union, number, array, assert, object, string } from 'superstruct'
+import { nullable, optional, boolean, Describe, Infer, union, number, array, assert, object, string } from 'superstruct'
 import { Database } from 'aloedb-node'
 import { log } from './utils.js'
 
@@ -16,14 +16,29 @@ export namespace database {
         })
     })
 
+    const UserDataSign = object({
+        firstname: string(),
+        lastname: string(),
+        middlename: string(),
+        username: string(),
+        birthdate: string()
+    })
+
     const emailExtensionSign = object({
         imap: boolean()
     })
 
     const AccountSign = object({
         id: number(),
-        registrationTime: number(),
-        usedproxy: array(ProxySign),
+        forseProxyLink: optional(ProxySign),
+        subscriptions: array(
+            object({
+                userdata: optional(UserDataSign),
+                usedproxy: nullable(ProxySign),
+                url: string(),
+                registrationTime: number(),
+            })
+        ),
         auth: object({
             email: object({
                 login: string(),
@@ -56,9 +71,20 @@ export namespace database {
 
         export class Account implements AccountSchema {
             readonly id: number
-            registrationTime: number
-            usedproxy: Array<ProxySchema>
-            readonly auth: {
+            forseProxyLink?: ProxySchema
+            subscriptions: {
+                userdata?: {
+                    firstname: string
+                    lastname: string
+                    middlename: string
+                    username: string
+                    birthdate: string
+                }
+                url: string
+                registrationTime: number
+                usedproxy: ProxySchema | null
+            }[]
+            auth: {
                 email: {
                     login: string
                     password: string
@@ -73,9 +99,9 @@ export namespace database {
                     this.id = id_gen(accounts_db)
                 }
 
-                this.registrationTime = schema.registrationTime ?? -1
-                this.usedproxy = schema.usedproxy ?? new Array()
+                this.forseProxyLink = schema.forseProxyLink
                 this.auth = schema.auth
+                this.subscriptions = schema.subscriptions ?? []
             }
 
             async sync() {
@@ -91,13 +117,13 @@ export namespace database {
                 return new Account(<AccountSchema>(await accounts_db.findOne({id: this.id})))
             }
 
-            async markRegistred() {
-                this.registrationTime = new Date().getTime()
-                return await this.sync()
-            }
-
-            async markProxy(proxy: ProxySchema) {
-                this.usedproxy.push(proxy)
+            async markRegistred(url: string, proxy: ProxySchema | null, userdata?: UserDataSchema) {
+                this.subscriptions.push({
+                    registrationTime: new Date().getTime(),
+                    usedproxy: proxy,
+                    url: url,
+                    userdata: userdata,
+                })
                 return await this.sync()
             }
         }
@@ -106,4 +132,5 @@ export namespace database {
     export type ProxySchema = Infer<typeof ProxySign>
     export type AccountSchema = Infer<typeof AccountSign>
     export type emailExtensionSchema = Infer<typeof emailExtensionSign>
+    export type UserDataSchema = Infer<typeof UserDataSign>
 }

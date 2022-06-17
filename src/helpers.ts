@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer'
 import { proxyRequest } from 'puppeteer-proxy'
 import * as fs from 'fs'
 
+import * as Type from './Types.js'
 import cfg from './config.js'
 import { database } from './database.js'
 import {
@@ -27,10 +28,16 @@ export module browser {
 
     const launch_opts = _lo()
 
-    function randomProxy(): { url: string, authurl: string, proxy: database.ProxySchema } {
-        let proxy = cfg.proxy.at(0 + Math.floor(Math.random() * cfg.proxy.length))
+    export interface AdvancedProxySchema {
+        url: string
+        authurl: string
+        proxy: database.ProxySchema
+    }
+
+    function randomProxy(proxies: Proxy.Proxy[]): AdvancedProxySchema {
+        let proxy = proxies.at(0 + Math.floor(Math.random() * cfg.proxy.length))
         if (!proxy) {
-            return randomProxy()
+            return randomProxy(proxies)
         }
         return {
             url: "http://" + proxy.host + ":" + proxy.port,
@@ -39,10 +46,12 @@ export module browser {
         }
     }
 
-    export async function setupBrowser() {
+    export async function setupBrowser(proxies: Proxy.Proxy[] | null) {
         try {
-            const proxy = randomProxy()
-            log.echo("Proxy:", proxy)
+            let proxy: AdvancedProxySchema | null = null
+            if (proxies != null && proxies.length > 0) {
+                proxy = randomProxy(proxies)
+            }
             const browser = await puppeteer.launch(launch_opts)
 
             if (!browser) {
@@ -51,17 +60,20 @@ export module browser {
 
             const page = (await browser.pages())[0]
 
-            try {
-                await page.setRequestInterception(true)
-                page.on('request', async (request: any) => {
-                    await proxyRequest({
-                        page: page,
-                        proxyUrl: proxy.authurl,
-                        request: request,
+            if (proxy != null) {
+                try {
+                    log.echo("Proxy:", proxy)
+                    await page.setRequestInterception(true)
+                    page.on('request', async (request: any) => {
+                        await proxyRequest({
+                            page: page,
+                            proxyUrl: proxy!.authurl,
+                            request: request,
+                        })
                     })
-                })
-            } catch (e) {
-                throw "Proxy setup failed: " + e
+                } catch (e) {
+                    throw "Proxy setup failed: " + e
+                }
             }
 
             await page
@@ -93,6 +105,11 @@ export module browser {
             page.on('pageerror', (err: any) => {
                 log.error("page error:", err.toString())
             })
+            return {
+                browser: browser,
+                page: page,
+                proxy: proxy,
+            }
         } catch (err) {
             throw 'Page initialization failed. Reason: ' + err
         }
@@ -160,13 +177,14 @@ export module importman {
     }
 
     function readStructure(raw: string, opt: { delemiter: dataOpt, accountSize: number }) {
-        let misc = raw.split(getDelemiter(opt.delemiter))
+        let misc = raw.replaceAll(/\r/g, '').split(getDelemiter(opt.delemiter))
         let chunks = new Array<string>()
 
-        for (let i = 0, c = 0; i < misc.length; i++, c++) {
-            if (c == opt.accountSize-1) {
+        for (let i = 0, c = 0; i < misc.length; i++) {
+            c++
+            if (c == opt.accountSize) {
                 let data = ""
-                for (let j = 0; j < opt.accountSize; j++) {
+                for (let j = 1; j <= opt.accountSize; j++) {
                     data += <string>misc.at(i-( opt.accountSize - j ))
                     if (j+1 != opt.accountSize) {
                         data += getDelemiter(opt.delemiter)
@@ -197,5 +215,34 @@ export module importman {
                 await _a.sync()
             }
         }
+    }
+}
+
+export module Validator {
+    /**
+     * return false if validation failed
+     */
+    export function validateAccountFor(actions: Type.subscribeAction, account: database.ORM.Account | database.AccountSchema) {
+        if (!actions.url) {
+            return false
+        }
+
+        try {
+            new URL(actions.url) // throw catch validation
+        } catch (e) {
+            console.log(e)
+            return false
+        }
+
+        if (actions.fields.email != "" && account.auth.email.login == "") {
+            return false
+        }
+
+        if (actions.fields.password != "" && account.auth.email.password == "") {
+            return false
+        }
+
+        // TODO
+        return true
     }
 }

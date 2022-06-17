@@ -1,8 +1,48 @@
-import { optional, array, enums,Infer, assert, boolean, object, number, string } from 'superstruct'
+import { union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
 import { readFileSync } from 'fs'
 import * as fs from 'fs'
 
+import { subscribeAction } from './Types.js'
+
 const _cfg_path = './config.json'
+
+const subscribeActionSign : Describe<subscribeAction> = object({
+    url: string(),
+    delay: number(),
+    usePreDefinedProxy: boolean(),
+    fields: object({
+        email: string(),
+        password: string(),
+        additional: array(
+            object({
+                name: string(),
+                type: enums([ "Click", "Type" ]),
+                field: string(),
+                text: optional(
+                    union([
+                        string(),
+                        object({
+                            dataFrom: enums([ "Account" ]),
+                            dataPath: string()
+                        })
+                    ])
+                ),
+                after: object({
+                    delay: number(),
+                    waitForSelector: string(),
+                    waitForNavigatior: boolean(),
+                })
+            })
+        )
+    }),
+    verification: object({
+        needed: boolean(),
+        settings: object({
+            imap: optional(string()),
+            browser: optional(string()),
+        })
+    })
+})
 
 const ConfigSign = object({
     headless: boolean(),
@@ -18,19 +58,7 @@ const ConfigSign = object({
         object({
             name: string(),
             day24limit: number(),
-            url: string(),
-            actions: object({
-                fields: object({
-                    email: string(),
-                    password: string(),
-                    additionalClicks: array(string())
-                }),
-                verification: boolean(),
-                verificationOptions: object({
-                    imap: optional(object({ })),
-                    browser: optional(object({ }))
-                })
-            })
+            action: subscribeActionSign
         })
     ),
 
@@ -63,7 +91,7 @@ if (!fs.existsSync(_cfg_path)) {
 type ConfigType = Infer<typeof ConfigSign>;
 
 export function Config(): ConfigType {
-    let config;
+    let config
     try {
         config = JSON.parse(readFileSync(_cfg_path).toString());
     } catch(e) {

@@ -23,7 +23,7 @@ export module proxy {
 
 export function sleep(ms: number) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
-export async function randSleep(max: number = 5000, min: number = 100) {
+export async function randSleep(max: number = 1000, min: number = 100) {
     let ms = Math.round(Math.random() * (max-min) + min)
     return await sleep(ms)
 }
