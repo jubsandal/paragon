@@ -39,6 +39,7 @@ export namespace database {
                 registrationTime: number(),
             })
         ),
+        customJSON: string(),
         auth: object({
             email: object({
                 login: string(),
@@ -84,6 +85,7 @@ export namespace database {
                 registrationTime: number
                 usedproxy: ProxySchema | null
             }[]
+            customJSON: string
             auth: {
                 email: {
                     login: string
@@ -99,6 +101,7 @@ export namespace database {
                     this.id = id_gen(accounts_db)
                 }
 
+                this.customJSON = schema.customJSON ?? ""
                 this.forseProxyLink = schema.forseProxyLink
                 this.auth = schema.auth
                 this.subscriptions = schema.subscriptions ?? []
@@ -125,6 +128,43 @@ export namespace database {
                     userdata: userdata,
                 })
                 return await this.sync()
+            }
+
+            async getDataByPath(path: string): Promise<any> {
+                let ret: any = this
+
+                for (const node of path.split('.')) {
+                    if (node === "customJSON") {
+                        ret = JSON.parse(this.customJSON)
+                        continue
+                    }
+                    // @ts-ignore
+                    ret = ret[node]
+                }
+
+                return ret
+            }
+
+            // TODO
+            async setDataByPath(path: string, data: any) {
+                let endpoint = this
+                let customjson_used = false
+
+                for (const node of path.split('.')) {
+                    if (node === "customJSON") {
+                        customjson_used = true
+                        endpoint = JSON.parse(this.customJSON)
+                        continue
+                    }
+                    // @ts-ignore
+                    endpoint = endpoint[node]
+                }
+
+                if (customjson_used) {
+
+                } else {
+                    endpoint = data
+                }
             }
         }
     }

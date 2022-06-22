@@ -1,8 +1,9 @@
+import puppeteer from 'puppeteer'
+
 import { database } from './database.js'
 import cfg from './config.js'
-import { subscribeAction } from './Types.js'
+import { botConfigEntry } from './Types.js'
 import * as helpers from './helpers.js'
-import puppeteer from 'puppeteer'
 import { log, sleep, randSleep } from './utils.js'
 import * as Type from './Types.js'
 import * as barhelper from './lib/bar-helper.js'
@@ -10,39 +11,50 @@ import * as barhelper from './lib/bar-helper.js'
 /**
  * account and actions must be valid
  */
+// TODO redo with middlevare advanced logging and message delivery
 export class Unit {
     private barhelper: barhelper.WorkerBarHelper
 
     constructor(
         private account: database.ORM.Account,
-        private actions: subscribeAction
+        private actions: botConfigEntry
     ) {
-        let tasks = new Array<string>()
-        if (this.actions.fields.email) {
-            tasks.push("Entering email")
-        }
-        if (this.actions.fields.password) {
-            tasks.push("Entering password")
-        }
-        for (const action of this.actions.fields.additional) {
-            tasks.push(action.name)
-        }
-        this.barhelper = new barhelper.WorkerBarHelper(this.account, tasks)
+        this.barhelper =
+            new barhelper.WorkerBarHelper(this.account, this.actions.actions.map(a => a.name))
     }
 
-    private async smrtAction(page: puppeteer.Page, field: string, text?: string) {
+    private async smrtAction(page: puppeteer.Page, field: string, action: Type.botActionType, string?: string) {
         const typer = async () => {
-            const selector = await page.$(field)
-            if (selector) {
-                if (text) {
-                    await selector.type(text)
+            try {
+                const selector = await page.waitForSelector(field, { timeout: waitms })
+                console.log("TRY")
+                if (selector) {
+                    switch (action) {
+                        case "Click":
+                            await selector.click()
+                            break;
+                        case "Type":
+                            // @ts-ignore
+                            await selector.type(string)
+                            break;
+                        case "Upload":
+                            // @ts-ignore
+                            await selector.uploadFile(string)
+                            break;
+                        default:
+                            throw 1
+                    }
+                    return true
                 } else {
-                    await selector.click()
+                    throw 0
                 }
-                return true
-            } else {
+            } catch (e) {
+                if (e) {
+                    throw "No must have parameter passed"
+                }
                 return false
             }
+            return true
         }
 
         const tryies = 3
@@ -56,81 +68,105 @@ export class Unit {
         throw "Cannot do smrt action on field: " + field + " at page: " + page.url()
     }
 
+    private async finalizeAction(page: puppeteer.Page, action: Type.botAction) {
+        if (action.after.delay && action.after.delay > 0) {
+            await sleep(action.after.delay)
+        }
+        if (action.after.waitForNavigatior) {
+            await page.waitForNavigation({waitUntil: 'networkidle2'/*, timeout: 10000*/})
+        }
+        if (action.after.waitForSelector) {
+            await page.waitForSelector(action.after.waitForSelector, { timeout: 30000 })
+        }
+    }
+
+    private async deserializeText(action: Type.botAction) {
+        let text
+        if (typeof action.text === "object") {
+            const typeopts = <Type.pathTextConfig>action.text
+            switch (typeopts.dataFrom) {
+                case "Account":
+                    text = await this.account.getDataByPath(typeopts.dataPath)
+                    break;
+                default:
+                    throw "Not implemented accessing to data to type from data source " + typeopts.dataFrom
+            }
+        } else if (typeof action.text === "string") {
+            text = action.text
+        }
+
+        return text
+    }
+
+    private async doType(page: puppeteer.Page, action: Type.botAction) {
+        const text = await this.deserializeText(action)
+        if (!action.field) throw "No field for action: " + action.name
+        if (!text || text === "") throw "No text for action " + action.name
+        await this.smrtAction(page, action.field, "Type", text)
+    }
+
+    private async doClick(page: puppeteer.Page, action: Type.botAction) {
+        if (!action.field) throw "No field for action: " + action.name
+        await this.smrtAction(page, action.field, "Click")
+    }
+
+    private async doGoto(page: puppeteer.Page, action: Type.botAction) {
+        if (!action.url) throw "No url path for action: " + action.name
+        await page.goto(action.url)
+    }
+
+    private async doUpload(page: puppeteer.Page, action: Type.botAction) {
+        const text = await this.deserializeText(action)
+        if (!action.text) throw "No url path for action: " + action.name
+        if (!action.field) throw "No field for action: " + action.name
+        await this.smrtAction(page, action.field, "Upload", text)
+    }
+
     public async exec() {
         this.barhelper.create()
-        // forse fall to throw
         let proxyPool = cfg.proxy
 
         if (this.actions.usePreDefinedProxy && this.account.forseProxyLink) {
             proxyPool.push(this.account.forseProxyLink)
         }
 
+        // forse fall to throw on setup error
         let { browser, page, proxy } = await helpers.browser.setupBrowser(proxyPool)
+
+        let curAction
         try {
-            await page.goto(this.actions.url, { waitUntil: "domcontentloaded" })
-
-            await randSleep()
-
-            if (this.actions.fields.email) {
-                await this.smrtAction(page, this.actions.fields.email, this.account.auth.email.login)
-            }
-
-            await randSleep()
-
-            if (this.actions.fields.password) {
+            for (const action of this.actions.actions) {
+                curAction = action
                 this.barhelper.next()
-                await this.smrtAction(page, this.actions.fields.password, this.account.auth.email.password)
+                switch (action.type) {
+                    case "Type":
+                        await this.doType(page, action)
+                        break
+                    case "Click":
+                        await this.doClick(page, action)
+                        break
+                    case "Goto":
+                        await this.doGoto(page, action)
+                        break
+                    case "Upload":
+                        await this.doUpload(page, action)
+                        break
+                    default:
+                        throw "Unkown action " + action.type
+                }
+
+                await this.finalizeAction(page, action)
             }
 
-            await randSleep()
-
-            for (const action of this.actions.fields.additional) {
-                this.barhelper.next()
-                if (action.type === "Type") {
-                    if (typeof action.text === "object") {
-                        const typeopts = <Type.pathTextConfig>action.text
-                    }
-                } else if (action.type === "Click") {
-                    await this.smrtAction(page, action.field)
-                } else {
-                    throw "Unkown action " + action.type
-                }
- 
-                if (action.after.delay > 0) {
-                    await sleep(action.after.delay)
-                }
-                if (action.after.waitForNavigatior) {
-                    await page.waitForNavigation({waitUntil: 'networkidle0'/*, timeout: 10000*/})
-                }
-                if (action.after.waitForSelector) {
-                    await page.waitForSelector(action.after.waitForSelector, { timeout: 30000 })
-                }
-            }
-
-            // TODO user data input
-
-            // TODO captcha
-
-            // TODO validate email
-
-            if (browser) {
-                browser.close()
-            }
             this.barhelper.done(true)
+        }  catch (e) {
+            this.barhelper.done(false)
+            log.error("Action", curAction, "error:", e)
+        }//  finally {
+            if (browser) { browser.close() }
             return {
                 usedProxy: proxy
             }
-        }  catch (e) {
-            this.barhelper.done(false)
-            if (browser) {
-                browser.close()
-            }
-            log.error(e)
-            throw e
-        // }  finally {
-        //     if (browser) {
-        //         browser.close()
-        //     }
-        }
+        //}
     }
 }

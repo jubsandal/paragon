@@ -2,46 +2,39 @@ import { union, Describe, optional, array, enums, Infer, assert, boolean, object
 import { readFileSync } from 'fs'
 import * as fs from 'fs'
 
-import { subscribeAction } from './Types.js'
+import { botConfigEntry } from './Types.js'
 
 const _cfg_path = './config.json'
 
-const subscribeActionSign : Describe<subscribeAction> = object({
+const botConfigEntrySign: Describe<botConfigEntry> = object({
+    name: string(),
+    day24limit: number(),
     url: string(),
-    delay: number(),
+    perAccountDelay: union([number(), string()]),
     usePreDefinedProxy: boolean(),
-    fields: object({
-        email: string(),
-        password: string(),
-        additional: array(
-            object({
-                name: string(),
-                type: enums([ "Click", "Type" ]),
-                field: string(),
-                text: optional(
-                    union([
-                        string(),
-                        object({
-                            dataFrom: enums([ "Account" ]),
-                            dataPath: string()
-                        })
-                    ])
-                ),
-                after: object({
-                    delay: number(),
-                    waitForSelector: string(),
-                    waitForNavigatior: boolean(),
-                })
+    actions: array(
+        object({
+            id: number(),
+            name: string(),
+            type: enums([ "Click", "Type", "Goto", "Upload", "Screenshot" ]),
+            field: optional(string()),
+            url: optional(string()),
+            text: optional(
+                union([
+                    string(),
+                    object({
+                        dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API" ]),
+                        dataPath: string()
+                    })
+                ])
+            ),
+            after: object({
+                delay: optional(number()),
+                waitForSelector: optional(string()),
+                waitForNavigator: optional(boolean()),
             })
-        )
-    }),
-    verification: object({
-        needed: boolean(),
-        settings: object({
-            imap: optional(string()),
-            browser: optional(string()),
         })
-    })
+    ),
 })
 
 const ConfigSign = object({
@@ -54,13 +47,7 @@ const ConfigSign = object({
 
     concurrency: number(),
 
-    subscribe: array(
-        object({
-            name: string(),
-            day24limit: number(),
-            action: subscribeActionSign
-        })
-    ),
+    configs: array(botConfigEntrySign),
 
     proxy: array(
         object({
@@ -78,7 +65,7 @@ if (!fs.existsSync(_cfg_path)) {
     let cfg: ConfigType = {
         headless: false,
         concurrency: 1,
-        subscribe: new Array(),
+        configs: new Array(),
         path: {
             log: './.log',
             storage: './storage'

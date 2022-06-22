@@ -1,6 +1,14 @@
-import { mpb, accountBarID } from './global.js'
-import chalk from 'chalk';
+import { MultiProgressBars  } from 'multi-progress-bars';
 import { database } from "./../database.js"
+import chalk from 'chalk';
+
+const projectname = "Subscriber"
+
+export function accountBarID(account: database.ORM.Account) {
+    return "login:"+account.auth.email.login
+}
+
+export let mpb: MultiProgressBars
 
 export class WorkerBarHelper {
     private curTask = 0
@@ -36,6 +44,13 @@ export class WorkerBarHelper {
 }
 
 export function createMainProgress(cur: number, overall: number) {
+    mpb = new MultiProgressBars({
+        initMessage: ' $ ' + projectname + ' ',
+        anchor: 'top',
+        persist: true,
+        border: true,
+    })
+
     mpb.addTask("Progress", {
         type: "percentage",
         message: cur+"/"+overall+" 0 errors",

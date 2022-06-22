@@ -1,6 +1,8 @@
 import puppeteer from 'puppeteer'
+import puppeteer_extra from 'puppeteer-extra'
 // @ts-ignore
 import { proxyRequest } from 'puppeteer-proxy'
+import puppeteer_steath from 'puppeteer-extra-plugin-stealth'
 import * as fs from 'fs'
 
 import * as Type from './Types.js'
@@ -11,12 +13,14 @@ import {
     proxy as Proxy
 } from './utils.js'
 
+puppeteer_extra.use(puppeteer_steath())
+
 export module browser {
     const _lo = () => {
         return {
             headless: cfg.headless,
             // ignoreDefaultArgs: [ "--disable-extensions", "--enable-automation" ],
-            executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
+            // executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
             args: [
                 '--disable-web-security',
                 // '--no-sandbox',
@@ -52,7 +56,7 @@ export module browser {
             if (proxies != null && proxies.length > 0) {
                 proxy = randomProxy(proxies)
             }
-            const browser = await puppeteer.launch(launch_opts)
+            const browser = await puppeteer_extra.launch(launch_opts)
 
             if (!browser) {
                 throw "Cannot create browser"
@@ -76,11 +80,11 @@ export module browser {
                 }
             }
 
-            await page
-                .setUserAgent(
-                    // 'Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0'
-                    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36'
-                )
+            // await page
+            //     .setUserAgent(
+            //         'Mozilla/5.0 (X11; Linux x86_64; rv:101.0) Gecko/20100101 Firefox/101.0'
+            //         // 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36'
+            //     )
             // await page.setExtraHTTPHeaders({
             //     'Access-Control-Allow-Origin': '*'
             //     // 'user-agent':                'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36',
@@ -91,7 +95,7 @@ export module browser {
             // })
 
             // most popular
-            await page.setViewport({ width: 1366, height: 768 })
+            // await page.setViewport({ width: 1366, height: 768 })
             await page.setDefaultNavigationTimeout(500000);
 
             // await page.on('dialog', async (dialog: puppeteer.Dialog) => {
@@ -222,7 +226,8 @@ export module Validator {
     /**
      * return false if validation failed
      */
-    export function validateAccountFor(actions: Type.subscribeAction, account: database.ORM.Account | database.AccountSchema) {
+    // @ts-ignore
+    export function validateAccountFor(actions: Type.botConfigEntry, account: database.ORM.Account | database.AccountSchema) {
         if (!actions.url) {
             return false
         }
@@ -234,15 +239,8 @@ export module Validator {
             return false
         }
 
-        if (actions.fields.email != "" && account.auth.email.login == "") {
-            return false
-        }
-
-        if (actions.fields.password != "" && account.auth.email.password == "") {
-            return false
-        }
-
         // TODO
+
         return true
     }
 }
