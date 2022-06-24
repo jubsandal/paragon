@@ -5,8 +5,8 @@ save*
 import/
 *.txt
 *.log
-accounts.json
-accounts*
+#accounts.json
+#accounts*
 #config.json
 near.txt
 dist/
