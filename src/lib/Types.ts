@@ -32,7 +32,7 @@ export interface botAction {
     onUnreacheble?: {
         repeat?: boolean
         repeatMax?: number
-        retrieGotoAction?: number
+        gotoAction?: number
     }
 
     after: {
@@ -49,5 +49,6 @@ export interface botConfigEntry {
     perAccountDelay: number | string
     usePreDefinedProxy: boolean
     browserAdapter: "AdsPower" | "Common" | "Stealth"
+    adsLocalIPHost?: string
     actions: Array<botAction>
 }

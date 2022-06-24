@@ -39,7 +39,7 @@ export namespace database {
                 registrationTime: number(),
             })
         ),
-        adsUserId: optional(number()),
+        adsUserId: optional(string()),
         customJSON: string(),
         auth: object({
             email: object({
@@ -87,7 +87,7 @@ export namespace database {
                 usedproxy: ProxySchema | null
             }[]
             customJSON: string
-            adsUserId: number
+            adsUserId: string
             auth: {
                 email: {
                     login: string
@@ -103,8 +103,8 @@ export namespace database {
                     this.id = id_gen(accounts_db)
                 }
 
-                this.adsUserId = schema.adsUserId ?? -1
-                this.customJSON = schema.customJSON ?? ""
+                this.adsUserId = schema.adsUserId ?? ""
+                this.customJSON = schema.customJSON ?? "{}"
                 this.forseProxyLink = schema.forseProxyLink
                 this.auth = schema.auth
                 this.subscriptions = schema.subscriptions ?? []

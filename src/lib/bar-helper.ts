@@ -22,17 +22,18 @@ export class WorkerBarHelper {
     create() {
         mpb.addTask(accountBarID(this.account), {
             type: "percentage",
-            message: this.tasks[this.curTask],
-            barTransformFn: (m) => chalk.blueBright(m)
+            message: "",
+            barTransformFn: (m) => chalk.blueBright(m),
+            percentage: 0
         })
     }
 
     next() {
-        this.curTask++
         mpb.updateTask(accountBarID(this.account), {
             message: this.tasks[this.curTask],
             percentage: this.curTask/this.tasks.length
         })
+        this.curTask++
     }
 
     done(success: boolean) {

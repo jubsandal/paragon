@@ -25,6 +25,7 @@ const botConfigActionSign: Describe<botAction> = object({
             })
         ])
     ),
+    // TODO
     errorCondition: optional(
         object({
             noSelector: optional(string()),
@@ -35,7 +36,7 @@ const botConfigActionSign: Describe<botAction> = object({
         object({
             repeat: optional(boolean()),
             repeatMax: optional(number()),
-            retrieGotoAction: optional(number())
+            gotoAction: optional(number())
         })
     ),
     after: object({
@@ -52,6 +53,7 @@ const botConfigEntrySign: Describe<botConfigEntry> = object({
     perAccountDelay: union([number(), string()]),
     usePreDefinedProxy: boolean(),
     browserAdapter: enums([ "AdsPower", "Common", "Stealth" ]),
+    adsLocalIPHost: optional(string()),
     actions: array(botConfigActionSign),
 })
 

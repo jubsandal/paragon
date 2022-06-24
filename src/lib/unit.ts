@@ -72,18 +72,6 @@ export class Unit {
         throw "Cannot do smrt action on field: " + field + " at page: " + page.url()
     }
 
-    private async finalizeAction(page: puppeteer.Page, action: Type.botAction) {
-        if (action.after.delay && action.after.delay > 0) {
-            await sleep(action.after.delay)
-        }
-        if (action.after.waitForNavigatior) {
-            await page.waitForNavigation({waitUntil: 'networkidle2'/*, timeout: 10000*/})
-        }
-        if (action.after.waitForSelector) {
-            await page.waitForSelector(action.after.waitForSelector, { timeout: 30000 })
-        }
-    }
-
     private async deserializeText(action: Type.botAction) {
         let text
         if (typeof action.text === "object") {
@@ -149,12 +137,24 @@ export class Unit {
         await this.smrtAction(page, action.field, "Upload", text)
     }
 
+    private async finalizeAction(page: puppeteer.Page, action: Type.botAction) {
+        if (action.after.delay && action.after.delay > 0) {
+            await sleep(action.after.delay)
+        }
+        if (action.after.waitForNavigatior) {
+            await page.waitForNavigation({waitUntil: 'networkidle2'/*, timeout: 10000*/})
+        }
+        if (action.after.waitForSelector) {
+            await page.waitForSelector(action.after.waitForSelector, { timeout: 30000 })
+        }
+    }
+
     public async exec() {
-        let error = ""
+        let error = null
         this.barhelper.create()
         let proxyPool = cfg.proxy
 
-        if (this.account.adsUserId < 0) {
+        if (!this.account.adsUserId) {
             if (this.actions.usePreDefinedProxy && this.account.forseProxyLink) {
                 proxyPool.push(this.account.forseProxyLink)
             }
@@ -167,9 +167,10 @@ export class Unit {
         this.browser = browser
 
         let curAction
-        try {
-            for (const action of this.actions.actions) {
-                curAction = action
+        for (let i = 0; i < this.actions.actions.length; i++) {
+            const action = <Type.botAction>this.actions.actions.at(i)
+            curAction = action
+            try {
                 this.barhelper.next()
                 switch (action.type) {
                     case "Type":
@@ -189,21 +190,26 @@ export class Unit {
                 }
 
                 await this.finalizeAction(page, action)
+            }  catch (e) {
+                log.error("Action", curAction?.name, "error:", e)
+                if (curAction.onUnreacheble) {
+                    if (curAction.onUnreacheble.repeat) {
+                        i--
+                    }
+                }
+                error = e
             }
+        }
 
-            this.barhelper.done(true)
-        }  catch (e) {
-            error = <string>e
+        if (page) { await page.close() }
+        if (browser) { await browser.close() }
+        if (error) {
             this.barhelper.done(false)
-            log.error("Action", curAction?.name, "error:", e)
-        }//  finally {
-        if (browser) { browser.close() }
-        if (error != "") {
             throw error
         }
+        this.barhelper.done(true)
         return {
             usedProxy: proxy
         }
-        //}
     }
 }

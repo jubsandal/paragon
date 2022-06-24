@@ -129,6 +129,8 @@ for (const account of validAccounts) {
         err++
     }
     cur++
+    const elapced = new Date().getTime() - startTime
+    log.echo("Elapced:", elapced)
     barhelper.updateMainProgress(cur, total, err)
-    await perAccountDelayWaiter(new Date().getTime() - startTime)
+    await perAccountDelayWaiter(elapced)
 }

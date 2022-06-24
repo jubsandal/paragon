@@ -5,6 +5,7 @@ import { proxyRequest } from 'puppeteer-proxy'
 import puppeteer_steath from 'puppeteer-extra-plugin-stealth'
 import axios from 'axios'
 
+import { sleep } from './../utils.js'
 import cfg from './../../config.js'
 import { database } from './../database.js'
 import * as Type from './../Types.js'
@@ -16,6 +17,7 @@ import {
 export module browser {
     const _lo = () => {
         return {
+            defaultViewport: null,
             headless: cfg.headless,
             // ignoreDefaultArgs: [ "--disable-extensions", "--enable-automation" ],
             // executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
@@ -65,14 +67,24 @@ export module browser {
                 case "AdsPower":
                     if (!account) {
                         throw "No account passed"
-                    } else if (account.adsUserId === -1) {
+                    } else if (!account.adsUserId) {
                         throw "No ads linked to account"
                     }
-                    let res = await axios.get('http://local.adspower.net:50325/api/v1/browser/start?user_id=' + account.adsUserId)
-                    browser = await puppeteer.connect({
-                        browserWSEndpoint: res.data.data.ws.puppeteer,
-                        ...launch_opts
-                    })
+                    let res
+                    try {
+                        res = await axios.get('http://' + ( config.adsLocalIPHost ?? "localhost" ) + ':50325/api/v1/browser/start?user_id=' + account.adsUserId)
+                    } catch (e) {
+                        throw "Cannot connect to AdsPower Local API " + e
+                    }
+                    try {
+                        browser = await puppeteer.connect({
+                            browserWSEndpoint: res.data.data.ws.puppeteer,
+                            ...launch_opts
+                        })
+                    } catch (e) {
+                        throw "Cannot connect to AdsPower user " + account.adsUserId + " browser"
+                    }
+                    await sleep(1000)
                     break
                 case "Stealth":
                     if (!stealth_enabled) {
@@ -122,7 +134,7 @@ export module browser {
             // })
 
             // most popular
-            // await page.setViewport({ width: 1366, height: 768 })
+            // await page.setViewport({ width: 1920, height: 1080 })
             await page.setDefaultNavigationTimeout(500000);
 
             // await page.on('dialog', async (dialog: puppeteer.Dialog) => {
@@ -142,7 +154,7 @@ export module browser {
                 proxy: proxy,
             }
         } catch (err) {
-            throw 'Page initialization failed. Reason: ' + err
+            throw 'Browser initialization: ' + err
         }
     }
 }
