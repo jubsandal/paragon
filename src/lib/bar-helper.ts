@@ -1,5 +1,5 @@
 import { MultiProgressBars  } from 'multi-progress-bars';
-import { database } from "./../database.js"
+import { database } from "./database.js"
 import chalk from 'chalk';
 
 const projectname = "Subscriber"

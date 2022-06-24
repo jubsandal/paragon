@@ -1,0 +1,137 @@
+{
+    "headless": false,
+    "concurrency": 1,
+    "configs": [
+        {
+            "name": "lastexpedition",
+            "day24limit": 50,
+            "perAccountDelay": 1,
+            "usePreDefinedProxy": false,
+            "url": "https://lastexpedition.game/",
+            "browserAdapter": "Common",
+            "actions": [
+                {
+                    "id": -1,
+                    "name": "Going to page",
+                    "type": "Goto",
+                    "url": "https://lastexpedition.game/",
+                    "after": { "waitForNavigator": true }
+                },
+                {
+                    "id": 0,
+                    "name": "Entering email",
+                    "type": "Type",
+                    "field": "#subscribe_email",
+                    "text": {
+                        "dataFrom": "Account",
+                        "dataPath": "auth.email.login"
+                    },
+                    "after": { "delay": 600 }
+                },
+                {
+                    "id": 1,
+                    "name": "Accepting terms of use",
+                    "type": "Click",
+                    "field": "#subscribeForm > div > div.md\\:flex.md\\:items-start > label > div > input",
+                    "after": { "delay": 600 }
+                },
+                {
+                    "id": 2,
+                    "name": "Sending request",
+                    "type": "Click",
+                    "field": "#join-le-button",
+                    "after": { "delay": 2400 }
+                }
+            ]
+        },
+        {
+            "name": "sandbox-twitter",
+            "day24limit": 0,
+            "perAccountDelay": 0.5,
+            "usePreDefinedProxy": true,
+            "url": "https://sandbox.game",
+            "browserAdapter": "Stealth",
+            "actions": [
+                {
+                    "id": 0,
+                    "name": "Going to page",
+                    "type": "Goto",
+                    "url": "https://www.sandbox.game/en/",
+                    "after": {
+                        "delay": 5500,
+                        "waitForSelector": "#sign-in-button"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "Clicking sing in",
+                    "type": "Click",
+                    "field": "#sign-in-button",
+                    "after": {
+                        "delay": 2000,
+                        "waitForSelector": "#__layout > div > div > div.modal.background-color-none > div > div.content > div > div > div.content-bottom.wallet-content-bottom > div.email-sign-in-link > p"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "Proceeding sign in with email",
+                    "type": "Click",
+                    "field": "#__layout > div > div > div.modal.background-color-none > div > div.content > div > div > div.content-bottom.wallet-content-bottom > div.email-sign-in-link > p",
+                    "after": {
+                        "delay": 2000,
+                        "waitForSelector": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > div > div:nth-child(1) > input[type=text]"
+                    }
+                },
+                {
+                    "id": 3,
+                    "name": "Entering email",
+                    "type": "Type",
+                    "field": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > div > div:nth-child(1) > input[type=text]",
+                    "text": {
+                        "dataFrom": "Account",
+                        "dataPath": "customJSON.sandbox.login"
+                    },
+                    "after": { "delay": 400 }
+                },
+                {
+                    "id": 4,
+                    "name": "Entering password",
+                    "type": "Type",
+                    "field": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > div > div:nth-child(2) > input[type=password]",
+                    "text": {
+                        "dataFrom": "Account",
+                        "dataPath": "customJSON.sandbox.password"
+                    },
+                    "after": { "delay": 1000 }
+                },
+                {
+                    "id": 5,
+                    "name": "Singing in",
+                    "type": "Click",
+                    "field": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > button:nth-child(5)",
+                    "after": { "delay": 2000 }
+                },
+                {
+                    "id": 6,
+                    "name": "Connecting twitter",
+                    "type": "Type",
+                    "field": "asdf",
+                    "text": {
+                        "dataFrom": "URL",
+                        "dataURL": "https://www.sandbox.game/en/me/profile/",
+                        "dataPath": "#basic > div.profile-container.page-main > div.general-wrapper > div > div.avatar-picture > div > p.name",
+                        "prepend": "/home/xewii/images/",
+                        "append": ".png"
+                    },
+                    "after": { "delay": 500000 }
+                }
+            ]
+        }
+    ],
+    "path": {
+        "log": "./.log",
+        "storage": "./storage"
+    },
+
+    "proxy": []
+}

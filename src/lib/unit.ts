@@ -1,12 +1,12 @@
 import puppeteer from 'puppeteer'
 
 import { database } from './database.js'
-import cfg from './config.js'
+import cfg from './../config.js'
 import { botConfigEntry } from './Types.js'
-import * as helpers from './helpers.js'
+import * as helpers from './helpers/index.js'
 import { log, sleep, randSleep } from './utils.js'
 import * as Type from './Types.js'
-import * as barhelper from './lib/bar-helper.js'
+import * as barhelper from './bar-helper.js'
 
 /**
  * account and actions must be valid
@@ -14,6 +14,8 @@ import * as barhelper from './lib/bar-helper.js'
 // TODO redo with middlevare advanced logging and message delivery
 export class Unit {
     private barhelper: barhelper.WorkerBarHelper
+    // @ts-ignore
+    private browser: puppeteer.Browser
 
     constructor(
         private account: database.ORM.Account,
@@ -26,7 +28,7 @@ export class Unit {
     private async smrtAction(page: puppeteer.Page, field: string, action: Type.botActionType, string?: string) {
         const typer = async () => {
             try {
-                const selector = await page.waitForSelector(field, { timeout: waitms })
+                const selector = await page.waitForSelector(field, { timeout: waitms, visible: true })
                 console.log("TRY")
                 if (selector) {
                     switch (action) {
@@ -49,8 +51,10 @@ export class Unit {
                     throw 0
                 }
             } catch (e) {
-                if (e) {
-                    throw "No must have parameter passed"
+                if (typeof e === "number") {
+                    if (e === 1) {
+                        throw "Not valid action passed: " + action
+                    }
                 }
                 return false
             }
@@ -88,9 +92,32 @@ export class Unit {
                 case "Account":
                     text = await this.account.getDataByPath(typeopts.dataPath)
                     break;
+                case "URL": // TODO move to smrtAction
+                    let page = await this.browser.newPage()
+                    if (!action.text.dataURL) {
+                        throw "No url for text source URL passed"
+                    }
+                    await page.goto(action.text.dataURL, { waitUntil: "domcontentloaded" })
+                    await sleep(1000)
+                    const tries = 5
+                    const waitms = 700
+                    for (let tri = 0; tri < tries; tri++) {
+                        try {
+                            let _text = await page.$eval(action.text.dataPath, e => e.textContent)
+                            if (_text) {
+                                text = _text.trim()
+                                break
+                            }
+                        } catch (e) {}
+                        await sleep(waitms)
+                    }
+                    await page.close()
+                    break
                 default:
                     throw "Not implemented accessing to data to type from data source " + typeopts.dataFrom
             }
+            const __text = text
+            text = (action.text.prepend ?? "") + __text + (action.text.append ?? "")
         } else if (typeof action.text === "string") {
             text = action.text
         }
@@ -123,15 +150,21 @@ export class Unit {
     }
 
     public async exec() {
+        let error = ""
         this.barhelper.create()
         let proxyPool = cfg.proxy
 
-        if (this.actions.usePreDefinedProxy && this.account.forseProxyLink) {
-            proxyPool.push(this.account.forseProxyLink)
+        if (this.account.adsUserId < 0) {
+            if (this.actions.usePreDefinedProxy && this.account.forseProxyLink) {
+                proxyPool.push(this.account.forseProxyLink)
+            }
+        } else { // use ads proxy settings
+            proxyPool = []
         }
 
         // forse fall to throw on setup error
-        let { browser, page, proxy } = await helpers.browser.setupBrowser(proxyPool)
+        let { browser, page, proxy } = await helpers.browser.setupBrowser(proxyPool, this.actions, this.account)
+        this.browser = browser
 
         let curAction
         try {
@@ -160,13 +193,17 @@ export class Unit {
 
             this.barhelper.done(true)
         }  catch (e) {
+            error = <string>e
             this.barhelper.done(false)
-            log.error("Action", curAction, "error:", e)
+            log.error("Action", curAction?.name, "error:", e)
         }//  finally {
-            if (browser) { browser.close() }
-            return {
-                usedProxy: proxy
-            }
+        if (browser) { browser.close() }
+        if (error != "") {
+            throw error
+        }
+        return {
+            usedProxy: proxy
+        }
         //}
     }
 }

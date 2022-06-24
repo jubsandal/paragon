@@ -1,12 +1,12 @@
 import { parse } from 'ts-command-line-args'
 
 import * as barhelper from './lib/bar-helper.js'
-import * as Type from './Types.js'
-import { Unit } from './unit.js'
-import { database } from './database.js'
-import { importman, Validator } from './helpers.js'
+import * as Type from './lib/Types.js'
+import { Unit } from './lib/unit.js'
+import { database } from './lib/database.js'
+import { importman, Validator } from './lib/helpers/index.js'
 import cfg from './config.js'
-import { sleep, time, log } from './utils.js'
+import { sleep, time, log } from './lib/utils.js'
 
 interface cmd_opts {
     import?:      string

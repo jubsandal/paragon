@@ -1,6 +1,6 @@
 import * as fs from 'fs'
 import * as crypt from 'crypto'
-import config from './config.js'
+import config from './../config.js'
 import { nullable, optional, boolean, Describe, Infer, union, number, array, assert, object, string } from 'superstruct'
 import { Database } from 'aloedb-node'
 import { log } from './utils.js'
@@ -39,6 +39,7 @@ export namespace database {
                 registrationTime: number(),
             })
         ),
+        adsUserId: optional(number()),
         customJSON: string(),
         auth: object({
             email: object({
@@ -86,6 +87,7 @@ export namespace database {
                 usedproxy: ProxySchema | null
             }[]
             customJSON: string
+            adsUserId: number
             auth: {
                 email: {
                     login: string
@@ -101,6 +103,7 @@ export namespace database {
                     this.id = id_gen(accounts_db)
                 }
 
+                this.adsUserId = schema.adsUserId ?? -1
                 this.customJSON = schema.customJSON ?? ""
                 this.forseProxyLink = schema.forseProxyLink
                 this.auth = schema.auth
@@ -135,6 +138,7 @@ export namespace database {
 
                 for (const node of path.split('.')) {
                     if (node === "customJSON") {
+                        console.log(this.customJSON)
                         ret = JSON.parse(this.customJSON)
                         continue
                     }

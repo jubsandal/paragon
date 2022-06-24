@@ -2,9 +2,48 @@ import { union, Describe, optional, array, enums, Infer, assert, boolean, object
 import { readFileSync } from 'fs'
 import * as fs from 'fs'
 
-import { botConfigEntry } from './Types.js'
+import { botConfigEntry, botAction } from './lib/Types.js'
 
 const _cfg_path = './config.json'
+
+const botConfigActionSign: Describe<botAction> = object({
+    id: number(),
+    name: string(),
+    targetPage: optional(enums(["new page"])),
+    type: enums([ "Click", "Type", "Goto", "Upload", "Screenshot" ]),
+    field: optional(string()),
+    url: optional(string()),
+    text: optional(
+        union([
+            string(),
+            object({
+                dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API" ]),
+                dataPath: string(),
+                dataURL:  optional(string()),
+                append:   optional(string()),
+                prepend:  optional(string()),
+            })
+        ])
+    ),
+    errorCondition: optional(
+        object({
+            noSelector: optional(string()),
+        })
+    ),
+    // this mean that any error occured
+    onUnreacheble: optional(
+        object({
+            repeat: optional(boolean()),
+            repeatMax: optional(number()),
+            retrieGotoAction: optional(number())
+        })
+    ),
+    after: object({
+        delay: optional(number()),
+        waitForSelector: optional(string()),
+        waitForNavigator: optional(boolean()),
+    })
+})
 
 const botConfigEntrySign: Describe<botConfigEntry> = object({
     name: string(),
@@ -12,29 +51,8 @@ const botConfigEntrySign: Describe<botConfigEntry> = object({
     url: string(),
     perAccountDelay: union([number(), string()]),
     usePreDefinedProxy: boolean(),
-    actions: array(
-        object({
-            id: number(),
-            name: string(),
-            type: enums([ "Click", "Type", "Goto", "Upload", "Screenshot" ]),
-            field: optional(string()),
-            url: optional(string()),
-            text: optional(
-                union([
-                    string(),
-                    object({
-                        dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API" ]),
-                        dataPath: string()
-                    })
-                ])
-            ),
-            after: object({
-                delay: optional(number()),
-                waitForSelector: optional(string()),
-                waitForNavigator: optional(boolean()),
-            })
-        })
-    ),
+    browserAdapter: enums([ "AdsPower", "Common", "Stealth" ]),
+    actions: array(botConfigActionSign),
 })
 
 const ConfigSign = object({

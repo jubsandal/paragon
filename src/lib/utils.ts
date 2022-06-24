@@ -2,7 +2,7 @@ import { ElementHandle } from 'puppeteer'
 import { appendFileSync } from 'fs'
 import chalk from 'chalk'
 import * as fs from 'fs'
-import config from './config.js'
+import config from './../config.js'
 
 export module proxy {
     export interface Proxy {
