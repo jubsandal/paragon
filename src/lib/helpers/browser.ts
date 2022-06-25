@@ -77,9 +77,14 @@ export module browser {
                         throw "Cannot connect to AdsPower Local API " + e
                     }
                     try {
+                        let puppeteerWs = <string>res.data.data.ws.puppeteer
+                        if (config.adsLocalIPHost && config.adsLocalIPHost != "") {
+                            puppeteerWs = puppeteerWs.replace("127.0.0.1", <string>config.adsLocalIPHost)
+                        }
+                        console.log(puppeteerWs)
                         browser = await puppeteer.connect({
-                            browserWSEndpoint: res.data.data.ws.puppeteer,
-                            // ...launch_opts
+                            browserWSEndpoint: puppeteerWs,
+                            ...launch_opts
                         })
                     } catch (e) {
                         throw "Cannot connect to AdsPower user " + account.adsUserId + " browser " + (typeof e === "object" ? JSON.stringify(e, null, '\t') : e)
