@@ -30,10 +30,16 @@ export class Unit {
             new barhelper.WorkerBarHelper(this.account, this.actions.actions.map(a => a.name))
     }
 
-    private async smrtAction(field: string, action: Type.botActionType, string?: string) {
+    private async smrtAction(frame: string | undefined, field: string, action: Type.botActionType, string?: string) {
         const typer = async () => {
             try {
-                const selector = await this.state.target_page.waitForSelector(field, { timeout: waitms, visible: true })
+                let root = this.state.target_page
+                if (frame) {
+                    let eh = await this.state.target_page.$(frame)
+                    // @ts-ignore
+                    root = await eh!.contentFrame()
+                }
+                const selector = await root.waitForSelector(field, { timeout: waitms, visible: true })
                 console.log("TRY")
                 if (selector) {
                     switch (action) {
@@ -41,6 +47,10 @@ export class Unit {
                             await selector.click()
                             break;
                         case "Type":
+                            try {
+                                // @ts-ignore
+                                await selector.evaluate((field) => document.querySelector(field)!.value = '', field)
+                            } catch (e) { console.log("Non critical: Cannot erace input field:", e) }
                             // @ts-ignore
                             await selector.type(string)
                             break;
@@ -122,12 +132,12 @@ export class Unit {
         const text = await this.deserializeText(action)
         if (!action.field) throw "No field for action: " + action.name
         if (!text || text === "") throw "No text for action " + action.name
-        await this.smrtAction(action.field, "Type", text)
+        await this.smrtAction(action.frame, action.field, "Type", text)
     }
 
     private async doClick(action: Type.botAction) {
         if (!action.field) throw "No field for action: " + action.name
-        await this.smrtAction(action.field, "Click")
+        await this.smrtAction(action.frame, action.field, "Click")
     }
 
     private async doGoto(action: Type.botAction) {
@@ -139,7 +149,7 @@ export class Unit {
         const text = await this.deserializeText(action)
         if (!action.text) throw "No url path for action: " + action.name
         if (!action.field) throw "No field for action: " + action.name
-        await this.smrtAction(action.field, "Upload", text)
+        await this.smrtAction(action.frame, action.field, "Upload", text)
     }
 
     private async doCopy(action: Type.botAction) {

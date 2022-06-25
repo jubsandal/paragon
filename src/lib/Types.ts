@@ -22,6 +22,7 @@ export interface botAction {
 
     // by type config
     field?: string
+    frame?: string
     url?: string
     text?: string | pathTextConfig
     saveAs?: string

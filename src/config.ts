@@ -11,6 +11,7 @@ const botConfigActionSign: Describe<botAction> = object({
     name: string(),
     type: enums([ "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ]),
     field: optional(string()),
+    frame: optional(string()),
     url: optional(string()),
     saveAs: optional(string()),
     text: optional(

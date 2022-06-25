@@ -131,6 +131,7 @@
                     "id": 8,
                     "name": "Clicking play",
                     "type": "Click",
+                    "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": { "delay": 5000 }
                 },
@@ -138,6 +139,7 @@
                     "id": 9,
                     "name": "Clicking found it",
                     "type": "Click",
+                    "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(2) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": { "delay": 5000 }
                 },
@@ -145,6 +147,7 @@
                     "id": 10,
                     "name": "Connecting twitter",
                     "type": "Click",
+                    "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(3) > section > section.quest-goal.iframe-quest-goal > div.actions > button.mat-stroked-button.mat-button-base.action-btn.sandbox-btn.ng-star-inserted",
                     "after": {
                         "waitForTarget": "page",
@@ -219,6 +222,7 @@
                     "id": 17,
                     "name": "Opening status menu",
                     "type": "Click",
+                    "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(3) > section > section.quest-goal.iframe-quest-goal > div.actions > button:nth-child(2)",
                     "after": {
                         "delay": 1000
