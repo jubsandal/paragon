@@ -126,6 +126,7 @@ for (const account of validAccounts) {
         let ret = await unit.exec()
         await account.markRegistred(selected_config.url, ret.usedProxy?.proxy ?? null)
     } catch (e) {
+        log.error(e)
         err++
     }
     cur++

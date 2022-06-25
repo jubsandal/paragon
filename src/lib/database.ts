@@ -133,7 +133,7 @@ export namespace database {
                 return await this.sync()
             }
 
-            async getDataByPath(path: string): Promise<any> {
+            getDataByPath(path: string): Promise<any> {
                 let ret: any = this
 
                 for (const node of path.split('.')) {
@@ -149,32 +149,43 @@ export namespace database {
                 return ret
             }
 
-            // TODO
-            async setDataByPath(path: string, data: any) {
-                let endpoint = this
-                let customjson_used = false
+            private assign(obj: object, _prop: string, value: any) {
+                let prop = new Array<string>()
+                if (typeof _prop === "string")
+                    prop = _prop.split(".")
 
-                for (const node of path.split('.')) {
-                    if (node === "customJSON") {
-                        customjson_used = true
-                        endpoint = JSON.parse(this.customJSON)
-                        continue
-                    }
+                if (prop.length > 1) {
+                    var e = prop.shift()
                     // @ts-ignore
-                    endpoint = endpoint[node]
-                }
-
-                if (customjson_used) {
-
+                    this.assign(obj[e] =
+                    // @ts-ignore
+                        Object.prototype.toString.call(obj[e]) === "[object Object]"
+                    // @ts-ignore
+                        ? obj[e]
+                        : {},
+                        prop.join('.'),
+                        value)
                 } else {
-                    endpoint = data
+                    // @ts-ignore
+                    obj[prop[0]] = value
                 }
+                return obj
+            }
+
+            async setDataByPath(path: string, data: any) {
+                if (path.includes("customJSON")) {
+                    let ret = this.assign(JSON.parse(this.customJSON), path, data)
+                    this.customJSON = JSON.stringify(ret)
+                } else {
+                    this.assign(this, path, data)
+                }
+                return await this.sync()
             }
         }
     }
 
     export type ProxySchema = Infer<typeof ProxySign>
-    export type AccountSchema = Infer<typeof AccountSign>
-    export type emailExtensionSchema = Infer<typeof emailExtensionSign>
-    export type UserDataSchema = Infer<typeof UserDataSign>
+        export type AccountSchema = Infer<typeof AccountSign>
+        export type emailExtensionSchema = Infer<typeof emailExtensionSign>
+        export type UserDataSchema = Infer<typeof UserDataSign>
 }

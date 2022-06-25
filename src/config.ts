@@ -9,10 +9,10 @@ const _cfg_path = './config.json'
 const botConfigActionSign: Describe<botAction> = object({
     id: number(),
     name: string(),
-    targetPage: optional(enums(["new page"])),
-    type: enums([ "Click", "Type", "Goto", "Upload", "Screenshot" ]),
+    type: enums([ "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ]),
     field: optional(string()),
     url: optional(string()),
+    saveAs: optional(string()),
     text: optional(
         union([
             string(),
@@ -43,6 +43,8 @@ const botConfigActionSign: Describe<botAction> = object({
         delay: optional(number()),
         waitForSelector: optional(string()),
         waitForNavigator: optional(boolean()),
+        waitForTarget: optional(enums([ "page" ])),
+        switchToTarget: optional(enums([ "Newest", "Previus", "Initial" ])),
     })
 })
 

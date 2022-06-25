@@ -17,7 +17,7 @@ import {
 export module browser {
     const _lo = () => {
         return {
-            defaultViewport: null,
+            // defaultViewport: null,
             headless: cfg.headless,
             // ignoreDefaultArgs: [ "--disable-extensions", "--enable-automation" ],
             // executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
@@ -79,10 +79,10 @@ export module browser {
                     try {
                         browser = await puppeteer.connect({
                             browserWSEndpoint: res.data.data.ws.puppeteer,
-                            ...launch_opts
+                            // ...launch_opts
                         })
                     } catch (e) {
-                        throw "Cannot connect to AdsPower user " + account.adsUserId + " browser"
+                        throw "Cannot connect to AdsPower user " + account.adsUserId + " browser " + (typeof e === "object" ? JSON.stringify(e, null, '\t') : e)
                     }
                     await sleep(1000)
                     break
