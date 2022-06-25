@@ -49,14 +49,23 @@ export class Unit {
                         case "Type":
                             try {
                                 // @ts-ignore
-                                await selector.evaluate((field) => document.querySelector(field)!.value = '', field)
-                            } catch (e) { console.log("Non critical: Cannot erace input field:", e) }
+                                await this.state.target_page.evaluate((_field) => document.querySelector(_field)!.value = '', field)
+                            } catch (e) { console.log("Non critical: Cannot erace input field:", e, field) }
                             // @ts-ignore
                             await selector.type(string)
                             break;
                         case "Upload":
-                            // @ts-ignore
-                            await selector.uploadFile(string)
+				console.log("Uploading:", string)
+			    try {
+				    // @ts-ignore
+				    //await selector.uploadFile(string)
+				    const [fileChooser] = await Promise.all([
+					    this.state.target_page.waitForFileChooser(),
+					    this.state.target_page.click(field),
+				    ]);
+				    // @ts-ignore
+				    await fileChooser.accept([string])
+			    } catch (e) { console.log(e); throw e; }
                             break;
                         default:
                             throw 1
@@ -172,7 +181,13 @@ export class Unit {
             await this.state.target_page.waitForNavigation({waitUntil: 'networkidle2'/*, timeout: 10000*/})
         }
         if (action.after.waitForSelector) {
-            await this.state.target_page.waitForSelector(action.after.waitForSelector, { timeout: 30000 })
+		let root = this.state.target_page
+		if (action.after.waitForSelectorIframe) {
+		    let eh = await this.state.target_page.waitForSelector(action.after.waitForSelectorIframe, { timeout: 30000 })
+		    // @ts-ignore
+		    root = await eh!.contentFrame()
+		}
+            await root.waitForSelector(action.after.waitForSelector, { timeout: 30000 })
         }
         let target
         // TODO validate

@@ -39,6 +39,7 @@ export interface botAction {
 
     after: {
         delay?: number
+	waitForSelectorIframe?: string,
         waitForSelector?: string
         waitForNavigatior?: boolean
         waitForTarget?: "page"

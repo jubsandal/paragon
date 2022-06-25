@@ -1,8 +1,7 @@
 [
 	{
 		"id": 0,
-		"subscriptions": [
-		],
+		"subscriptions": [],
 		"auth": {
 			"email": {
 				"login": "nstwelvenn@gmail.com",
@@ -12,7 +11,67 @@
 				}
 			}
 		},
-		"customJSON": "{\"sandbox\":{\"login\":\"gorshkova-y09jf@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "j2tehpd"
+		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"}}",
+		"adsUserId": "j2tehpl"
+	},
+	{
+		"id": 1,
+		"subscriptions": [],
+		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Q3NQOFg0X0NTeTZwaVdIRllXbHg6MTpjaQ&redirect_uri=https%3A%2F%2Flogin.operaevent.co%2Ftwitter2%2Fredirect&scope=users.read+offline.access+tweet.read+follows.read&state=CHALLENGE_N3hK0ixOyvAG-W8H87Avx2YzEHFvgnur&code_challenge=%2B%2F8HJrAVHmhvIazNW%2FO8bKZw36k8g8tiqS0x7RDtAHE%3D&code_challenge_method=plain\"}}}",
+		"adsUserId": "j2tehpl",
+		"auth": {
+			"email": {
+				"login": "nstwelvenn@gmail.com",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 2,
+		"subscriptions": [],
+		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/TheSandboxGame/status/1540349194023608323\"}}}",
+		"adsUserId": "j2tehpl",
+		"auth": {
+			"email": {
+				"login": "nstwelvenn@gmail.com",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 3,
+		"subscriptions": [],
+		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/intent/tweet?text=I%20just%20participated%20in%20the%20%23TheSandbox%20weekly%20contest%20for%20a%20chance%20to%20win%20200%20mSAND!%20I%20found%20one%20of%20the%20hidden%20ducks%2C%20check%20out%20my%20screenshot%20below!%0A%F0%9F%91%87%0A%0A%0A&hashtags=&in_reply_to=1540349194023608323&popup=true\"}}}",
+		"adsUserId": "j2tehpl",
+		"auth": {
+			"email": {
+				"login": "nstwelvenn@gmail.com",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 4,
+		"subscriptions": [],
+		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/home\"}}}",
+		"adsUserId": "j2tehpl",
+		"auth": {
+			"email": {
+				"login": "nstwelvenn@gmail.com",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
 	}
 ]

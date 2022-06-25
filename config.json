@@ -51,7 +51,6 @@
             "usePreDefinedProxy": true,
             "url": "https://sandbox.game",
             "browserAdapter": "AdsPower",
-            "adsLocalIPHost": "192.168.1.96",
             "actions": [
                 {
                     "id": 0,
@@ -79,7 +78,7 @@
                     "type": "Click",
                     "field": "#__layout > div > div > div.modal.background-color-none > div > div.content > div > div > div.content-bottom.wallet-content-bottom > div.email-sign-in-link > p",
                     "after": {
-                        "delay": 2000,
+                        "delay": 7000,
                         "waitForSelector": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > div > div:nth-child(1) > input[type=text]"
                     }
                 },
@@ -117,7 +116,7 @@
                     "name": "Going to contests page",
                     "type": "Goto",
                     "url": "https://www.sandbox.game/en/season/contests/",
-                    "after": { "delay": 5000 }
+                    "after": { "delay": 3000 }
                 },
                 {
                     "id": 7,
@@ -125,7 +124,11 @@
                     "type": "Click",
                     "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(1) > div > div.card-info > div.bottom-container > div.card-button > button",
                     
-                    "after": { "waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button" }
+                    "after": {
+			    "delay": 1000,
+			    "waitForSelectorIframe": "#oe_page",
+			    "waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
+		    }
                 },
                 {
                     "id": 8,
@@ -166,8 +169,25 @@
                 },
                 {
                     "id": 12,
+                    "name": "Going to contests page",
+                    "type": "Goto",
+                    "url": "https://www.sandbox.game/en/season/contests/",
+                    "after": { "delay": 5000 }
+                },
+                {
+                    "id": 13,
+                    "name": "Proceeding to participate",
+                    "type": "Click",
+                    "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(1) > div > div.card-info > div.bottom-container > div.card-button > button",
+                    "after": {
+			    "delay": 7000
+		    }
+                },
+                {
+                    "id": 14,
                     "name": "Going to twitter reply page",
                     "type": "Click",
+                    "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(3) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": {
                         "waitForTarget": "page",
@@ -175,7 +195,7 @@
                     }
                 },
                 {
-                    "id": 13,
+                    "id": 15,
                     "name": "Uploading image",
                     "type": "Upload",
                     "field": "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div.css-1dbjc4n.r-16y2uox.r-1jgb5lz.r-1ye8kvj.r-13qz1uu > div > div > div:nth-child(2) > div > div > div > div > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1h8ys4a.r-1bylmt5.r-13tjlyg.r-7qyjyx.r-1ftll1t > div:nth-child(3) > div > div > div:nth-child(1) > div.css-18t94o4.css-1dbjc4n.r-1niwhzg.r-42olwf.r-sdzlij.r-1phboty.r-rs99b7.r-5vhgbc.r-mvpalk.r-htfu76.r-2yi16.r-1qi8awa.r-1ny4l3l.r-o7ynqc.r-6416eg.r-lrvibr",
@@ -183,14 +203,14 @@
                         "dataFrom": "Account",
                         "dataPath": "adsUserId",
                         "append": ".png",
-                        "prepend": "/home/xewii/акки/"
+                        "prepend": "C:\\sandlebox-contest\\"
                     },
                     "after": {
                         "delay": 5000
                     }
                 },
                 {
-                    "id": 14,
+                    "id": 16,
                     "name": "Reply",
                     "type": "Click",
                     "field": "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div.css-1dbjc4n.r-136ojw6 > div > div > div > div > div.css-1dbjc4n.r-obd0qt.r-1pz39u2.r-1777fci.r-15ysp7h.r-s8bhmr > div > div",
@@ -199,7 +219,7 @@
                     }
                 },
                 {
-                    "id": 15,
+                    "id": 17,
                     "name": "Going to reply page",
                     "type": "Click",
                     "field": "time",
@@ -208,7 +228,7 @@
                     }
                 },
                 {
-                    "id": 16,
+                    "id": 18,
                     "name": "Copy twitt url",
                     "type": "Copy",
                     "field": "URL",
@@ -219,7 +239,7 @@
                     }
                 },
                 {
-                    "id": 17,
+                    "id": 19,
                     "name": "Opening status menu",
                     "type": "Click",
                     "frame": "#oe_page",
@@ -229,7 +249,7 @@
                     }
                 },
                 {
-                    "id": 18,
+                    "id": 20,
                     "name": "Typeing twitt url",
                     "type": "Type",
                     "field": "#mat-input-2",
@@ -242,7 +262,7 @@
                     }
                 },
                 {
-                    "id": 19,
+                    "id": 21,
                     "name": "Sending status",
                     "type": "Click",
                     "field": "#verify-tweet-id",

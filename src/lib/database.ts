@@ -111,8 +111,8 @@ export namespace database {
             }
 
             async sync() {
-                if (await accounts_db.findOne({ id: this.id })) {
-                    return await accounts_db.updateOne({ id: this.id }, this)
+                if (await accounts_db.findOne(a => a.id == this.id)) {
+                    return await accounts_db.updateOne(a => a.id == this.id, this)
                 } else {
                     return await accounts_db.insertOne(this)
                 }
@@ -174,6 +174,11 @@ export namespace database {
 
             async setDataByPath(path: string, data: any) {
                 if (path.includes("customJSON")) {
+			if (path.includes("customJSON.")) {
+				path.replace('customJSON.', "")
+			} else {
+				path.replace('customJSON', "")
+			}
                     let ret = this.assign(JSON.parse(this.customJSON), path, data)
                     this.customJSON = JSON.stringify(ret)
                 } else {

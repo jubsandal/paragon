@@ -42,6 +42,7 @@ const botConfigActionSign: Describe<botAction> = object({
     ),
     after: object({
         delay: optional(number()),
+	waitForSelectorIframe: optional(string()),
         waitForSelector: optional(string()),
         waitForNavigator: optional(boolean()),
         waitForTarget: optional(enums([ "page" ])),

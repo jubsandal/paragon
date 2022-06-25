@@ -17,7 +17,7 @@ import {
 export module browser {
     const _lo = () => {
         return {
-            // defaultViewport: null,
+            defaultViewport: null,
             headless: cfg.headless,
             // ignoreDefaultArgs: [ "--disable-extensions", "--enable-automation" ],
             // executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
@@ -139,7 +139,7 @@ export module browser {
             // })
 
             // most popular
-            // await page.setViewport({ width: 1920, height: 1080 })
+            await page.setViewport({ width: 1920, height: 1080 })
             await page.setDefaultNavigationTimeout(500000);
 
             // await page.on('dialog', async (dialog: puppeteer.Dialog) => {
