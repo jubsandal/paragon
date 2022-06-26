@@ -128,9 +128,10 @@ export class Unit {
                 case "ElementAttr":
                     if (!action.text.dataPath) throw "No field passed to ElementAttr text option"
                     if (!action.text.dataAttribute) throw "No attribute passed to ElementAttr text option"
+                    const AttrName = String( (<Type.pathTextConfig>action.text)!.dataAttribute )
                     text = String(
                         await this.state.target_page.$eval(action.text.dataPath,
-                            e => e.getAttribute(String( (<Type.pathTextConfig>action.text).dataAttribute )))
+                            e => e.getAttribute(AttrName), AttrName)
                     )
                     break
                 default:
