@@ -47,7 +47,6 @@ export module importman {
             }
         })
 
-        console.log(sub_chunks)
         let paths = opt.order.split("|")
         for (let i = 0; i < paths.length; i++) {
             const path = paths[i]
@@ -67,14 +66,12 @@ export module importman {
             if (c == opt.accountSize) {
                 let data = ""
                 for (let j = 1; j <= opt.accountSize; j++) {
-                    console.log(misc.at(i-( opt.accountSize - j )))
                     data += <string>misc.at(i-( opt.accountSize - j ))
                     // if (j+1 != opt.accountSize) {
                     //     data += getDelemiter(opt.delemiter)
                     // }
                 }
                 chunks.push(data)
-                console.log("")
                 c = 0
             }
         }
@@ -109,7 +106,6 @@ export module importman {
                 delemiter: opts.delemiters.data,
                 accountSize: accountSliceSize
             })
-            console.log(structure)
             for (const chunk of structure) {
                 const _a = readAccount(chunk, { delemiter: opts.delemiters.account, order: opts.dataOrder })
                 // TODO add unique policy by data passed or direct settings or account use case group uniq policy

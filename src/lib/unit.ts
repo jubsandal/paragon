@@ -285,19 +285,19 @@ export class Unit {
 
                 await this.finalizeAction(action)
             }  catch (e) {
-                if (curAction.onUnreacheble) {
-                    if (curAction.onUnreacheble.repeat) {
+                if (curAction.onUnreachable) {
+                    if (curAction.onUnreachable.repeat) {
                         i--
                         log.echo("Repeating action", curAction?.name, "error:", e, "error:", e)
                         continue
-                    } else if (curAction.onUnreacheble.gotoAction) {
-                        i = curAction.onUnreacheble.gotoAction
+                    } else if (curAction.onUnreachable.gotoAction) {
+                        i = curAction.onUnreachable.gotoAction
                         log.echo("Going to action", curAction?.name, "error:", e)
                         continue
-                    } else if (curAction.onUnreacheble.successExit) {
+                    } else if (curAction.onUnreachable.successExit) {
                         log.echo("Exit with success status on ureacheble action:", curAction.name, "error:", e)
                         break
-                    } else if (curAction.onUnreacheble.skip) {
+                    } else if (curAction.onUnreachable.skip) {
                         log.echo("Skiping action:", curAction.name, "error:", e)
                         continue
                     }

@@ -175,9 +175,9 @@ export namespace database {
             setDataByPath(path: string, data: any) {
                 if (path.includes("customJSON")) {
                     if (path.includes("customJSON.")) {
-                        path.replace('customJSON.', "")
+                        path = path.replace('customJSON.', "")
                     } else {
-                        path.replace('customJSON', "")
+                        path = path.replace('customJSON', "")
                     }
                     let ret = this.assign(JSON.parse(this.customJSON), path, data)
                     this.customJSON = JSON.stringify(ret)

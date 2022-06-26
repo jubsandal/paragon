@@ -81,7 +81,7 @@
                         "delay": 7000,
                         "waitForSelector": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > div > div:nth-child(1) > input[type=text]"
                     },
-                    "onUnreacheble": {
+                    "onUnreachable": {
                         "gotoAction": 1
                     }
                 },

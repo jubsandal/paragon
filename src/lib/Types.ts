@@ -31,7 +31,7 @@ export interface botAction {
         noSelector?: string
     }
 
-    onUnreacheble?: {
+    onUnreachable?: {
         repeat?: boolean
         repeatMax?: number
         gotoAction?: number

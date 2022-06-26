@@ -33,7 +33,7 @@ const botConfigActionSign: Describe<botAction> = object({
         })
     ),
     // this mean that any error occured
-    onUnreacheble: optional(
+    onUnreachable: optional(
         object({
             repeat: optional(boolean()),
             repeatMax: optional(number()),
