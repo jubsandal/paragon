@@ -208,12 +208,14 @@ export class Unit {
         // TODO validate
         if (action.after.waitForTarget) {
             let waitForTarget: Promise<puppeteer.Page> = new Promise(( resolve, reject ) => {
+		let ok = false
+		sleep(2000).then(() => {if (!ok) reject("Wait target timeout")})
                 this.browser.on('targetcreated', (target: puppeteer.Target) => {
-			sleep(2000).then(() => reject("Timeout"))
                     if (target.type() === action.after.waitForTarget) {
                         if (target.page() === null) {
                             reject("Target page is null")
                         }
+			ok = true
                         // @ts-ignore
                         resolve(target.page())
                     }
@@ -248,10 +250,8 @@ export class Unit {
         }
     }
 
-    public async exec(): Promise<{usedProxy: any}> {
-	return new Promise(async (resolve, reject) => {
+    public async exec() {
 		let error = null
-		    sleep(this.actions.maxExecutionTime).then(() => { error="timeout";reject("timeout") })
 		this.barhelper.create()
 		let proxyPool = cfg.proxy
 
@@ -263,9 +263,11 @@ export class Unit {
 		    proxyPool = []
 		}
 
-		try {
+		const startTime = new Date().getTime()
+
 		// forse fall to throw on setup error
-			let { browser, page: __page, proxy } = await helpers.browser.setupBrowser(proxyPool, this.actions, this.account)
+		let { browser, page: __page, proxy } = await helpers.browser.setupBrowser(proxyPool, this.actions, this.account)
+
 		this.browser = browser
 		this.state.target_page = __page
 		this.state.initial_target_page = __page
@@ -304,7 +306,10 @@ export class Unit {
 
 			await this.finalizeAction(action)
 			this.state.cur_action_try = 0
+			if (new Date().getTime() - startTime >= time.
 		    }  catch (e) {
+			    if (e === "paragon timeout") {
+			    }
 			if (curAction.onUnreachable) {
 			    if (curAction.onUnreachable.repeat) {
 				    this.state.cur_action_try++
@@ -366,16 +371,11 @@ export class Unit {
 		if (browser) { await browser.close() }
 		if (error) {
 		    this.barhelper.done(false)
-		    reject(error)
+		    throw error
 		}
 		this.barhelper.done(true)
-		resolve({
+		return {
 		    usedProxy: proxy
-		})
-		} catch (e) {
-		    this.barhelper.done(false)
-			reject(e)
 		}
-	})
     }
 }
