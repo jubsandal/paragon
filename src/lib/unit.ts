@@ -126,9 +126,12 @@ export class Unit {
                     await page.close()
                     break
                 case "ElementAttr":
-                    if (!typeopts.dataPath) throw "No field passed to ElementAttr text option"
-                    if (!typeopts.dataAttribute) throw "No attribute passed to ElementAttr text option"
-                    text = String(await this.state.target_page.$eval(typeopts.dataPath, e => e.getAttribute(String(typeopts.dataAttribute))))
+                    if (!action.text.dataPath) throw "No field passed to ElementAttr text option"
+                    if (!action.text.dataAttribute) throw "No attribute passed to ElementAttr text option"
+                    text = String(
+                        await this.state.target_page.$eval(action.text.dataPath,
+                            e => e.getAttribute(String( (<Type.pathTextConfig>action.text).dataAttribute )))
+                    )
                     break
                 default:
                     throw "Not implemented accessing to data to type from data source " + typeopts.dataFrom
