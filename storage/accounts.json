@@ -64,8 +64,14 @@
 	},
 	{
 		"id": 3,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"lazarev_8ukig@mail.ru\",\"password\":\"Tester444\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656259377976,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"lazarev_8ukig@mail.ru\",\"password\":\"Tester444\",\"twittUrl\":\"https://twitter.com/Valerie80036911/status/1541089483222913026\"}}",
 		"adsUserId": "j2tehpf",
 		"auth": {
 			"email": {

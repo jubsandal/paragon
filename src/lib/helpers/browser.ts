@@ -52,6 +52,13 @@ export module browser {
 
     let stealth_enabled = false
 
+    function enablePuppeteerStealth() {
+	    if (!stealth_enabled) {
+		    puppeteer_extra.use(puppeteer_steath())
+		    stealth_enabled = true
+	    }
+    }
+
     export async function setupBrowser(proxies: Proxy.Proxy[] | null, config: Type.botConfigEntry, account?: database.ORM.Account) {
         try {
             let proxy: AdvancedProxySchema | null = null
@@ -81,7 +88,7 @@ export module browser {
                         if (config.adsLocalIPHost && config.adsLocalIPHost != "") {
                             puppeteerWs = puppeteerWs.replace("127.0.0.1", <string>config.adsLocalIPHost)
                         }
-                        console.log(puppeteerWs)
+                        log.echo("Connecting to ads on", puppeteerWs)
                         browser = await puppeteer.connect({
                             browserWSEndpoint: puppeteerWs,
                             ...launch_opts
@@ -92,10 +99,7 @@ export module browser {
                     await sleep(1000)
                     break
                 case "Stealth":
-                    if (!stealth_enabled) {
-                        puppeteer_extra.use(puppeteer_steath())
-                        stealth_enabled = true
-                    }
+			enablePuppeteerStealth()
                     browser = await puppeteer_extra.launch(launch_opts)
                     break
                 default:

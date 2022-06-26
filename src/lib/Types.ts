@@ -70,6 +70,7 @@ export interface botConfigEntry {
     day24limit: number
     perAccountDelay: number | string
     usePreDefinedProxy: boolean
+    maxExecutionTime: number
     browserAdapter: "AdsPower" | "Common" | "Stealth"
     adsLocalIPHost?: string
     actions: Array<botAction>
@@ -80,4 +81,5 @@ export interface UnitState {
     initial_target_page: puppeteer.Page
     previus_target_page?: puppeteer.Page
     target_page: puppeteer.Page
+    cur_action_try: number
 }

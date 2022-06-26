@@ -9,6 +9,7 @@
             "usePreDefinedProxy": false,
             "url": "https://sandbox.game",
             "browserAdapter": "AdsPower",
+	    "maxExecutionTime": 420000,
             "actions": [
                 {
                     "id": 0,
@@ -87,7 +88,7 @@
                     "type": "Click",
                     "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(3) > div > div.card-info > div.bottom-container > div.card-button > button",
                     "after": {
-                        "delay": 20000,
+                        "delay": 30000,
                         "waitForSelectorIframe": "#oe_page",
 			"waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
                     },
@@ -146,7 +147,8 @@
                         "switchToTarget": "Newest"
                     },
 		    "onUnreachable": {
-			    "gotoAction": 13
+			    "repeat": true,
+			    "repeatMax": 10
 		    }
                 },
                 {

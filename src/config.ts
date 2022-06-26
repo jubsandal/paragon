@@ -61,6 +61,7 @@ const botConfigEntrySign: Describe<botConfigEntry> = object({
     url: string(),
     perAccountDelay: union([number(), string()]),
     usePreDefinedProxy: boolean(),
+    maxExecutionTime: number(),
     browserAdapter: enums([ "AdsPower", "Common", "Stealth" ]),
     adsLocalIPHost: optional(string()),
     actions: array(botConfigActionSign),
