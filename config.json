@@ -70,6 +70,9 @@
                     "after": {
                         "delay": 2000,
                         "waitForSelector": "#__layout > div > div > div.modal.background-color-none > div > div.content > div > div > div.content-bottom.wallet-content-bottom > div.email-sign-in-link > p"
+                    },
+                    "onUnreachable": {
+                        "repeat": true
                     }
                 },
                 {
@@ -301,10 +304,10 @@
                 {
                     "id": 23,
                     "name": "Opening profile menu",
-                    "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-containe > figure",
+                    "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-container > figure",
                     "type": "Click",
                     "after": {
-                        "delay": 1000
+                        "delay": 1500
                     }
                 },
                 {
