@@ -1,173 +1,14 @@
 [
 	{
-		"id": 0,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"bittomon@yandex.ru\",\"password\":\"747474Qwea\"}}",
-		"adsUserId": "idmqnj",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 1,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"makemehap@yandex.ru\",\"password\":\"7676Rewq1\"}}",
-		"adsUserId": "idpjt5",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 2,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"molaolka@yandex.ru\",\"password\":\"678678Qaz\"}}",
-		"adsUserId": "idq86h",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 3,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"veravradugu@yandex.ru\",\"password\":\"343434Aszx\"}}",
-		"adsUserId": "idqd6h",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 4,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"tarasnarz@yandex.ru\",\"password\":\"8787Trs2\"}}",
-		"adsUserId": "idqd9a",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 5,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"bikalad@yandex.ru\",\"password\":\"9898Fda1\"}}",
-		"adsUserId": "idqddj",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 6,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"yurii_medvedev581977@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "idqdm0",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 7,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"Sklyarov728@yandex.ru\",\"password\":\"8765Gfws2\"}}",
-		"adsUserId": "idqdpe",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 8,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"lyndapolyakova@yandex.ru\",\"password\":\"mnbgF678\"}}",
-		"adsUserId": "idqdtr",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 9,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"kunilesya@yandex.ru\",\"password\":\"32165Fsa2\"}}",
-		"adsUserId": "idqdxx",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 10,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"ooddinn808@mail.ru\",\"password\":\"Oijn7632\"}}",
-		"adsUserId": "idqebe",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
 		"id": 11,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"tourrmrk@mail.ru\",\"password\":\"NhgT5432\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656278728264,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"tourrmrk@mail.ru\",\"password\":\"NhgT5432\",\"twittUrl\":\"https://twitter.com/home\"}}",
 		"adsUserId": "idqedl",
 		"auth": {
 			"email": {
@@ -181,8 +22,14 @@
 	},
 	{
 		"id": 12,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"altezzazza@mail.ru\",\"password\":\"Vhuy8763\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656278953993,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"altezzazza@mail.ru\",\"password\":\"Vhuy8763\",\"twittUrl\":\"https://twitter.com/home\"}}",
 		"adsUserId": "idqf2y",
 		"auth": {
 			"email": {
@@ -196,8 +43,14 @@
 	},
 	{
 		"id": 13,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"armorcoin@mail.ru\",\"password\":\"Mjyte8763\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656280451522,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"armorcoin@mail.ru\",\"password\":\"Mjyte8763\",\"twittUrl\":\"https://twitter.com/home\"}}",
 		"adsUserId": "idqgcx",
 		"auth": {
 			"email": {
@@ -211,8 +64,14 @@
 	},
 	{
 		"id": 14,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"bayabtc@mail.ru\",\"password\":\"Mnfhe9863\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656279254426,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"bayabtc@mail.ru\",\"password\":\"Mnfhe9863\",\"twittUrl\":\"https://twitter.com/BLOCKLORDS/status/1540425037332766721\"}}",
 		"adsUserId": "idqh3j",
 		"auth": {
 			"email": {
@@ -225,174 +84,15 @@
 		}
 	},
 	{
-		"id": 15,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"rmrktundra@mail.ru\",\"password\":\"JhyE5432\"}}",
-		"adsUserId": "ie0r7n",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 16,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"maks_sidorov701972@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "ie0rcg",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 17,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"vadim_sergeev21979@mail.ru\",\"password\":\"\"}}",
-		"adsUserId": "ie0rfp",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 18,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"btcnadivane@mail.ru\",\"password\":\"MjuyT543\"}}",
-		"adsUserId": "ie0rl8",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 19,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"maks_sorokin.1997@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "ieg4yq",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 20,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"slava_sergeev.1971@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "ieg5w4",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 21,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"Diabloremast@yandex.ru\",\"password\":\"JdknveriSf3\"}}",
-		"adsUserId": "ieg8up",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 22,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"vladislav_martinov181986@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "ir5yq7",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 23,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"pozdnometatsya@yandex.ru\",\"password\":\"Kjf389HJ\"}}",
-		"adsUserId": "ir61c0",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 24,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"flatwhitemen@yandex.ru\",\"password\":\"HHHe3292j\"}}",
-		"adsUserId": "ir61nc",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
-		"id": 25,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"kolonadavsadu@yandex.ru\",\"password\":\"Ndsfikj39hf\"}}",
-		"adsUserId": "ir6496",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
 		"id": 26,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"zaripplay@yandex.ru\",\"password\":\"KAcn3298f\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656283630266,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"zaripplay@yandex.ru\",\"password\":\"KAcn3298f\",\"twittUrl\":\"https://twitter.com/AmandaH09705613/status/1541191192469192705\"}}",
 		"adsUserId": "ir64eb",
 		"auth": {
 			"email": {
@@ -406,8 +106,14 @@
 	},
 	{
 		"id": 27,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"kostya_zhukov231978@mail.ru\",\"password\":\"Tester444\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656283772240,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"kostya_zhukov231978@mail.ru\",\"password\":\"Tester444\",\"twittUrl\":\"https://twitter.com/TheSandboxGame/status/1540341610499678208\"}}",
 		"adsUserId": "ir64hl",
 		"auth": {
 			"email": {

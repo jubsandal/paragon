@@ -17,7 +17,7 @@ import {
 export module browser {
     const _lo = () => {
         return {
-            defaultViewport: null,
+            defaultViewport: {width: 700, height: 648},
             headless: cfg.headless,
             // ignoreDefaultArgs: [ "--disable-extensions", "--enable-automation" ],
             // executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
