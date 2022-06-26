@@ -172,19 +172,19 @@ export namespace database {
                 return obj
             }
 
-            async setDataByPath(path: string, data: any) {
+            setDataByPath(path: string, data: any) {
                 if (path.includes("customJSON")) {
-			if (path.includes("customJSON.")) {
-				path.replace('customJSON.', "")
-			} else {
-				path.replace('customJSON', "")
-			}
+                    if (path.includes("customJSON.")) {
+                        path.replace('customJSON.', "")
+                    } else {
+                        path.replace('customJSON', "")
+                    }
                     let ret = this.assign(JSON.parse(this.customJSON), path, data)
                     this.customJSON = JSON.stringify(ret)
                 } else {
                     this.assign(this, path, data)
                 }
-                return await this.sync()
+                return this
             }
         }
     }

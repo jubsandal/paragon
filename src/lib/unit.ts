@@ -166,7 +166,10 @@ export class Unit {
         if (!action.saveAs) throw "No save as option for action: " + action.name
         switch (action.field) {
             case "URL":
-                await this.account.setDataByPath(action.saveAs, await this.state.target_page.url())
+                await this.account.setDataByPath(
+                    action.saveAs,
+                    await this.state.target_page.url()
+                ).sync()
                 break
             default:
                 throw "No such copy field: " + action.field
@@ -181,12 +184,12 @@ export class Unit {
             await this.state.target_page.waitForNavigation({waitUntil: 'networkidle2'/*, timeout: 10000*/})
         }
         if (action.after.waitForSelector) {
-		let root = this.state.target_page
-		if (action.after.waitForSelectorIframe) {
-		    let eh = await this.state.target_page.waitForSelector(action.after.waitForSelectorIframe, { timeout: 30000 })
-		    // @ts-ignore
-		    root = await eh!.contentFrame()
-		}
+            let root = this.state.target_page
+            if (action.after.waitForSelectorIframe) {
+                let eh = await this.state.target_page.waitForSelector(action.after.waitForSelectorIframe, { timeout: 30000 })
+                // @ts-ignore
+                root = await eh!.contentFrame()
+            }
             await root.waitForSelector(action.after.waitForSelector, { timeout: 30000 })
         }
         let target

@@ -35,12 +35,13 @@ if (argv.import) {
     await importman.smartImport({
         path: [ argv.import ],
         delemiters: {
-            account: "NL",
+            account: "Space",
             data: "NL",
             trim: "No"
         },
-        dataOrder: "L"
+        dataOrder: "customJSON.sandbox.login|customJSON.sandbox.password|adsUserId"
     })
+    process.exit(0)
 }
 
 if (!argv.config) {

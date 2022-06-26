@@ -2,26 +2,26 @@
 	{
 		"id": 0,
 		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"galkin-k50uq@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehpe",
 		"auth": {
 			"email": {
-				"login": "nstwelvenn@gmail.com",
+				"login": "",
 				"password": "",
 				"extensions": {
 					"imap": false
 				}
 			}
-		},
-		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "j2tehpl"
+		}
 	},
 	{
 		"id": 1,
 		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/i/oauth2/authorize?response_type=code&client_id=Q3NQOFg0X0NTeTZwaVdIRllXbHg6MTpjaQ&redirect_uri=https%3A%2F%2Flogin.operaevent.co%2Ftwitter2%2Fredirect&scope=users.read+offline.access+tweet.read+follows.read&state=CHALLENGE_N3hK0ixOyvAG-W8H87Avx2YzEHFvgnur&code_challenge=%2B%2F8HJrAVHmhvIazNW%2FO8bKZw36k8g8tiqS0x7RDtAHE%3D&code_challenge_method=plain\"}}}",
-		"adsUserId": "j2tehpl",
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"lazarev_8ukig@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehpf",
 		"auth": {
 			"email": {
-				"login": "nstwelvenn@gmail.com",
+				"login": "",
 				"password": "",
 				"extensions": {
 					"imap": false
@@ -32,11 +32,11 @@
 	{
 		"id": 2,
 		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/TheSandboxGame/status/1540349194023608323\"}}}",
-		"adsUserId": "j2tehpl",
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"levina_90acf@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehpg",
 		"auth": {
 			"email": {
-				"login": "nstwelvenn@gmail.com",
+				"login": "",
 				"password": "",
 				"extensions": {
 					"imap": false
@@ -47,11 +47,11 @@
 	{
 		"id": 3,
 		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/intent/tweet?text=I%20just%20participated%20in%20the%20%23TheSandbox%20weekly%20contest%20for%20a%20chance%20to%20win%20200%20mSAND!%20I%20found%20one%20of%20the%20hidden%20ducks%2C%20check%20out%20my%20screenshot%20below!%0A%F0%9F%91%87%0A%0A%0A&hashtags=&in_reply_to=1540349194023608323&popup=true\"}}}",
-		"adsUserId": "j2tehpl",
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"kim_es5kv@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehpi",
 		"auth": {
 			"email": {
-				"login": "nstwelvenn@gmail.com",
+				"login": "",
 				"password": "",
 				"extensions": {
 					"imap": false
@@ -62,11 +62,356 @@
 	{
 		"id": 4,
 		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"},\"customJSON\":{\"sandbox\":{\"twittUrl\":\"https://twitter.com/home\"}}}",
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"trunovaae1on@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehpj",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 5,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"morozova-8oy0p@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehpk",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 6,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"moiseev_dy41l@mail.ru\",\"password\":\"Tester444\"}}}",
 		"adsUserId": "j2tehpl",
 		"auth": {
 			"email": {
-				"login": "nstwelvenn@gmail.com",
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 7,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"loseva.1ue91@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqr",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 8,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"iakhin-5qsbo@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqs",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 9,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"ivanovich_fc8dy@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqt",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 10,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"sidorova-m00lg@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqu",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 11,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"guliaev-9ernu@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqv",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 12,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"iakovlevadq1rr@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqw",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 13,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"shumakov-ps5i8@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqx",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 14,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"kostina_vs37a@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehqy",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 15,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"dmitriev_2atr7@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehr0",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 16,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"kozlov.4uq1n@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehr1",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 17,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"petrov3ema1@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehrm",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 18,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"shvetsova.rn4pf@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehrn",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 19,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"voronina-1ydih@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehro",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 20,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"iurchenko-1jdos@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehrp",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 21,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"kuznetsova-bg5vc@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehrq",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 22,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"denisov-gz04q@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehuq",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 23,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"mandzhiev.qn5po@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehuv",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 24,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"morozova-20dxl@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehuw",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 25,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"iurkova-39jyg@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehux",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 26,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"soboleva6xkdf@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehuy",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
+	},
+	{
+		"id": 27,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"gorshkova-3gtji@mail.ru\",\"password\":\"Tester444\"}}}",
+		"adsUserId": "j2tehv0",
+		"auth": {
+			"email": {
+				"login": "",
 				"password": "",
 				"extensions": {
 					"imap": false

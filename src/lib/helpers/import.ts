@@ -1,5 +1,6 @@
 import * as fs from 'fs'
 import { database } from './../database.js'
+import { log } from './../utils.js'
 
 export module importman {
 
@@ -8,7 +9,7 @@ export module importman {
     type trimOpt = "NL" | "Space" | "Both" | "No"
     type accountOpt = "NL" | "Space" | "Colon"
     type dataOpt = "NL" | "Space"
-    type dataOrderOpt = "L" | "LP" | "PL" | "LPI" | "PLI" | "IPL" | "ILP" | "LIP"
+    type dataOrderOpt = string // "L" | "LP" | "PL" | "LPI" | "PLI" | "IPL" | "ILP" | "LIP"
 
     export interface importOpts {
         delemiters: {
@@ -34,31 +35,27 @@ export module importman {
 
     function readAccount(chunk: string, opt: { delemiter: accountOpt, order: dataOrderOpt }): database.ORM.Account {
         let sub_chunks = chunk.split(getDelemiter(opt.delemiter))
-        let _account = {
-            login: "",
-            password: "",
-            extensions: {
-                imap: false
+        let _account = new database.ORM.Account({
+            auth: {
+                email: {
+                    login: "",
+                    password: "",
+                    extensions: {
+                        imap: false
+                    }
+                }
             }
+        })
+
+        console.log(sub_chunks)
+        let paths = opt.order.split("|")
+        for (let i = 0; i < paths.length; i++) {
+            const path = paths[i]
+            const word = sub_chunks[i]
+            _account.setDataByPath(path, word)
         }
 
-        for (let i = 0; i < opt.order.length; i++) {
-            const ch = opt.order.at(i)
-            const word = sub_chunks.at(i)
-            switch (ch) {
-                case "L":
-                    _account.login = <string>word
-                    break;
-                case "P":
-                    _account.password = <string>word
-                    break;
-                case "I":
-                    _account.extensions.imap = Boolean(word)
-                    break;
-            }
-        }
-
-        return new database.ORM.Account({ auth: { email: {..._account} } })
+        return _account
     }
 
     function readStructure(raw: string, opt: { delemiter: dataOpt, accountSize: number }) {
@@ -70,12 +67,14 @@ export module importman {
             if (c == opt.accountSize) {
                 let data = ""
                 for (let j = 1; j <= opt.accountSize; j++) {
+                    console.log(misc.at(i-( opt.accountSize - j )))
                     data += <string>misc.at(i-( opt.accountSize - j ))
-                    if (j+1 != opt.accountSize) {
-                        data += getDelemiter(opt.delemiter)
-                    }
+                    // if (j+1 != opt.accountSize) {
+                    //     data += getDelemiter(opt.delemiter)
+                    // }
                 }
                 chunks.push(data)
+                console.log("")
                 c = 0
             }
         }
@@ -83,22 +82,45 @@ export module importman {
         return chunks
     }
 
+    // TODO add account use case group
     export async function smartImport(opts: importOpts) {
         if (opts.path.length === 0) {
             throw "No path passed"
         }
 
         for (const path of opts.path) {
+            if (!fs.existsSync(path)) {
+                log.error("File not exits:", path)
+                continue
+            }
             const raw = fs.readFileSync(path).toString()
 
-            const structure = readStructure(raw, { delemiter: opts.delemiters.data, accountSize: opts.dataOrder.length })
+            let added = 0
+            let skiped = 0
+
+            let accountSliceSize = 1
+            if (opts.delemiters.data === "Space" && opts.delemiters.account === "Space") {
+                accountSliceSize = opts.dataOrder.split("|").length
+            } else if (opts.delemiters.account === "Space" && opts.delemiters.data === "NL") {
+                accountSliceSize = 1
+            }
+
+            const structure = readStructure(raw, {
+                delemiter: opts.delemiters.data,
+                accountSize: accountSliceSize
+            })
+            console.log(structure)
             for (const chunk of structure) {
                 const _a = readAccount(chunk, { delemiter: opts.delemiters.account, order: opts.dataOrder })
-                if (await database.tables.accounts.findOne(a => a.auth.email.login == _a.auth.email.login)) {
-                    continue
-                }
+                // TODO add unique policy by data passed or direct settings or account use case group uniq policy
+                // if (await database.tables.accounts.findOne(a => a.auth.email.login == _a.auth.email.login)) {
+                //     skiped++
+                //     continue
+                // }
+                added++
                 await _a.sync()
             }
+            log.echo("Imported", added, "from path:", path, "skiped", skiped, "entries")
         }
     }
 }
