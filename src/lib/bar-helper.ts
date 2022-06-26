@@ -28,12 +28,12 @@ export class WorkerBarHelper {
         })
     }
 
-    next() {
+    next(i: number) {
+        this.curTask = i
         mpb.updateTask(accountBarID(this.account), {
             message: this.tasks[this.curTask],
             percentage: this.curTask/this.tasks.length
         })
-        this.curTask++
     }
 
     done(success: boolean) {

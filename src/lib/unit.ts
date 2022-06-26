@@ -260,7 +260,7 @@ export class Unit {
             const action = <Type.botAction>this.actions.actions.at(i)
             curAction = action
             try {
-                this.barhelper.next()
+                this.barhelper.next(i)
                 switch (action.type) {
                     case "Type":
                         await this.doType(action)
@@ -288,17 +288,17 @@ export class Unit {
                 if (curAction.onUnreachable) {
                     if (curAction.onUnreachable.repeat) {
                         i--
-                        log.echo("Repeating action", curAction?.name, "error:", e, "error:", e)
+                        log.echo("Repeating action", curAction?.name)//, "error:", e, "error:", e)
                         continue
                     } else if (curAction.onUnreachable.gotoAction) {
-                        i = curAction.onUnreachable.gotoAction
-                        log.echo("Going to action", curAction?.name, "error:", e)
+                        i = curAction.onUnreachable.gotoAction - 1
+                        log.echo("Going to action", curAction?.name)//,, "error:", e)
                         continue
                     } else if (curAction.onUnreachable.successExit) {
-                        log.echo("Exit with success status on ureacheble action:", curAction.name, "error:", e)
+                        log.echo("Exit with success status on ureacheble action:", curAction.name)//,, "error:", e)
                         break
                     } else if (curAction.onUnreachable.skip) {
-                        log.echo("Skiping action:", curAction.name, "error:", e)
+                        log.echo("Skiping action:", curAction.name)//,, "error:", e)
                         continue
                     }
                 }

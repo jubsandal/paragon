@@ -1,20 +1,5 @@
 [
 	{
-		"id": 0,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"galkin-k50uq@mail.ru\",\"password\":\"Tester444\"}}",
-		"adsUserId": "j2tehpe",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
-	},
-	{
 		"id": 1,
 		"subscriptions": [],
 		"customJSON": "{\"sandbox\":{\"login\":\"lazarev_8ukig@mail.ru\",\"password\":\"Tester444\"}}",
