@@ -250,8 +250,8 @@ export class Unit {
 
     public async exec(): Promise<{usedProxy: any}> {
 	return new Promise(async (resolve, reject) => {
-		    sleep(this.actions.maxExecutionTime).then(() => { reject("timeout") })
 		let error = null
+		    sleep(this.actions.maxExecutionTime).then(() => { error="timeout";reject("timeout") })
 		this.barhelper.create()
 		let proxyPool = cfg.proxy
 
@@ -331,26 +331,26 @@ export class Unit {
 			    }
 			    
 			    if (curAction.onUnreachable.secondChanse) {
-				    if (curAction.onUnreachable.repeat) {
+				    if (curAction.onUnreachable.secondChanse.repeat) {
 					    this.state.cur_action_try = 0
 						    i--
 
 						    log.echo("Repeating action", curAction?.name)//, "error:", e, "error:", e)
-					    if (!curAction!.onUnreachable.repeatMax) {
+					    if (!curAction!.onUnreachable.secondChanse.repeatMax) {
 						    continue
-					    } else if (curAction!.onUnreachable.repeatMax && curAction!.onUnreachable.repeatMax < this.state.cur_action_try) {
+					    } else if (curAction!.onUnreachable.secondChanse.repeatMax && curAction!.onUnreachable.secondChanse.repeatMax < this.state.cur_action_try) {
 						    // throw
 					    } else {
 						    continue
 					    }
-				    } else if (curAction.onUnreachable.gotoAction) {
-					    i = curAction.onUnreachable.gotoAction - 1
+				    } else if (curAction.onUnreachable.secondChanse.gotoAction) {
+					    i = curAction.onUnreachable.secondChanse.gotoAction - 1
 					    log.echo("Going to action", this.actions.actions[i+1])//,, "error:", e)
 					    continue
-				    } else if (curAction.onUnreachable.successExit) {
+				    } else if (curAction.onUnreachable.secondChanse.successExit) {
 					    log.echo("Exit with success status on ureacheble action:", curAction.name)//,, "error:", e)
 					    break
-				    } else if (curAction.onUnreachable.skip) {
+				    } else if (curAction.onUnreachable.secondChanse.skip) {
 					    log.echo("Skiping action:", curAction.name)//,, "error:", e)
 					    continue
 				    }
@@ -373,6 +373,7 @@ export class Unit {
 		    usedProxy: proxy
 		})
 		} catch (e) {
+		    this.barhelper.done(false)
 			reject(e)
 		}
 	})

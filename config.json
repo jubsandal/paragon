@@ -9,7 +9,7 @@
             "usePreDefinedProxy": false,
             "url": "https://sandbox.game",
             "browserAdapter": "AdsPower",
-	    "maxExecutionTime": 420000,
+	    "maxExecutionTime": 600000,
             "actions": [
                 {
                     "id": 0,
