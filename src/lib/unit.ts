@@ -4,7 +4,7 @@ import { database } from './database.js'
 import cfg from './../config.js'
 import { botConfigEntry } from './Types.js'
 import * as helpers from './helpers/index.js'
-import { proxy as Proxy, log, sleep, randSleep } from './utils.js'
+import { time, proxy as Proxy, log, sleep, randSleep } from './utils.js'
 import * as Type from './Types.js'
 import * as barhelper from './bar-helper.js'
 
@@ -19,7 +19,7 @@ export class Unit {
     // @ts-ignore
     private state: Type.UnitState = {
         action_queue: [],
-	cur_action_try: 0
+        cur_action_try: 0
     }
 
 
@@ -44,7 +44,7 @@ export class Unit {
                 if (selector) {
                     switch (action) {
                         case "Click":
-			    await selector.hover()
+                            await selector.hover()
                             await selector.click()
                             break;
                         case "Type":
@@ -56,17 +56,17 @@ export class Unit {
                             await selector.type(string)
                             break;
                         case "Upload":
-				log.echo("Uploading:", string)
-			    try {
-				    // @ts-ignore
-				    //await selector.uploadFile(string)
-				    const [fileChooser] = await Promise.all([
-					    this.state.target_page.waitForFileChooser(),
-					    this.state.target_page.click(field),
-				    ]);
-				    // @ts-ignore
-				    await fileChooser.accept([string])
-			    } catch (e) { log.error(e); throw e; }
+                            log.echo("Uploading:", string)
+                            try {
+                                // @ts-ignore
+                                //await selector.uploadFile(string)
+                                const [fileChooser] = await Promise.all([
+                                    this.state.target_page.waitForFileChooser(),
+                                    this.state.target_page.click(field),
+                                ]);
+                                // @ts-ignore
+                                await fileChooser.accept([string])
+                            } catch (e) { log.error(e); throw e; }
                             break;
                         default:
                             throw 1
@@ -89,7 +89,7 @@ export class Unit {
         const tryies = 3
         const waitms = 700
         for (let tryn = 0; tryn < tryies; tryn++) {
-	log.echo("smrt", action, "Try", tryn)
+            log.echo("smrt", action, "Try", tryn)
             if (await typer()) {
                 return
             }
@@ -208,14 +208,12 @@ export class Unit {
         // TODO validate
         if (action.after.waitForTarget) {
             let waitForTarget: Promise<puppeteer.Page> = new Promise(( resolve, reject ) => {
-		let ok = false
-		sleep(2000).then(() => {if (!ok) reject("Wait target timeout")})
+                sleep(2000).then(() => {reject("Wait target timeout")})
                 this.browser.on('targetcreated', (target: puppeteer.Target) => {
                     if (target.type() === action.after.waitForTarget) {
                         if (target.page() === null) {
                             reject("Target page is null")
                         }
-			ok = true
                         // @ts-ignore
                         resolve(target.page())
                     }
@@ -251,131 +249,135 @@ export class Unit {
     }
 
     public async exec() {
-		let error = null
-		this.barhelper.create()
-		let proxyPool = cfg.proxy
+        let error = null
+        this.barhelper.create()
+        let proxyPool = cfg.proxy
 
-		if (!this.account.adsUserId) {
-		    if (this.actions.usePreDefinedProxy && this.account.forseProxyLink) {
-			proxyPool.push(this.account.forseProxyLink)
-		    }
-		} else { // use ads proxy settings
-		    proxyPool = []
-		}
+        if (!this.account.adsUserId) {
+            if (this.actions.usePreDefinedProxy && this.account.forseProxyLink) {
+                proxyPool.push(this.account.forseProxyLink)
+            }
+        } else { // use ads proxy settings
+            proxyPool = []
+        }
 
-		const startTime = new Date().getTime()
+        const startTime = new Date().getTime()
 
-		// forse fall to throw on setup error
-		let { browser, page: __page, proxy } = await helpers.browser.setupBrowser(proxyPool, this.actions, this.account)
+        let { browser, page: __page, proxy } = await helpers.browser.setupBrowser(proxyPool, this.actions, this.account)
 
-		this.browser = browser
-		this.state.target_page = __page
-		this.state.initial_target_page = __page
-		this.state.previus_target_page = undefined
+        this.browser = browser
+        this.state.target_page = __page
+        this.state.initial_target_page = __page
+        this.state.previus_target_page = undefined
 
-		let curAction
-		for (let i = 0; i < this.actions.actions.length; i++) {
-		    const action = <Type.botAction>this.actions.actions.at(i)
-		    curAction = action
-		    try {
-			this.barhelper.next(i)
-			switch (action.type) {
-			    case "Type":
-				await this.doType(action)
-				break
-			    case "Click":
-				await this.doClick(action)
-				break
-			    case "Goto":
-				await this.doGoto(action)
-				break
-			    case "Upload":
-				await this.doUpload(action)
-				break
-			    case "Copy":
-				await this.doCopy(action)
-				break
-			    case "Reload":
-				await this.state.target_page.reload({ waitUntil: "domcontentloaded" })
-				break
-			    case "Dummy":
-				break
-			    default:
-				throw "Unkown action " + action.type
-			}
+        let curAction
+        for (let i = 0; i < this.actions.actions.length; i++) {
+            const action = <Type.botAction>this.actions.actions.at(i)
+            curAction = action
+            try {
+                this.barhelper.next(i)
+                switch (action.type) {
+                    case "Type":
+                        await this.doType(action)
+                        break
+                    case "Click":
+                        await this.doClick(action)
+                        break
+                    case "Goto":
+                        await this.doGoto(action)
+                        break
+                    case "Upload":
+                        await this.doUpload(action)
+                        break
+                    case "Copy":
+                        await this.doCopy(action)
+                        break
+                    case "Reload":
+                        await this.state.target_page.reload({ waitUntil: "domcontentloaded" })
+                        break
+                    case "Dummy":
+                        break
+                    default:
+                        throw "Unkown action " + action.type
+                }
 
-			await this.finalizeAction(action)
-			this.state.cur_action_try = 0
-			if (new Date().getTime() - startTime >= time.
-		    }  catch (e) {
-			    if (e === "paragon timeout") {
-			    }
-			if (curAction.onUnreachable) {
-			    if (curAction.onUnreachable.repeat) {
-				    this.state.cur_action_try++
-				i--
-				    
-				log.echo("Repeating action", curAction?.name)//, "error:", e, "error:", e)
-				    if (!curAction!.onUnreachable.repeatMax) {
-					    continue
-				    } else if (curAction!.onUnreachable.repeatMax && curAction!.onUnreachable.repeatMax < this.state.cur_action_try) {
-					    // throw
-				    } else {
-					continue
-				    }
-			    } else if (curAction.onUnreachable.gotoAction) {
-				i = curAction.onUnreachable.gotoAction - 1
-				log.echo("Going to action", curAction?.name)//,, "error:", e)
-				continue
-			    } else if (curAction.onUnreachable.successExit) {
-				log.echo("Exit with success status on ureacheble action:", curAction.name)//,, "error:", e)
-				break
-			    } else if (curAction.onUnreachable.skip) {
-				log.echo("Skiping action:", curAction.name)//,, "error:", e)
-				continue
-			    }
-			    
-			    if (curAction.onUnreachable.secondChanse) {
-				    if (curAction.onUnreachable.secondChanse.repeat) {
-					    this.state.cur_action_try = 0
-						    i--
+                await this.finalizeAction(action)
+                this.state.cur_action_try = 0
+                if (new Date().getTime() - startTime >= time.rawMS({ minutes: 8 })) {
+                    throw "paragon timeout"
+                }
+            }  catch (e) {
+                if (e === "paragon timeout") {
+                    error = "Execution timeout"
+                    break
+                } else {
+                    if (curAction.onUnreachable) {
+                        if (curAction.onUnreachable.repeat) {
+                            this.state.cur_action_try++
+                            i--
 
-						    log.echo("Repeating action", curAction?.name)//, "error:", e, "error:", e)
-					    if (!curAction!.onUnreachable.secondChanse.repeatMax) {
-						    continue
-					    } else if (curAction!.onUnreachable.secondChanse.repeatMax && curAction!.onUnreachable.secondChanse.repeatMax < this.state.cur_action_try) {
-						    // throw
-					    } else {
-						    continue
-					    }
-				    } else if (curAction.onUnreachable.secondChanse.gotoAction) {
-					    i = curAction.onUnreachable.secondChanse.gotoAction - 1
-					    log.echo("Going to action", this.actions.actions[i+1])//,, "error:", e)
-					    continue
-				    } else if (curAction.onUnreachable.secondChanse.successExit) {
-					    log.echo("Exit with success status on ureacheble action:", curAction.name)//,, "error:", e)
-					    break
-				    } else if (curAction.onUnreachable.secondChanse.skip) {
-					    log.echo("Skiping action:", curAction.name)//,, "error:", e)
-					    continue
-				    }
-			    }
-			}
-			log.error("Action", curAction?.name, "error:", e)
-			error = e
-			break
-		    }
-		}
+                            log.echo("Repeating action", curAction?.name)//, "error:", e, "error:", e)
+                            if (!curAction!.onUnreachable.repeatMax) {
+                                continue
+                            } else if (curAction!.onUnreachable.repeatMax && curAction!.onUnreachable.repeatMax < this.state.cur_action_try) {
+                                // throw
+                            } else {
+                                continue
+                            }
+                        } else if (curAction.onUnreachable.gotoAction) {
+                            i = curAction.onUnreachable.gotoAction - 1
+                            log.echo("Going to action", curAction?.name)//,, "error:", e)
+                            continue
+                        } else if (curAction.onUnreachable.successExit) {
+                            log.echo("Exit with success status on ureacheble action:", curAction.name)//,, "error:", e)
+                            break
+                        } else if (curAction.onUnreachable.skip) {
+                            log.echo("Skiping action:", curAction.name)//,, "error:", e)
+                            continue
+                        }
 
-		if (this.state.target_page) { await this.state.target_page.close() }
-		if (browser) { await browser.close() }
-		if (error) {
-		    this.barhelper.done(false)
-		    throw error
-		}
-		this.barhelper.done(true)
-		return {
-		    usedProxy: proxy
-		}
+                        if (curAction.onUnreachable.secondChanse) {
+                            if (curAction.onUnreachable.secondChanse.repeat) {
+                                this.state.cur_action_try = 0
+                                i--
+
+                                log.echo("Repeating action", curAction?.name)//, "error:", e, "error:", e)
+                                if (!curAction!.onUnreachable.secondChanse.repeatMax) {
+                                    continue
+                                } else if (curAction!.onUnreachable.secondChanse.repeatMax && curAction!.onUnreachable.secondChanse.repeatMax < this.state.cur_action_try) {
+                                    // throw
+                                } else {
+                                    continue
+                                }
+                            } else if (curAction.onUnreachable.secondChanse.gotoAction) {
+                                i = curAction.onUnreachable.secondChanse.gotoAction - 1
+                                log.echo("Going to action", this.actions.actions[i+1])//,, "error:", e)
+                                continue
+                            } else if (curAction.onUnreachable.secondChanse.successExit) {
+                                log.echo("Exit with success status on ureacheble action:", curAction.name)//,, "error:", e)
+                                break
+                            } else if (curAction.onUnreachable.secondChanse.skip) {
+                                log.echo("Skiping action:", curAction.name)//,, "error:", e)
+                                continue
+                            }
+                        }
+                    }
+                    log.error("Action", curAction?.name, "error:", e)
+                    error = e
+                    break
+                }
+            }
+        }
+
+        if (this.state.target_page) { await this.state.target_page.close() }
+        if (browser) { await browser.close() }
+        if (error) {
+            this.barhelper.done(false)
+            throw error
+        }
+        this.barhelper.done(true)
+        return {
+            usedProxy: proxy
+        }
     }
 }
