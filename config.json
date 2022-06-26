@@ -3,52 +3,10 @@
     "concurrency": 1,
     "configs": [
         {
-            "name": "lastexpedition",
-            "day24limit": 50,
-            "perAccountDelay": 1,
-            "usePreDefinedProxy": false,
-            "url": "https://lastexpedition.game/",
-            "browserAdapter": "Common",
-            "actions": [
-                {
-                    "id": -1,
-                    "name": "Going to page",
-                    "type": "Goto",
-                    "url": "https://lastexpedition.game/",
-                    "after": { "waitForNavigator": true }
-                },
-                {
-                    "id": 0,
-                    "name": "Entering email",
-                    "type": "Type",
-                    "field": "#subscribe_email",
-                    "text": {
-                        "dataFrom": "Account",
-                        "dataPath": "auth.email.login"
-                    },
-                    "after": { "delay": 600 }
-                },
-                {
-                    "id": 1,
-                    "name": "Accepting terms of use",
-                    "type": "Click",
-                    "field": "#subscribeForm > div > div.md\\:flex.md\\:items-start > label > div > input",
-                    "after": { "delay": 600 }
-                },
-                {
-                    "id": 2,
-                    "name": "Sending request",
-                    "type": "Click",
-                    "field": "#join-le-button",
-                    "after": { "delay": 2400 }
-                }
-            ]
-        },
-        {
             "name": "sandbox-twitter",
             "day24limit": 0,
             "perAccountDelay": 0.5,
-            "usePreDefinedProxy": true,
+            "usePreDefinedProxy": false,
             "url": "https://sandbox.game",
             "browserAdapter": "AdsPower",
             "actions": [
@@ -56,10 +14,13 @@
                     "id": 0,
                     "name": "Going to page",
                     "type": "Goto",
-                    "url": "https://www.sandbox.game/en/",
+                    "text": "https://www.sandbox.game/en/",
                     "after": {
                         "delay": 5500,
                         "waitForSelector": "#sign-in-button"
+                    },
+                    "onUnreachable": {
+                        "skip": true
                     }
                 },
                 {
@@ -115,14 +76,14 @@
                     "name": "Singing in",
                     "type": "Click",
                     "field": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > button:nth-child(5)",
-                    "after": { "delay": 2000 }
+                    "after": { "delay": 1000 }
                 },
                 {
                     "id": 6,
                     "name": "Going to contests page",
                     "type": "Goto",
-                    "url": "https://www.sandbox.game/en/season/contests/",
-                    "after": { "delay": 3000 }
+                    "text": "https://www.sandbox.game/en/season/contests/",
+                    "after": { "delay": 5000 }
                 },
                 {
                     "id": 7,
@@ -131,8 +92,7 @@
                     "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(1) > div > div.card-info > div.bottom-container > div.card-button > button",
                     "after": {
                         "delay": 1000,
-                        "waitForSelectorIframe": "#oe_page",
-                        "waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
+                        "waitForSelector": "#oe_page"
                     },
                     "onUnreachable": {
                         "skip": true
@@ -140,29 +100,23 @@
                 },
                 {
                     "id": 8,
-                    "name": "Clicking play",
-                    "type": "Click",
-                    "frame": "#oe_page",
-                    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
-                    "after": { "delay": 5000 }
-                },
-                {
-                    "id": 9,
-                    "name": "Clicking found it",
-                    "type": "Click",
-                    "frame": "#oe_page",
-                    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(2) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
-                    "after": { "delay": 100 },
-                    "onUnreachable": {
-                        "repeat": true
+                    "name": "Going to IMP quest",
+                    "type": "Goto",
+                    "text": {
+                        "dataFrom": "ElementAttr",
+                        "dataPath": "#oe_page",
+                        "dataAttribute": "src"
+                    },
+                    "after": {
+                        "delay": 1000,
+                        "waitForNavigator": true
                     }
                 },
                 {
-                    "id": 10,
+                    "id": 9,
                     "name": "Connecting twitter",
                     "type": "Click",
-                    "frame": "#oe_page",
-                    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(3) > section > section.quest-goal.iframe-quest-goal > div.actions > button.mat-stroked-button.mat-button-base.action-btn.sandbox-btn.ng-star-inserted",
+                    "field": "#quest-container > div.page-container.scroller > div.goals.scroller.flex.row.wrap > imp-quest-container:nth-child(4) > section > section.quest-goal > div.actions > button.mat-stroked-button.mat-button-base.action-btn.quest-goal-btn.ng-star-inserted",
                     "after": {
                         "waitForTarget": "page",
                         "switchToTarget": "Newest"
@@ -172,7 +126,7 @@
                     }
                 },
                 {
-                    "id": 11,
+                    "id": 10,
                     "name": "Autorize app",
                     "type": "Click",
                     "field": "div[role=\"button\"]",
@@ -182,26 +136,18 @@
                     }
                 },
                 {
-                    "id": 12,
-                    "name": "Going to contests page",
-                    "type": "Goto",
-                    "url": "https://www.sandbox.game/en/season/contests/",
-                    "after": { "delay": 5000 }
-                },
-                {
-                    "id": 13,
-                    "name": "Proceeding to participate",
-                    "type": "Click",
-                    "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(1) > div > div.card-info > div.bottom-container > div.card-button > button",
+                    "id": 11,
+                    "name": "Reloading",
+                    "type": "Reload",
                     "after": {
-                        "delay": 7000
+                        "waitForNavigator": true
                     }
                 },
                 {
-                    "id": 14,
+                    "id": 12,
                     "name": "Going to twitter reply page",
                     "type": "Click",
-                    "frame": "#oe_page",
+                           
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(3) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": {
                         "waitForTarget": "page",
@@ -209,7 +155,7 @@
                     }
                 },
                 {
-                    "id": 15,
+                    "id": 13,
                     "name": "Uploading image",
                     "type": "Upload",
                     "field": "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div.css-1dbjc4n.r-16y2uox.r-1jgb5lz.r-1ye8kvj.r-13qz1uu > div > div > div:nth-child(2) > div > div > div > div > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1h8ys4a.r-1bylmt5.r-13tjlyg.r-7qyjyx.r-1ftll1t > div:nth-child(3) > div > div > div:nth-child(1) > div.css-18t94o4.css-1dbjc4n.r-1niwhzg.r-42olwf.r-sdzlij.r-1phboty.r-rs99b7.r-5vhgbc.r-mvpalk.r-htfu76.r-2yi16.r-1qi8awa.r-1ny4l3l.r-o7ynqc.r-6416eg.r-lrvibr",
@@ -224,7 +170,7 @@
                     }
                 },
                 {
-                    "id": 16,
+                    "id": 14,
                     "name": "Reply",
                     "type": "Click",
                     "field": "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div.css-1dbjc4n.r-136ojw6 > div > div > div > div > div.css-1dbjc4n.r-obd0qt.r-1pz39u2.r-1777fci.r-15ysp7h.r-s8bhmr > div > div",
@@ -233,7 +179,7 @@
                     }
                 },
                 {
-                    "id": 17,
+                    "id": 15,
                     "name": "Going to reply page",
                     "type": "Click",
                     "field": "time",
@@ -241,11 +187,11 @@
                         "delay": 2000
                     },
                     "onUnreachable": {
-                        "gotoAction": 22
+                        "gotoAction": 20
                     }
                 },
                 {
-                    "id": 18,
+                    "id": 16,
                     "name": "Copy twitt url",
                     "type": "Copy",
                     "field": "URL",
@@ -256,7 +202,7 @@
                     }
                 },
                 {
-                    "id": 19,
+                    "id": 17,
                     "name": "Opening status menu",
                     "type": "Click",
                     "frame": "#oe_page",
@@ -266,7 +212,7 @@
                     }
                 },
                 {
-                    "id": 20,
+                    "id": 18,
                     "name": "Typeing twitt url",
                     "type": "Type",
                     "field": "#mat-input-2",
@@ -278,11 +224,11 @@
                         "delay": 1000
                     },
                     "onUnreachable": {
-                        "gotoAction": 22
+                        "gotoAction": 20
                     }
                 },
                 {
-                    "id": 21,
+                    "id": 19,
                     "name": "Sending status",
                     "type": "Click",
                     "field": "#verify-tweet-id",
@@ -294,7 +240,7 @@
                     }
                 },
                 {
-                    "id": 22,
+                    "id": 20,
                     "name": "Safe exit to initial target",
                     "type": "Dummy",
                     "after": {
@@ -302,7 +248,16 @@
                     }
                 },
                 {
-                    "id": 23,
+                    "id": 21,
+                    "name": "Going to sandlebox.game",
+                    "type": "Goto",
+                    "text": "https://www.sandbox.game/en/",
+                    "after": {
+                        "delay": 6500
+                    }
+                },
+                {
+                    "id": 22,
                     "name": "Opening profile menu",
                     "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-container > figure",
                     "type": "Click",
@@ -311,7 +266,7 @@
                     }
                 },
                 {
-                    "id": 24,
+                    "id": 23,
                     "name": "Logouting",
                     "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-container > div.mobile-menu-wrapper > div > div:nth-child(9) > p",
                     "type": "Click",

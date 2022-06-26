@@ -97,7 +97,7 @@ export class Unit {
     }
 
     private async deserializeText(action: Type.botAction) {
-        let text
+        let text = ""
         if (typeof action.text === "object") {
             const typeopts = <Type.pathTextConfig>action.text
             switch (typeopts.dataFrom) {
@@ -125,6 +125,11 @@ export class Unit {
                     }
                     await page.close()
                     break
+                case "ElementAttr":
+                    if (!typeopts.dataPath) throw "No field passed to ElementAttr text option"
+                    if (!typeopts.dataAttribute) throw "No attribute passed to ElementAttr text option"
+                    text = String(await this.state.target_page.$eval(typeopts.dataPath, e => e.getAttribute(String(typeopts.dataAttribute))))
+                    break
                 default:
                     throw "Not implemented accessing to data to type from data source " + typeopts.dataFrom
             }
@@ -150,8 +155,9 @@ export class Unit {
     }
 
     private async doGoto(action: Type.botAction) {
-        if (!action.url) throw "No url path for action: " + action.name
-        await this.state.target_page.goto(action.url)
+        if (!action.text) throw "No url path for action: " + action.name
+        const text = await this.deserializeText(action)
+        await this.state.target_page.goto(text)
     }
 
     private async doUpload(action: Type.botAction) {
@@ -276,6 +282,9 @@ export class Unit {
                         break
                     case "Copy":
                         await this.doCopy(action)
+                        break
+                    case "Reload":
+                        await this.state.target_page.reload({ waitUntil: "domcontentloaded" })
                         break
                     case "Dummy":
                         break

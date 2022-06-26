@@ -179,8 +179,8 @@ export namespace database {
                     } else {
                         path = path.replace('customJSON', "")
                     }
-                    let ret = this.assign(JSON.parse(this.customJSON), path, data)
-                    this.customJSON = JSON.stringify(ret)
+                    this.customJSON = JSON.stringify(
+                        this.assign(JSON.parse(this.customJSON), path, data))
                 } else {
                     this.assign(this, path, data)
                 }

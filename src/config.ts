@@ -6,10 +6,12 @@ import { botConfigEntry, botAction } from './lib/Types.js'
 
 const _cfg_path = './config.json'
 
+// const pathTextConfigSign = 
+
 const botConfigActionSign: Describe<botAction> = object({
     id: number(),
     name: string(),
-    type: enums([ "Dummy", "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ]),
+    type: enums([ "Dummy", "Click", "Reload", "Type", "Goto", "Upload", "Copy", "Screenshot" ]),
     field: optional(string()),
     frame: optional(string()),
     url: optional(string()),
@@ -18,12 +20,13 @@ const botConfigActionSign: Describe<botAction> = object({
         union([
             string(),
             object({
-                dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API" ]),
-                dataPath: string(),
-                dataURL:  optional(string()),
-                append:   optional(string()),
-                prepend:  optional(string()),
-            })
+    dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API", "ElementAttr" ]),
+    dataPath: string(),
+    dataURL:  optional(string()),
+    dataAttribute: optional(string()),
+    append:   optional(string()),
+    prepend:  optional(string()),
+})
         ])
     ),
     // TODO

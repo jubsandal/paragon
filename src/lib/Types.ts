@@ -1,19 +1,34 @@
-import { Infer,enums } from 'superstruct'
+import { optional,object,string,union,Infer,enums } from 'superstruct'
 import puppeteer from 'puppeteer'
 
+const pathTextConfigSourceSign = enums([ "Account", "Mail", "URL", "Page", "JSON_API", "ElementAttr" ])
+
 export type pathTextConfig = {
-    dataFrom: string
+    dataFrom: Infer<typeof pathTextConfigSourceSign>
     dataPath: string
+    dataAttribute?: string
     dataURL?: string // for dataFrom value "URL" or "Page"
     append?:  string
     prepend?: string
 }
 
-const botActionTypeSign = enums([ "Dummy", "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ])
+const botActionTypeSign = enums([ "Dummy", "Click", "Reload", "Type", "Goto", "Upload", "Copy", "Screenshot" ])
 // export type botActionType = ("Click" | "Type" | "Goto" | "Upload" | "Screenshot")
 export type botActionType = Infer<typeof botActionTypeSign>
 
 export type botActionTargetPage = "new page"
+
+const botActionTextUnionSign = union([
+    string(),
+    object({
+        dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API", "ElementAttr" ]),
+        dataPath: string(),
+        dataAttribute: optional(string()),
+        dataURL:  optional(string()),
+        append:   optional(string()),
+        prepend:  optional(string()),
+    })
+])
 
 export interface botAction {
     id: number
@@ -24,7 +39,7 @@ export interface botAction {
     field?: string
     frame?: string
     url?: string
-    text?: string | pathTextConfig
+    text?: Infer<typeof botActionTextUnionSign>
     saveAs?: string
 
     errorCondition?: {
