@@ -46,7 +46,6 @@
 	},
 	{
 		"id": 3,
->>>>>>> 4356407 (	modified:   config.json)
 		"subscriptions": [],
 		"customJSON": "{\"sandbox\":{\"login\":\"lazarev_8ukig@mail.ru\",\"password\":\"Tester444\"}}",
 		"adsUserId": "j2tehpf",
