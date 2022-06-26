@@ -9,7 +9,7 @@ export type pathTextConfig = {
     prepend?: string
 }
 
-const botActionTypeSign = enums([ "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ])
+const botActionTypeSign = enums([ "Dummy", "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ])
 // export type botActionType = ("Click" | "Type" | "Goto" | "Upload" | "Screenshot")
 export type botActionType = Infer<typeof botActionTypeSign>
 
@@ -35,6 +35,8 @@ export interface botAction {
         repeat?: boolean
         repeatMax?: number
         gotoAction?: number
+        successExit?: boolean
+        skip?: boolean
     }
 
     after: {

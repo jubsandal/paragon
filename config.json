@@ -80,6 +80,9 @@
                     "after": {
                         "delay": 7000,
                         "waitForSelector": "#__layout > div > div > div.modal.overlay-image-none > div > div.content > div > form > div > div:nth-child(1) > input[type=text]"
+                    },
+                    "onUnreacheble": {
+                        "gotoAction": 1
                     }
                 },
                 {
@@ -123,12 +126,14 @@
                     "name": "Proceeding to participate",
                     "type": "Click",
                     "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(1) > div > div.card-info > div.bottom-container > div.card-button > button",
-                    
                     "after": {
-			    "delay": 1000,
-			    "waitForSelectorIframe": "#oe_page",
-			    "waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
-		    }
+                        "delay": 1000,
+                        "waitForSelectorIframe": "#oe_page",
+                        "waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
+                    },
+                    "onUnreachable": {
+                        "skip": true
+                    }
                 },
                 {
                     "id": 8,
@@ -144,7 +149,10 @@
                     "type": "Click",
                     "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(2) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
-                    "after": { "delay": 1000 }
+                    "after": { "delay": 100 },
+                    "onUnreachable": {
+                        "repeat": true
+                    }
                 },
                 {
                     "id": 10,
@@ -155,6 +163,9 @@
                     "after": {
                         "waitForTarget": "page",
                         "switchToTarget": "Newest"
+                    },
+                    "onUnreachable": {
+                        "repeat": true
                     }
                 },
                 {
@@ -180,8 +191,8 @@
                     "type": "Click",
                     "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(1) > div > div.card-info > div.bottom-container > div.card-button > button",
                     "after": {
-			    "delay": 7000
-		    }
+                        "delay": 7000
+                    }
                 },
                 {
                     "id": 14,
@@ -225,6 +236,9 @@
                     "field": "time",
                     "after": {
                         "delay": 2000
+                    },
+                    "onUnreachable": {
+                        "gotoAction": 22
                     }
                 },
                 {
@@ -259,6 +273,9 @@
                     },
                     "after": {
                         "delay": 1000
+                    },
+                    "onUnreachable": {
+                        "gotoAction": 22
                     }
                 },
                 {
@@ -268,6 +285,35 @@
                     "field": "#verify-tweet-id",
                     "after": {
                         "delay": 2000
+                    },
+                    "onUnreachable": {
+                        "skip": true
+                    }
+                },
+                {
+                    "id": 22,
+                    "name": "Safe exit to initial target",
+                    "type": "Dummy",
+                    "after": {
+                        "switchToTarget": "Initial"
+                    }
+                },
+                {
+                    "id": 23,
+                    "name": "Opening profile menu",
+                    "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-containe > figure",
+                    "type": "Click",
+                    "after": {
+                        "delay": 1000
+                    }
+                },
+                {
+                    "id": 24,
+                    "name": "Logouting",
+                    "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-container > div.mobile-menu-wrapper > div > div:nth-child(9) > p",
+                    "type": "Click",
+                    "after": {
+                        "delay": 1000
                     }
                 }
             ]

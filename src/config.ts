@@ -9,7 +9,7 @@ const _cfg_path = './config.json'
 const botConfigActionSign: Describe<botAction> = object({
     id: number(),
     name: string(),
-    type: enums([ "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ]),
+    type: enums([ "Dummy", "Click", "Type", "Goto", "Upload", "Copy", "Screenshot" ]),
     field: optional(string()),
     frame: optional(string()),
     url: optional(string()),
@@ -37,12 +37,14 @@ const botConfigActionSign: Describe<botAction> = object({
         object({
             repeat: optional(boolean()),
             repeatMax: optional(number()),
-            gotoAction: optional(number())
+            gotoAction: optional(number()),
+            successExit: optional(boolean()),
+            skip: optional(boolean())
         })
     ),
     after: object({
         delay: optional(number()),
-	waitForSelectorIframe: optional(string()),
+        waitForSelectorIframe: optional(string()),
         waitForSelector: optional(string()),
         waitForNavigator: optional(boolean()),
         waitForTarget: optional(enums([ "page" ])),

@@ -277,19 +277,34 @@ export class Unit {
                     case "Copy":
                         await this.doCopy(action)
                         break
+                    case "Dummy":
+                        break
                     default:
                         throw "Unkown action " + action.type
                 }
 
                 await this.finalizeAction(action)
             }  catch (e) {
-                log.error("Action", curAction?.name, "error:", e)
                 if (curAction.onUnreacheble) {
                     if (curAction.onUnreacheble.repeat) {
                         i--
+                        log.echo("Repeating action", curAction?.name, "error:", e, "error:", e)
+                        continue
+                    } else if (curAction.onUnreacheble.gotoAction) {
+                        i = curAction.onUnreacheble.gotoAction
+                        log.echo("Going to action", curAction?.name, "error:", e)
+                        continue
+                    } else if (curAction.onUnreacheble.successExit) {
+                        log.echo("Exit with success status on ureacheble action:", curAction.name, "error:", e)
+                        break
+                    } else if (curAction.onUnreacheble.skip) {
+                        log.echo("Skiping action:", curAction.name, "error:", e)
+                        continue
                     }
                 }
+                log.error("Action", curAction?.name, "error:", e)
                 error = e
+                break
             }
         }
 
