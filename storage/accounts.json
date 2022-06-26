@@ -3223,19 +3223,5 @@
 				}
 			}
 		}
-	},
-	{
-		"id": 215,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"\"}}",
-		"auth": {
-			"email": {
-				"login": "",
-				"password": "",
-				"extensions": {
-					"imap": false
-				}
-			}
-		}
 	}
 ]
