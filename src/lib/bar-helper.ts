@@ -5,7 +5,7 @@ import chalk from 'chalk';
 const projectname = "Subscriber"
 
 export function accountBarID(account: database.ORM.Account) {
-    return "login:"+account.auth.email.login
+    return "id:"+account.id
 }
 
 export let mpb: MultiProgressBars

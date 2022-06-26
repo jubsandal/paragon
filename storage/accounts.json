@@ -1,7 +1,13 @@
 [
 	{
 		"id": 0,
-		"subscriptions": [],
+		"subscriptions": [
+			{
+				"url": "https://sandbox.game",
+				"registrationTime": 0,
+				"usedproxy": null
+			}
+		],
 		"customJSON": "{\"sandbox\":{\"login\":\"lebedeva-9qc0y@mail.ru\",\"password\":\"Tester444\"}}",
 		"adsUserId": "j2tehpc",
 		"auth": {
@@ -16,8 +22,14 @@
 	},
 	{
 		"id": 1,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"gorshkova-y09jf@mail.ru\",\"password\":\"Tester444\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656255371024,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"gorshkova-y09jf@mail.ru\",\"password\":\"Tester444\",\"twittUrl\":\"https://twitter.com/LadyPixyCompany/status/1540711046582788096\"}}",
 		"adsUserId": "j2tehpd",
 		"auth": {
 			"email": {
@@ -31,8 +43,14 @@
 	},
 	{
 		"id": 2,
-		"subscriptions": [],
-		"customJSON": "{\"sandbox\":{\"login\":\"galkin-k50uq@mail.ru\",\"password\":\"Tester444\"}}",
+		"subscriptions": [
+			{
+				"registrationTime": 1656255514111,
+				"usedproxy": null,
+				"url": "https://sandbox.game"
+			}
+		],
+		"customJSON": "{\"sandbox\":{\"login\":\"galkin-k50uq@mail.ru\",\"password\":\"Tester444\",\"twittUrl\":\"https://twitter.com/TheSandboxGame/status/1540341610499678208\"}}",
 		"adsUserId": "j2tehpe",
 		"auth": {
 			"email": {
