@@ -144,7 +144,7 @@
                     "type": "Click",
                     "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(2) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
-                    "after": { "delay": 5000 }
+                    "after": { "delay": 1000 }
                 },
                 {
                     "id": 10,

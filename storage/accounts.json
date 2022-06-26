@@ -418,5 +418,20 @@
 				}
 			}
 		}
+	},
+	{
+		"id": 28,
+		"subscriptions": [],
+		"customJSON": "{\"customJSON\":{\"sandbox\":{\"login\":\"galkin-k50uq@mail.ru\",\"password\":\"Tester444\",\"twittUrl\":\"https://twitter.com/TheSandboxGame/status/1540349194023608323\"}}}",
+		"adsUserId": "j2tehpe",
+		"auth": {
+			"email": {
+				"login": "",
+				"password": "",
+				"extensions": {
+					"imap": false
+				}
+			}
+		}
 	}
 ]
