@@ -1,8 +1,5 @@
 [
 	{
-<<<<<<< HEAD
-		"id": 1,
-=======
 		"id": 0,
 		"subscriptions": [],
 		"customJSON": "{\"sandbox\":{\"login\":\"lebedeva-9qc0y@mail.ru\",\"password\":\"Tester444\"}}",
