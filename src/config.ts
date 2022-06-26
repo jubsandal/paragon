@@ -42,7 +42,16 @@ const botConfigActionSign: Describe<botAction> = object({
             repeatMax: optional(number()),
             gotoAction: optional(number()),
             successExit: optional(boolean()),
-            skip: optional(boolean())
+            skip: optional(boolean()),
+	    secondChanse: optional(
+		    object({
+			    repeat: optional(boolean()),
+			    repeatMax: optional(number()),
+			    gotoAction: optional(number()),
+			    successExit: optional(boolean()),
+			    skip: optional(boolean()),
+		    })
+	    )
         })
     ),
     after: object({

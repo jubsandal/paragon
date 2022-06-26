@@ -52,6 +52,13 @@ export interface botAction {
         gotoAction?: number
         successExit?: boolean
         skip?: boolean
+	secondChanse?: {
+		repeat?: boolean
+		repeatMax?: number
+		gotoAction?: number
+		successExit?: boolean
+		skip?: boolean
+	}
     }
 
     after: {

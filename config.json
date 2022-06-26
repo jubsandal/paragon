@@ -5,7 +5,7 @@
         {
             "name": "sandbox-twitter",
             "day24limit": 0,
-            "perAccountDelay": 0.5,
+            "perAccountDelay": 0,
             "usePreDefinedProxy": false,
             "url": "https://sandbox.game",
             "browserAdapter": "AdsPower",
@@ -148,7 +148,10 @@
                     },
 		    "onUnreachable": {
 			    "repeat": true,
-			    "repeatMax": 10
+			    "repeatMax": 10,
+			    "secondChanse": {
+				    "gotoAction": 15
+			    }
 		    }
                 },
                 {
@@ -163,6 +166,27 @@
                 },
                 {
                     "id": 13,
+                    "name": "Going to contests page",
+                    "type": "Goto",
+                    "text": "https://www.sandbox.game/en/season/contests/",
+                    "after": { "delay": 5000 }
+                },
+                {
+                    "id": 14,
+                    "name": "Proceeding to participate",
+                    "type": "Click",
+                    "field": "#contests > div > div > div.info-ongoing > div > div > div > div:nth-child(3) > div > div.card-info > div.bottom-container > div.card-button > button",
+                    "after": {
+                        "delay": 30000,
+                        "waitForSelectorIframe": "#oe_page",
+			"waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
+                    },
+                    "onUnreachable": {
+                        "gotoAction": 13
+                    }
+                },
+                {
+                    "id": 15,
                     "name": "Going to twitter reply page",
                     "type": "Click",
 		    "frame": "#oe_page",
@@ -177,7 +201,7 @@
 		    }
                 },
                 {
-                    "id": 14,
+                    "id": 16,
                     "name": "Uploading image",
                     "type": "Upload",
                     "field": "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div.css-1dbjc4n.r-16y2uox.r-1jgb5lz.r-1ye8kvj.r-13qz1uu > div > div > div:nth-child(2) > div > div > div > div > div.css-1dbjc4n.r-1iusvr4.r-16y2uox.r-1777fci.r-1h8ys4a.r-1bylmt5.r-13tjlyg.r-7qyjyx.r-1ftll1t > div:nth-child(3) > div > div > div:nth-child(1) > div.css-18t94o4.css-1dbjc4n.r-1niwhzg.r-42olwf.r-sdzlij.r-1phboty.r-rs99b7.r-5vhgbc.r-mvpalk.r-htfu76.r-2yi16.r-1qi8awa.r-1ny4l3l.r-o7ynqc.r-6416eg.r-lrvibr",
@@ -192,7 +216,7 @@
                     }
                 },
                 {
-                    "id": 15,
+                    "id": 17,
                     "name": "Reply",
                     "type": "Click",
                     "field": "#react-root > div > div > div.css-1dbjc4n.r-18u37iz.r-13qz1uu.r-417010 > main > div > div > div.css-1dbjc4n.r-136ojw6 > div > div > div > div > div.css-1dbjc4n.r-obd0qt.r-1pz39u2.r-1777fci.r-15ysp7h.r-s8bhmr > div > div",
@@ -201,7 +225,7 @@
                     }
                 },
                 {
-                    "id": 16,
+                    "id": 18,
                     "name": "Going to reply page",
                     "type": "Click",
                     "field": "time",
@@ -209,11 +233,11 @@
                         "delay": 2000
                     },
                     "onUnreachable": {
-                        "gotoAction": 21
+                        "gotoAction": 23
                     }
                 },
                 {
-                    "id": 17,
+                    "id": 19,
                     "name": "Copy twitt url",
                     "type": "Copy",
                     "field": "URL",
@@ -224,7 +248,7 @@
                     }
                 },
                 {
-                    "id": 18,
+                    "id": 20,
                     "name": "Opening status menu",
                     "type": "Click",
                     "frame": "#oe_page",
@@ -233,11 +257,11 @@
                         "delay": 1000
                     },
 		    "onUnreachable": {
-			    "gotoAction": 21
+			    "gotoAction": 23
 		    }
                 },
                 {
-                    "id": 19,
+                    "id": 21,
                     "name": "Typeing twitt url",
                     "type": "Type",
                     "field": "#mat-input-2",
@@ -249,11 +273,11 @@
                         "delay": 1000
                     },
                     "onUnreachable": {
-                        "gotoAction": 21
+                        "gotoAction": 23
                     }
                 },
                 {
-                    "id": 20,
+                    "id": 22,
                     "name": "Sending status",
                     "type": "Click",
                     "field": "#verify-tweet-id",
@@ -265,7 +289,7 @@
                     }
                 },
                 {
-                    "id": 21,
+                    "id": 23,
                     "name": "Safe exit to initial target",
                     "type": "Dummy",
                     "after": {
@@ -273,7 +297,7 @@
                     }
                 },
                 {
-                    "id": 22,
+                    "id": 24,
                     "name": "Going to sandlebox.game",
                     "type": "Goto",
                     "text": "https://www.sandbox.game/en/",
@@ -282,7 +306,7 @@
                     }
                 },
                 {
-                    "id": 23,
+                    "id": 25,
                     "name": "Opening profile menu",
                     "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-container > figure",
                     "type": "Click",
@@ -291,7 +315,7 @@
                     }
                 },
                 {
-                    "id": 24,
+                    "id": 26,
                     "name": "Logouting",
                     "field": "#topbar > div > section.right.is-relative > div > div.user-logo.sand-balance-container > div.mobile-menu-wrapper > div > div:nth-child(9) > p",
                     "type": "Click",

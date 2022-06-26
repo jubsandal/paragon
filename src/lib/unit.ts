@@ -263,8 +263,9 @@ export class Unit {
 		    proxyPool = []
 		}
 
+		try {
 		// forse fall to throw on setup error
-		let { browser, page: __page, proxy } = await helpers.browser.setupBrowser(proxyPool, this.actions, this.account)
+			let { browser, page: __page, proxy } = await helpers.browser.setupBrowser(proxyPool, this.actions, this.account)
 		this.browser = browser
 		this.state.target_page = __page
 		this.state.initial_target_page = __page
@@ -328,6 +329,32 @@ export class Unit {
 				log.echo("Skiping action:", curAction.name)//,, "error:", e)
 				continue
 			    }
+			    
+			    if (curAction.onUnreachable.secondChanse) {
+				    if (curAction.onUnreachable.repeat) {
+					    this.state.cur_action_try = 0
+						    i--
+
+						    log.echo("Repeating action", curAction?.name)//, "error:", e, "error:", e)
+					    if (!curAction!.onUnreachable.repeatMax) {
+						    continue
+					    } else if (curAction!.onUnreachable.repeatMax && curAction!.onUnreachable.repeatMax < this.state.cur_action_try) {
+						    // throw
+					    } else {
+						    continue
+					    }
+				    } else if (curAction.onUnreachable.gotoAction) {
+					    i = curAction.onUnreachable.gotoAction - 1
+					    log.echo("Going to action", this.actions.actions[i+1])//,, "error:", e)
+					    continue
+				    } else if (curAction.onUnreachable.successExit) {
+					    log.echo("Exit with success status on ureacheble action:", curAction.name)//,, "error:", e)
+					    break
+				    } else if (curAction.onUnreachable.skip) {
+					    log.echo("Skiping action:", curAction.name)//,, "error:", e)
+					    continue
+				    }
+			    }
 			}
 			log.error("Action", curAction?.name, "error:", e)
 			error = e
@@ -339,12 +366,15 @@ export class Unit {
 		if (browser) { await browser.close() }
 		if (error) {
 		    this.barhelper.done(false)
-		    throw error
+		    reject(error)
 		}
 		this.barhelper.done(true)
 		resolve({
 		    usedProxy: proxy
 		})
+		} catch (e) {
+			reject(e)
+		}
 	})
     }
 }
