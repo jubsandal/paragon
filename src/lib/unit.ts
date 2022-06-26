@@ -303,7 +303,7 @@ export class Unit {
 
                 await this.finalizeAction(action)
                 this.state.cur_action_try = 0
-                if (new Date().getTime() - startTime >= time.rawMS({ minutes: 8 })) {
+                if (new Date().getTime() - startTime >= this.actions.maxExecutionTime) {
                     throw "paragon timeout"
                 }
             }  catch (e) {
