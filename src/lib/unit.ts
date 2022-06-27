@@ -169,9 +169,9 @@ export class Unit {
 
     private async doUpload(action: Type.botAction) {
         const text = await this.deserializeText(action)
-	if (!fs.existsSync(text)) {
-		throw "Cannot upload unexists file"
-	}
+        if (!fs.existsSync(text)) {
+            throw "Cannot upload unexists file"
+        }
         if (!action.text) throw "No url path for action: " + action.name
         if (!action.field) throw "No field for action: " + action.name
         await this.smrtAction(action.frame, action.field, "Upload", text)
@@ -193,70 +193,76 @@ export class Unit {
     }
 
     private async finalizeAction(action: Type.botAction) {
-	    if (action.after.delay && action.after.delay > 0) {
-		    await sleep(action.after.delay)
-	    }
-	    if (action.after.waitForNavigatior) {
-		    await this.state.target_page.waitForNavigation({waitUntil: 'networkidle2'/*, timeout: 10000*/})
-	    }
-	    if (action.after.waitForSelector) {
-		    let root = this.state.target_page
-		    if (action.after.waitForSelectorIframe) {
-			    let eh = await this.state.target_page.waitForSelector(action.after.waitForSelectorIframe, { timeout: 30000 })
-			    // @ts-ignore
-			    root = await eh!.contentFrame()
-		    }
-		    await root.waitForSelector(String(action.after.waitForSelector), { timeout: 30000 })
-	    }
-	    let target
-	    // TODO validate
-	    if (action.after.waitForTarget) {
-		    let waitForTarget: Promise<puppeteer.Page> = new Promise(( resolve, reject ) => {
-			    this.browser.on('targetcreated', (target: puppeteer.Target) => {
-				    if (target.type() === action.after.waitForTarget) {
-					    if (target.page() === null) {
-						    reject("Target page is null")
-					    }
-					    // @ts-ignore
-					    resolve(target.page())
-				    }
-			    })
-		    })
-		    target = <puppeteer.Page>(await Promise.race([
-			    waitForTarget,
-			    // @ts-ignore
-			    new Promise(function(resolve, reject) {
-				    setTimeout(function() {
-					    reject("Wait target timeout")
-				    }, 2000)
-			    })
-		    ]))
-	    }
-	    if (action.after.switchToTarget) {
-		    let previus_target_page = this.state.previus_target_page
-		    this.state.previus_target_page = this.state.target_page
-		    switch (action.after.switchToTarget) {
-			    case "Newest":
-				    if (target) {
-				    this.state.target_page = target
-			    } else {
-				    throw "No newest targets"
-			    }
-			    break
-			    case "Previus":
-				    if (previus_target_page) {
-				    this.state.target_page = previus_target_page
-			    } else {
-				    throw "No previus targets"
-			    }
-			    break
-			    case "Initial":
-				    this.state.target_page = this.state.initial_target_page
-			    break
-			    default:
-				    throw "Unknown switch to target option: " + action.after.switchToTarget
-		    }
-	    }
+        if (action.after.delay && action.after.delay > 0) {
+            await sleep(action.after.delay)
+        }
+        if (action.after.waitForNavigatior) {
+            await this.state.target_page.waitForNavigation({waitUntil: 'networkidle2', timeout: 30000})
+        }
+        if (action.after.waitForSelector) {
+            let root = this.state.target_page
+            if (action.after.waitForSelectorIframe) {
+                let eh = await this.state.target_page.waitForSelector(action.after.waitForSelectorIframe, { timeout: 30000 })
+                // @ts-ignore
+                root = await eh!.contentFrame()
+            }
+            await root.waitForSelector(String(action.after.waitForSelector), { timeout: 30000 })
+        }
+        let target
+        // TODO validate
+        if (action.after.waitForTarget) {
+            let waitForTarget: Promise<puppeteer.Page> = new Promise(( resolve, reject ) => {
+                this.browser.on('targetcreated', async (target: puppeteer.Target) => {
+                    if (target.type() === action.after.waitForTarget) {
+                        const page = await target.page()
+                        if (page === null) {
+                            reject("Target page is null")
+                        } else {
+                            if (action.after.switchToTargetOpts) {
+                                if (action.after.switchToTargetOpts.viewPort) {
+                                    await page.setViewport(action.after.switchToTargetOpts.viewPort)
+                                }
+                            }
+                            resolve(page)
+                        }
+                    }
+                })
+            })
+            target = <puppeteer.Page>(await Promise.race([
+                waitForTarget,
+                // @ts-ignore
+                new Promise(function(resolve, reject) {
+                    setTimeout(function() {
+                        reject("Wait target timeout")
+                    }, 2000)
+                })
+            ]))
+        }
+        if (action.after.switchToTarget) {
+            let previus_target_page = this.state.previus_target_page
+            this.state.previus_target_page = this.state.target_page
+            switch (action.after.switchToTarget) {
+                case "Newest":
+                    if (target) {
+                        this.state.target_page = target
+                    } else {
+                        throw "No newest targets"
+                    }
+                    break
+                case "Previus":
+                    if (previus_target_page) {
+                        this.state.target_page = previus_target_page
+                    } else {
+                        throw "No previus targets"
+                    }
+                    break
+                case "Initial":
+                    this.state.target_page = this.state.initial_target_page
+                    break
+                default:
+                    throw "Unknown switch to target option: " + action.after.switchToTarget
+            }
+        }
     }
 
     public async exec() {
@@ -328,7 +334,7 @@ export class Unit {
                             if (!curAction!.onUnreachable.repeatMax) {
                                 continue
                             } else if (curAction!.onUnreachable.repeatMax && curAction!.onUnreachable.repeatMax < this.state.cur_action_try) {
-				    log.echo("Max tries for action", curAction?.name, "exeeded")
+                                log.echo("Max tries for action", curAction?.name, "exeeded")
                                 // throw
                             } else {
                                 continue
@@ -346,8 +352,8 @@ export class Unit {
                         }
 
                         if (curAction.onUnreachable.secondChanse) {
-				log.echo("Activating second chanse")
-				this.state.cur_action_try = 0
+                            log.echo("Activating second chanse")
+                            this.state.cur_action_try = 0
                             if (curAction.onUnreachable.secondChanse.repeat) {
                                 this.state.cur_action_try = 0
                                 i--
@@ -381,7 +387,7 @@ export class Unit {
                 if (new Date().getTime() - startTime >= this.actions.maxExecutionTime) {
                     throw "paragon timeout"
                 }
-	    }
+            }
         }
 
         if (this.state.target_page) { await this.state.target_page.close() }

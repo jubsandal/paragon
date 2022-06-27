@@ -16,7 +16,7 @@ const botActionTypeSign = enums([ "Dummy", "Click", "Reload", "Type", "Goto", "U
 // export type botActionType = ("Click" | "Type" | "Goto" | "Upload" | "Screenshot")
 export type botActionType = Infer<typeof botActionTypeSign>
 
-export type botActionTargetPage = "new page"
+    export type botActionTargetPage = "new page"
 
 const botActionTextUnionSign = union([
     string(),
@@ -40,7 +40,7 @@ export interface botAction {
     frame?: string
     url?: string
     text?: Infer<typeof botActionTextUnionSign>
-    saveAs?: string
+        saveAs?: string
 
     errorCondition?: {
         noSelector?: string
@@ -52,22 +52,28 @@ export interface botAction {
         gotoAction?: number
         successExit?: boolean
         skip?: boolean
-	secondChanse?: {
-		repeat?: boolean
-		repeatMax?: number
-		gotoAction?: number
-		successExit?: boolean
-		skip?: boolean
-	}
+        secondChanse?: {
+            repeat?: boolean
+            repeatMax?: number
+            gotoAction?: number
+            successExit?: boolean
+            skip?: boolean
+        }
     }
 
     after: {
         delay?: number
-	waitForSelectorIframe?: string,
-        waitForSelector?: string
+        waitForSelectorIframe?: string,
+            waitForSelector?: string
         waitForNavigatior?: boolean
         waitForTarget?: "page"
         switchToTarget?: "Newest" | "Previus" | "Initial"
+        switchToTargetOpts?: {
+            viewPort?: {
+                height: number,
+                width: number
+            }
+        }
     }
 }
 

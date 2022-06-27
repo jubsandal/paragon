@@ -9,7 +9,7 @@
             "usePreDefinedProxy": false,
             "url": "https://sandbox.game",
             "browserAdapter": "AdsPower",
-	    "maxExecutionTime": 600000,
+            "maxExecutionTime": 600000,
             "actions": [
                 {
                     "id": 0,
@@ -18,7 +18,7 @@
                     "text": "https://www.sandbox.game/en/",
                     "after": {
                         "delay": 5500,
-			"waitForNavigator": true
+                        "waitForNavigator": true
                     }
                 },
                 {
@@ -31,11 +31,11 @@
                         "waitForSelector": "#__layout > div > div > div.modal.background-color-none > div > div.content > div > div > div.content-bottom.wallet-content-bottom > div.email-sign-in-link > p"
                     },
                     "onUnreachable": {
-			    "repeat": true,
-			    "repeatMax": 3,
-			    "secondChanse": {
-				    "gotoAction": 6
-			    }
+                        "repeat": true,
+                        "repeatMax": 3,
+                        "secondChanse": {
+                            "gotoAction": 6
+                        }
                     }
                 },
                 {
@@ -95,7 +95,7 @@
                     "after": {
                         "delay": 30000,
                         "waitForSelectorIframe": "#oe_page",
-			"waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
+                        "waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
                     },
                     "onUnreachable": {
                         "gotoAction": 6
@@ -105,59 +105,65 @@
                     "id": 8,
                     "name": "Trying click get details",
                     "type": "Click",
-		    "frame": "#oe_page",
-		    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
+                    "frame": "#oe_page",
+                    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": {
                         "delay": 1000
                     },
-		    "onUnreachable": {
-			    "skip": true
-		    }
+                    "onUnreachable": {
+                        "skip": true
+                    }
                 },
                 {
                     "id": 9,
                     "name": "Trying click play",
                     "type": "Click",
-		    "frame": "#oe_page",
-		    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(2) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
+                    "frame": "#oe_page",
+                    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(2) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": {
                         "delay": 1000,
                         "waitForNavigator": true
                     },
-		    "onUnreachable": {
-			    "skip": true
-		    }
+                    "onUnreachable": {
+                        "skip": true
+                    }
                 },
                 {
                     "id": 10,
                     "name": "Trying click found it",
                     "type": "Click",
-		    "frame": "#oe_page",
-		    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(3) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
+                    "frame": "#oe_page",
+                    "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(3) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": {
                         "delay": 1000
                     },
-		    "onUnreachable": {
-			    "skip": true
-		    }
+                    "onUnreachable": {
+                        "skip": true
+                    }
                 },
                 {
                     "id": 11,
                     "name": "Connecting twitter",
                     "type": "Click",
-		    "frame": "#oe_page",
+                    "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(4) > section > section.quest-goal.iframe-quest-goal > div.actions > button.mat-stroked-button.mat-button-base.action-btn.sandbox-btn.ng-star-inserted",
                     "after": {
                         "waitForTarget": "page",
-                        "switchToTarget": "Newest"
+                        "switchToTarget": "Newest",
+                        "switchToTargetOpts": {
+                            "viewPort": {
+                                "width": 700,
+                                "height": 648
+                            }
+                        }
                     },
-		    "onUnreachable": {
-			    "repeat": true,
-			    "repeatMax": 4,
-			    "secondChanse": {
-				    "gotoAction": 15
-			    }
-		    }
+                    "onUnreachable": {
+                        "repeat": true,
+                        "repeatMax": 4,
+                        "secondChanse": {
+                            "gotoAction": 15
+                        }
+                    }
                 },
                 {
                     "id": 12,
@@ -184,7 +190,7 @@
                     "after": {
                         "delay": 30000,
                         "waitForSelectorIframe": "#oe_page",
-			"waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
+                        "waitForSelector": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(1) > section > section.quest-goal.iframe-quest-goal > div.actions > button"
                     },
                     "onUnreachable": {
                         "gotoAction": 13
@@ -194,16 +200,22 @@
                     "id": 15,
                     "name": "Going to twitter reply page",
                     "type": "Click",
-		    "frame": "#oe_page",
+                    "frame": "#oe_page",
                     "field": "#quest-container > div:nth-child(2) > div.goals.scroller.flex.row.sb-no-scroll > imp-quest-container:nth-child(4) > section > section.quest-goal.iframe-quest-goal > div.actions > button",
                     "after": {
                         "waitForTarget": "page",
-                        "switchToTarget": "Newest"
+                        "switchToTarget": "Newest",
+                        "switchToTargetOpts": {
+                            "viewPort": {
+                                "width": 700,
+                                "height": 648
+                            }
+                        }
                     },
-		    "onUnreachable": {
-			    "repeat": true,
-			    "repeatMax": 5
-		    }
+                    "onUnreachable": {
+                        "repeat": true,
+                        "repeatMax": 5
+                    }
                 },
                 {
                     "id": 16,
@@ -261,9 +273,9 @@
                     "after": {
                         "delay": 1000
                     },
-		    "onUnreachable": {
-			    "gotoAction": 23
-		    }
+                    "onUnreachable": {
+                        "gotoAction": 23
+                    }
                 },
                 {
                     "id": 21,

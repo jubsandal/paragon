@@ -20,13 +20,13 @@ const botConfigActionSign: Describe<botAction> = object({
         union([
             string(),
             object({
-    dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API", "ElementAttr" ]),
-    dataPath: string(),
-    dataURL:  optional(string()),
-    dataAttribute: optional(string()),
-    append:   optional(string()),
-    prepend:  optional(string()),
-})
+                dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API", "ElementAttr" ]),
+                dataPath: string(),
+                dataURL:  optional(string()),
+                dataAttribute: optional(string()),
+                append:   optional(string()),
+                prepend:  optional(string()),
+            })
         ])
     ),
     // TODO
@@ -43,15 +43,15 @@ const botConfigActionSign: Describe<botAction> = object({
             gotoAction: optional(number()),
             successExit: optional(boolean()),
             skip: optional(boolean()),
-	    secondChanse: optional(
-		    object({
-			    repeat: optional(boolean()),
-			    repeatMax: optional(number()),
-			    gotoAction: optional(number()),
-			    successExit: optional(boolean()),
-			    skip: optional(boolean()),
-		    })
-	    )
+            secondChanse: optional(
+                object({
+                    repeat: optional(boolean()),
+                    repeatMax: optional(number()),
+                    gotoAction: optional(number()),
+                    successExit: optional(boolean()),
+                    skip: optional(boolean()),
+                })
+            )
         })
     ),
     after: object({
@@ -61,6 +61,16 @@ const botConfigActionSign: Describe<botAction> = object({
         waitForNavigator: optional(boolean()),
         waitForTarget: optional(enums([ "page" ])),
         switchToTarget: optional(enums([ "Newest", "Previus", "Initial" ])),
+        switchToTargetOpts: optional(
+            object({
+                viewPort: optional(
+                    object({
+                        height: number(),
+                        width: number()
+                    })
+                )
+            })
+        )
     })
 })
 

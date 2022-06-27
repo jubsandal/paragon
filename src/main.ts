@@ -103,18 +103,18 @@ log.echo("Valid accounts for config:", validAccounts.length)
 
 let perAccountDelayWaiter: (arg:any)=>void
 
-if (selected_config.perAccountDelay === "stratch") {
-    // @ts-ignore
-    perAccountDelayWaiter = async (arg: any) => { return await sleep(0) } // TODO day24limit/validAccounts.length ...
-} else if (typeof selected_config.perAccountDelay === "number") {
-    if (selected_config.perAccountDelay < 0) {
-        throw "Negative per account delay setting: " + selected_config.perAccountDelay
+    if (selected_config.perAccountDelay === "stratch") {
+        // @ts-ignore
+        perAccountDelayWaiter = async (arg: any) => { return await sleep(0) } // TODO day24limit/validAccounts.length ...
+    } else if (typeof selected_config.perAccountDelay === "number") {
+        if (selected_config.perAccountDelay < 0) {
+            throw "Negative per account delay setting: " + selected_config.perAccountDelay
+        }
+        // @ts-ignore
+        perAccountDelayWaiter = async (arg: any) => { return await sleep(<number>selected_config.perAccountDelay * 60 * 1000) }
+    } else {
+        throw "Unknown per account delay setting: " + selected_config.perAccountDelay
     }
-    // @ts-ignore
-    perAccountDelayWaiter = async (arg: any) => { return await sleep(<number>selected_config.perAccountDelay * 60 * 1000) }
-} else {
-    throw "Unknown per account delay setting: " + selected_config.perAccountDelay
-}
 
 let cur = 0
 let err = 0

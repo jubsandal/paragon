@@ -7,11 +7,11 @@ import config from './../config.js'
 export module proxy {
     export interface Proxy {
         host: string,
-        port: number,
-        auth: {
-            user: string,
-            password: string
-        }
+            port: number,
+            auth: {
+                user: string,
+                    password: string
+            }
     }
 
     export module http {

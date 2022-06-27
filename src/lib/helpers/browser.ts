@@ -17,15 +17,15 @@ import {
 export module browser {
     const _lo = () => {
         return {
-            defaultViewport: {width: 700, height: 648},
+            defaultViewport: null,
             headless: cfg.headless,
             // ignoreDefaultArgs: [ "--disable-extensions", "--enable-automation" ],
             // executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
             // args: [
-                // '--disable-web-security',
-                // '--no-sandbox',
-                // '--disable-setuid-sandbox',
-                // '--disable-dev-shm-usage',
+            // '--disable-web-security',
+            // '--no-sandbox',
+            // '--disable-setuid-sandbox',
+            // '--disable-dev-shm-usage',
             // ]
         }
     }
@@ -53,10 +53,10 @@ export module browser {
     let stealth_enabled = false
 
     function enablePuppeteerStealth() {
-	    if (!stealth_enabled) {
-		    puppeteer_extra.use(puppeteer_steath())
-		    stealth_enabled = true
-	    }
+        if (!stealth_enabled) {
+            puppeteer_extra.use(puppeteer_steath())
+            stealth_enabled = true
+        }
     }
 
     export async function setupBrowser(proxies: Proxy.Proxy[] | null, config: Type.botConfigEntry, account?: database.ORM.Account) {
@@ -99,7 +99,7 @@ export module browser {
                     await sleep(1000)
                     break
                 case "Stealth":
-			enablePuppeteerStealth()
+                    enablePuppeteerStealth()
                     browser = await puppeteer_extra.launch(launch_opts)
                     break
                 default:
