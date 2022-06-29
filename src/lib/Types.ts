@@ -65,7 +65,7 @@ export interface botAction {
         delay?: number
         waitForSelectorIframe?: string,
             waitForSelector?: string
-        waitForNavigatior?: boolean
+        waitForNavigator?: boolean
         waitForTarget?: "page"
         switchToTarget?: "Newest" | "Previus" | "Initial"
         switchToTargetOpts?: {

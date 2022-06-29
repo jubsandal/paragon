@@ -196,7 +196,7 @@ export class Unit {
         if (action.after.delay && action.after.delay > 0) {
             await sleep(action.after.delay)
         }
-        if (action.after.waitForNavigatior) {
+        if (action.after.waitForNavigator) {
             await this.state.target_page.waitForNavigation({waitUntil: 'networkidle2', timeout: 30000})
         }
         if (action.after.waitForSelector) {

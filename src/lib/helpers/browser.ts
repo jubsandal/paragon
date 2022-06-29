@@ -96,7 +96,7 @@ export module browser {
                     } catch (e) {
                         throw "Cannot connect to AdsPower user " + account.adsUserId + " browser " + (typeof e === "object" ? JSON.stringify(e, null, '\t') : e)
                     }
-                    await sleep(1000)
+                    await sleep(4000)
                     break
                 case "Stealth":
                     enablePuppeteerStealth()
@@ -110,7 +110,8 @@ export module browser {
                 throw "Cannot create browser"
             }
 
-            const page = (await browser.pages())[0]
+            //const page = (await browser.pages())[0]
+	    const page = await browser.newPage()
 
             if (proxy != null) {
                 try {
