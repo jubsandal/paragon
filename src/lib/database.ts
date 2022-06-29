@@ -138,7 +138,6 @@ export namespace database {
 
                 for (const node of path.split('.')) {
                     if (node === "customJSON") {
-                        console.log(this.customJSON)
                         ret = JSON.parse(this.customJSON)
                         continue
                     }
