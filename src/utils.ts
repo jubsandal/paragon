@@ -4,6 +4,29 @@ import chalk from 'chalk'
 import * as fs from 'fs'
 import config from './config.js'
 
+export function getDataByPath(obj: object, path: string): any {
+        let ret: any = obj
+
+        for (const node of path.split('.')) {
+                ret = ret[node]
+        }
+
+        return ret
+}
+
+export async function retrier(fn: () => Promise<boolean>, opts?: { tries?: number, wait?: number }) {
+        const default_opts = { tries: 3, wait: 700 }
+        const _opts = {
+                ...default_opts,
+                ...opts
+        }
+        for (let tryn = 0; tryn < _opts.tries; tryn++) {
+                if (await fn()) { return } // success exit
+                await sleep(_opts.wait)
+        }
+        throw "Unreachable action: " + fn.name
+}
+
 export function sleep(ms: number) { return new Promise(resolve => setTimeout(resolve, ms)); }
 
 export async function randSleep(max: number = 1000, min: number = 100) {

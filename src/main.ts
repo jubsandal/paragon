@@ -8,6 +8,8 @@ import { importman, Validator } from './lib/helpers/index.js'
 import cfg from './config.js'
 import { sleep, time, log } from './utils.js'
 
+import { ScriptsController } from './scripts-controller.js'
+
 interface cmd_opts {
         import?:      string
         list?:        boolean
@@ -22,10 +24,10 @@ const argv = parse<cmd_opts>({
         list:        { type: Boolean, alias: 'l', optional: true }
 })
 
+const scriptCtl = new ScriptsController()
+
 if (argv.list) {
-        for (const config of cfg.configs) {
-                console.log(config.name, "url:", config.url, "actions:", config.actions.length)
-        }
+        scriptCtl.scriptsList().forEach(console.log)
         process.exit(0)
 }
 

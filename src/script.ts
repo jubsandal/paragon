@@ -1,33 +1,38 @@
 import { union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
 
+export const textOptionObjSign = object({
+        dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API", "ElementAttr" ]),
+        dataPath: string(),
+        dataURL:  optional(string()),
+        dataAttribute: optional(string()),
+        append:   optional(string()),
+        prepend:  optional(string()),
+})
+
+export const textOptionSign = union([
+        string(),
+        textOptionObjSign
+])
+
 export const scriptActionSign = object({
         id: number(),
         name: string(),
-        type: enums([ "Dummy", "Click", "Reload", "Type", "Goto", "Upload", "Copy", "Screenshot" ]),
+        type: string(),
         field: optional(string()),
         frame: optional(string()),
         url: optional(string()),
         saveAs: optional(string()),
-        text: optional(
-                union([
-                        string(),
-                        object({
-                                dataFrom: enums([ "Account", "Mail", "URL", "Page", "JSON_API", "ElementAttr" ]),
-                                dataPath: string(),
-                                dataURL:  optional(string()),
-                                dataAttribute: optional(string()),
-                                append:   optional(string()),
-                                prepend:  optional(string()),
-                        })
-                ])
-        ),
+        text: optional(textOptionSign),
+
         // TODO
         errorCondition: optional(
                 object({
                         noSelector: optional(string()),
                 })
         ),
-        // this mean that any error occured
+
+        // TODO error hendlers by code
+
         onUnreachable: optional(
                 object({
                         repeat: optional(boolean()),
@@ -46,6 +51,7 @@ export const scriptActionSign = object({
                         )
                 })
         ),
+
         after: object({
                 delay: optional(number()),
                 waitForSelectorIframe: optional(string()),
@@ -80,3 +86,5 @@ export const scriptSign = object({
 
 export type script = Infer<typeof scriptSign>;
 export type scriptAction = Infer<typeof scriptActionSign>;
+export type textOption = Infer<typeof textOptionSign>;
+export type textOptionObj = Infer<typeof textOptionObjSign>;

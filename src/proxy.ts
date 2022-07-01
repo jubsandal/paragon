@@ -1,7 +1,7 @@
 import { assign, union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
 
 export const ProxyTypeSign = object({
-        host: number(),
+        host: string(),
         port: number(),
         auth: optional(
                 object({
@@ -11,13 +11,22 @@ export const ProxyTypeSign = object({
         )
 })
 
-export class Proxy {
-        constructor(private proxy: ProxyType) {
+export class Proxy implements ProxyType {
+        host: string
+        port: number
+        auth?: {
+                user: string
+                password: string
+        }
 
+        constructor(proxy: ProxyType) {
+                this.host = proxy.host
+                this.port = proxy.port
+                this.auth = proxy.auth
         }
 
         toString(): string {
-                return "http://" + (this.proxy.auth ? this.proxy.auth.user + ":" + this.proxy.auth.password + "@" : "") + this.proxy.host + ":" + this.proxy.port
+                return "http://" + (this.auth ? this.auth.user + ":" + this.auth.password + "@" : "") + this.host + ":" + this.port
         }
 }
 

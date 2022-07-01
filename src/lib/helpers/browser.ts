@@ -15,22 +15,6 @@ import {
 } from './../utils.js'
 
 export module browser {
-        const _lo = () => {
-                return {
-                        defaultViewport: null,
-                        headless: cfg.headless,
-                        // ignoreDefaultArgs: [ "--disable-extensions", "--enable-automation" ],
-                        // executablePath: "/usr/bin/chromium", // must be disabled on puppeteer extra stealth
-                        // args: [
-                        // '--disable-web-security',
-                        // '--no-sandbox',
-                        // '--disable-setuid-sandbox',
-                        // '--disable-dev-shm-usage',
-                        // ]
-                }
-        }
-
-        const launch_opts = _lo()
 
         export interface AdvancedProxySchema {
                 url: string
