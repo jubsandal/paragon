@@ -1,22 +1,39 @@
+import * as ss from 'superstruct'
 import { Command, CommandInput } from './../adapter.js'
 import cfg from './../../../config.js'
-import { State } from './executable.js'
-import * as cmd from './atomics.js'
+import { State } from './state.js'
+import * as cmd from './atomics/index.js'
+
+import { extractableSign } from './../../../extractable.js'
 
 export const commands: Command<State>[] = [
+        {
+                name: "SetupBrowser",
+                description: "Activating new browser instance",
+                inputs: [
+                        {
+                                position: 0,
+                                type: new ss.Struct({ type: "any", schema: null }),
+                                description: "",
+                                path: "account"
+                        }
+                ],
+                fn: cmd.setupBrowser
+        },
+
         {
                 name: "Click",
                 description: "Do click on current target page",
                 inputs: [
                         {
                                 position: 0,
-                                type: "string",
+                                type: extractableSign,
                                 description: "selector",
                                 path: "selector"
                         },
                         {
                                 position: 1,
-                                type: "string",
+                                type: extractableSign,
                                 description: "iframe",
                                 path: "iframe"
                         }
@@ -30,19 +47,19 @@ export const commands: Command<State>[] = [
                 inputs: [
                         {
                                 position: 0,
-                                type: "string",
+                                type: extractableSign,
                                 description: "selector to type in",
                                 path: "selector"
                         },
                         {
                                 position: 1,
-                                type: "string",
+                                type: extractableSign,
                                 description: "iframe",
                                 path: "iframe"
                         },
                         {
                                 position: 2,
-                                type: "string",
+                                type: extractableSign,
                                 description: "text to type",
                                 path: "inputText"
                         },
@@ -55,7 +72,7 @@ export const commands: Command<State>[] = [
                 inputs: [
                         {
                                 position: 0,
-                                type: "string",
+                                type: extractableSign,
                                 description: "url",
                                 path: "url"
                         }
@@ -68,7 +85,7 @@ export const commands: Command<State>[] = [
                 inputs: [
                         {
                                 position: 0,
-                                type: "string",
+                                type: extractableSign,
                                 description: "output path",
                                 path: "outputPath"
                         }
@@ -81,13 +98,13 @@ export const commands: Command<State>[] = [
                 inputs: [
                         {
                                 position: 0,
-                                type: "string",
+                                type: extractableSign,
                                 description: "upload button selector",
                                 path: "selector"
                         },
                         {
                                 position: 1,
-                                type: "string",
+                                type: extractableSign,
                                 description: "file path to upload",
                                 path: "selector"
                         }
@@ -100,19 +117,19 @@ export const commands: Command<State>[] = [
                 inputs: [
                         {
                                 position: 0,
-                                type: "string",
+                                type: extractableSign,
                                 description: "page url, \"\" for use current",
                                 path: "url"
                         },
                         {
                                 position: 1,
-                                type: "string",
+                                type: extractableSign,
                                 description: "selector to scrap from",
                                 path: "selector"
                         },
                         {
-                                position: 1,
-                                type: "string",
+                                position: 2,
+                                type: extractableSign,
                                 description: "frame from",
                                 path: "iframe"
 
@@ -120,11 +137,4 @@ export const commands: Command<State>[] = [
                 ],
                 fn: cmd.Scrap
         },
-        {
-                name: "Dummy",
-                description: "Do click on current target page",
-                inputs: [],
-                fn: cmd.Dummy
-        },
-
 ]

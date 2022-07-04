@@ -5,11 +5,14 @@ import { proxyRequest } from 'puppeteer-proxy'
 import puppeteer_steath from 'puppeteer-extra-plugin-stealth'
 import axios from 'axios'
 
-import { script, scriptAction } from './../../../script.js'
-import { Proxy, ProxyType } from './../../../proxy.js'
-import { database } from './../../database/module-manager.js'
-import { log, sleep } from './../../../utils.js'
-import cfg from './../../../config.js'
+import { script, scriptAction } from './../../../../script.js'
+import { Proxy, ProxyType } from './../../../../proxy.js'
+import { database } from './../../../database/module-manager.js'
+import { log, sleep } from './../../../../utils.js'
+import cfg from './../../../../config.js'
+
+import { State } from './../state.js'
+import { pageConfig } from './../atomicsTypes.js'
 
 const _lo = () => {
         return {
@@ -21,7 +24,6 @@ const _lo = () => {
 const launch_opts = _lo()
 
 let stealth_enabled = false
-
 function enablePuppeteerStealth() {
         if (!stealth_enabled) {
                 puppeteer_extra.use(puppeteer_steath())
@@ -32,7 +34,7 @@ function enablePuppeteerStealth() {
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
 async function setupCommonBrowser() {
-    return await puppeteer.launch(launch_opts)
+        return await puppeteer.launch(launch_opts)
 }
 
 async function setupStealthBrowser() {
@@ -40,7 +42,7 @@ async function setupStealthBrowser() {
         return await puppeteer_extra.launch(launch_opts)
 }
 
-async function setupAdsBrowser(account: database.ORM.Account | database.AccountSchema, script: script) {
+async function setupAdsBrowser(account: database.ORM.Account, script: script) {
         let browser: puppeteer.Browser
         if (!account) {
                 throw "No account passed"
@@ -70,7 +72,10 @@ async function setupAdsBrowser(account: database.ORM.Account | database.AccountS
         return browser
 }
 
-async function assignProxy(page: puppeteer.Page, proxy: Proxy) {
+async function assignProxy(this: State, ...inputs: any[]) {
+        let page: puppeteer.Page = inputs[0]
+        let proxy: Proxy = inputs[1]
+
         try {
                 log.echo("Proxy:", proxy)
                 await page.setRequestInterception(true)
@@ -87,13 +92,9 @@ async function assignProxy(page: puppeteer.Page, proxy: Proxy) {
         }
 }
 
-interface configurePageType {
-        viewPort?: puppeteer.Viewport;
-        userAgent?: string;
-        headers?: Record<string, string>
-}
-
-async function configurePage(page: puppeteer.Page, config: configurePageType) {
+async function configurePage(this: State, ...inputs: any[]) {
+        let page: puppeteer.Page = inputs[0]
+        let config: pageConfig = inputs[1]
         if (config.userAgent) {
                 await page
                         .setUserAgent(
@@ -121,7 +122,9 @@ async function configurePage(page: puppeteer.Page, config: configurePageType) {
         await page.setDefaultNavigationTimeout(500000);
 }
 
-async function setupBrowser(account: database.ORM.Account, script: script) {
+async function setupBrowser(this: State, ...inputs: any[]) {
+        let account = inputs[0]
+        let script: script = inputs[1]
         try {
                 function randomProxy(proxies: ProxyType[] | Proxy[]): Proxy {
                         let proxy = proxies.at(0 + Math.floor(Math.random() * cfg.proxy.length))
@@ -131,6 +134,7 @@ async function setupBrowser(account: database.ORM.Account, script: script) {
                         return proxy
                 }
 
+                // choose proxy
                 let proxy: Proxy | null = null
                 if (script.browserAdapter === "AdsPower") {
                         proxy = null
@@ -173,11 +177,11 @@ async function setupBrowser(account: database.ORM.Account, script: script) {
                         log.error("Page error:", err.toString())
                 })
 
-                return {
-                        browser: browser,
-                        page: page,
-                        proxy: proxy,
-                }
+                this.account = account
+                this.browser = browser
+                this.page = page
+                this.initial_page = page
+                this.proxy = proxy
         } catch (err) {
                 throw 'Browser initialization: ' + err
         }

@@ -4,6 +4,14 @@ import chalk from 'chalk'
 import * as fs from 'fs'
 import config from './config.js'
 
+export function timeoutPromise(timeout: number): Promise<void> {
+        return new Promise(function(_, reject) {
+                setTimeout(function() {
+                        reject("Timeout")
+                }, timeout)
+        })
+}
+
 export function getDataByPath(obj: object, path: string): any {
         let ret: any = obj
 

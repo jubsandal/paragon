@@ -1,9 +1,8 @@
-import { State } from './executable.js'
-import { BrowserAction } from './executable.js'
+import { BrowserAction, State } from './../state.js'
 import puppeteer from 'puppeteer'
-import { retrier, log, sleep } from './../../../utils.js'
+import { retrier, log, sleep } from './../../../../utils.js'
 import * as fs from 'fs'
-import { CommandInput } from './../adapter.js'
+import { CommandInput } from './../../adapter.js'
 
 async function captureSelector(page: puppeteer.Page, field: string, frame?: string) {
         let root = page

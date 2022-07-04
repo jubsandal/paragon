@@ -15,13 +15,16 @@ export const textOptionSign = union([
 ])
 
 export const scriptActionSign = object({
+        entryPoint: optional(boolean()),
+        next: optional(number()),
         id: number(),
+        command: string(),
         name: string(),
-        type: string(),
         field: optional(string()),
         frame: optional(string()),
         url: optional(string()),
         saveAs: optional(string()),
+
         text: optional(textOptionSign),
 
         // TODO
