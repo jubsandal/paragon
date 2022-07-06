@@ -37,8 +37,8 @@ if (argv.import) {
         await importman.smartImport({
                 path: [ argv.import ],
                 delemiters: {
-                        account: "Space",
-                        data: "NL",
+                        account: " ",
+                        data: "\\n",
                         trim: "No"
                 },
                 dataOrder: "customJSON.sandbox.login|customJSON.sandbox.password|adsUserId"
@@ -51,13 +51,13 @@ if (!argv.config) {
         process.exit(1)
 }
 
-const _search = cfg.configs.filter(e => e.name == argv.config)
+const _search = cfg.scripts.filter(e => e.name == argv.config)
 let selected_config: Type.botConfigEntry
 
 if (_search.length === 0) {
         log.error("Invalid config selected:", argv.config)
         log.error("Now avalible only:")
-        for (const config of cfg.configs) {
+        for (const config of cfg.scripts) {
                 log.error(" ::", config.name)
         }
         process.exit(-1)
@@ -103,20 +103,20 @@ if (selected_config.day24limit > 0) {
 
 log.echo("Valid accounts for config:", validAccounts.length)
 
-let perAccountDelayWaiter: (arg:any)=>void
+let perAccountDelayWaiter: (arg:any)=>void;
 
-        if (selected_config.perAccountDelay === "stratch") {
-                // @ts-ignore
-                perAccountDelayWaiter = async (arg: any) => { return await sleep(0) } // TODO day24limit/validAccounts.length ...
-        } else if (typeof selected_config.perAccountDelay === "number") {
-                if (selected_config.perAccountDelay < 0) {
-                        throw "Negative per account delay setting: " + selected_config.perAccountDelay
-                }
-                // @ts-ignore
-                perAccountDelayWaiter = async (arg: any) => { return await sleep(<number>selected_config.perAccountDelay * 60 * 1000) }
-        } else {
-                throw "Unknown per account delay setting: " + selected_config.perAccountDelay
+if (selected_config.perAccountDelay === "stratch") {
+        // @ts-ignore
+        perAccountDelayWaiter = async (arg: any) => { return await sleep(0) } // TODO day24limit/validAccounts.length ...
+} else if (typeof selected_config.perAccountDelay === "number") {
+        if (selected_config.perAccountDelay < 0) {
+                throw "Negative per account delay setting: " + selected_config.perAccountDelay
         }
+        // @ts-ignore
+        perAccountDelayWaiter = async (arg: any) => { return await sleep(<number>selected_config.perAccountDelay * 60 * 1000) }
+} else {
+        throw "Unknown per account delay setting: " + selected_config.perAccountDelay
+}
 
 let cur = 0
 let err = 0
@@ -129,7 +129,7 @@ for (const account of validAccounts) {
                 let ret = await unit.exec()
                 await account.markRegistred(selected_config.url, ret.usedProxy?.proxy ?? null)
         } catch (e) {
-                log.error(e)
+                log.error(account.id, e)
                 err++
         }
         cur++

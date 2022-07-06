@@ -1,4 +1,4 @@
-import { script, scriptAction } from './script.js'
+import { script, scriptAction } from './Types/script.js'
 // import { CommandBase } from './command.js'
 import cfg from './config.js'
 

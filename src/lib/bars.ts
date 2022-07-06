@@ -1,11 +1,11 @@
 import { MultiProgressBars  } from 'multi-progress-bars';
-import { database } from "./database.js"
+import { Identificable } from './../Types/Identificable.js'
 import chalk from 'chalk';
 
 const projectname = "Subscriber"
 
-export function accountBarID(account: database.ORM.Account) {
-        return "id:"+account.id
+export function taskBarID(obj: Identificable) {
+        return "id:"+obj.id
 }
 
 export let mpb: MultiProgressBars
@@ -13,14 +13,14 @@ export let mpb: MultiProgressBars
 export class WorkerBarHelper {
         private curTask = 0
         constructor(
-                private account: database.ORM.Account,
+                private obj: Identificable,
                 private tasks: Array<string>
         ) {
 
         }
 
         create() {
-                mpb.addTask(accountBarID(this.account), {
+                mpb.addTask(taskBarID(this.obj), {
                         type: "percentage",
                         message: "",
                         barTransformFn: (m) => chalk.blueBright(m),
@@ -30,16 +30,16 @@ export class WorkerBarHelper {
 
         next(i: number) {
                 this.curTask = i
-                mpb.updateTask(accountBarID(this.account), {
+                mpb.updateTask(taskBarID(this.obj), {
                         message: this.tasks[this.curTask],
                         percentage: this.curTask/this.tasks.length
                 })
         }
 
-        done(success: boolean) {
-                mpb.done(accountBarID(this.account), {
+        done(success: boolean, desc?: string) {
+                mpb.done(taskBarID(this.obj), {
                         barTransformFn: (m) => chalk[(success ? "green" : "red")](m),
-                        message: (success ? "Success" : "Failed")
+                        message: (success ? desc ?? "Success" : desc ?? "Failed")
                 })
         }
 }

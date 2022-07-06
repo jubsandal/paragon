@@ -1,10 +1,16 @@
-import { script, scriptAction } from './../../../script.js'
+import { script, scriptAction } from './../../../Types/script.js'
+import { StateBase } from './../Base.js'
 import { database } from './../../database/module-manager.js'
-import { ExecutableBase, StateBase, UnitsList } from './../adapter.js'
+import { ExecutableBase, UnitsList } from './../Executable.js'
 
-const actions = [ "Dummy", "SetVariable" ]
+const actions = [
+        "Dummy",
+        "SetVariable",
+        "RemoveVariable",
+        "ExistsVariable"
+]
 
-export type BaseAction = typeof actions[number]
+export type BaseActions = typeof actions[number]
 
 // COPY
 export interface State extends StateBase { }

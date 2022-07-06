@@ -1,30 +1,56 @@
 import * as ss from 'superstruct'
-import { Command, CommandInput } from './../adapter.js'
+import { Command, CommandInput } from './../Command.js'
 import cfg from './../../../config.js'
 import { State } from './state.js'
 import * as cmd from './atomics/index.js'
 
-import { extractableSign } from './../../../extractable.js'
+import { extractableSign } from './../../../Types/extractable.js'
 
 export const commands: Command<State>[] = [
         {
                 name: "SetVariable",
-                description: "Activating new browser instance",
+                description: "Settings new variable or updating an exists",
                 inputs: [
                         {
                                 position: 0,
                                 type: new ss.Struct({ type: "string", schema: null }),
-                                description: "",
+                                description: "Variable name",
                                 path: "name"
                         },
                         {
                                 position: 1,
                                 type: new ss.Struct({ type: "any", schema: null }),
-                                description: "",
+                                description: "Variable value",
                                 path: "value"
                         }
                 ],
-                fn: cmd.Dummy
+                fn: cmd.SetVariable
+        },
+        {
+                name: "ExistsVariable",
+                description: "Check for variable existance",
+                inputs: [
+                        {
+                                position: 0,
+                                type: new ss.Struct({ type: "string", schema: null }),
+                                description: "Variable name",
+                                path: "name"
+                        }
+                ],
+                fn: cmd.ExistsVariable
+        },
+        {
+                name: "RemoveVariable",
+                description: "Removing variable",
+                inputs: [
+                        {
+                                position: 0,
+                                type: new ss.Struct({ type: "string", schema: null }),
+                                description: "Variable name",
+                                path: "name"
+                        }
+                ],
+                fn: cmd.RemoveVariable
         },
         {
                 name: "Dummy",

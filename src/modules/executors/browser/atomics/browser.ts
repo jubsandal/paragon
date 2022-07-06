@@ -5,8 +5,8 @@ import { proxyRequest } from 'puppeteer-proxy'
 import puppeteer_steath from 'puppeteer-extra-plugin-stealth'
 import axios from 'axios'
 
-import { script, scriptAction } from './../../../../script.js'
-import { Proxy, ProxyType } from './../../../../proxy.js'
+import { script, scriptAction } from './../../../../Types/script.js'
+import { Proxy, ProxyType } from './../../../../Types/proxy.js'
 import { database } from './../../../database/module-manager.js'
 import { log, sleep } from './../../../../utils.js'
 import cfg from './../../../../config.js'
@@ -177,7 +177,7 @@ async function setupBrowser(this: State, ...inputs: any[]) {
                         log.error("Page error:", err.toString())
                 })
 
-                this.account = account
+                this.profile = account
                 this.browser = browser
                 this.page = page
                 this.initial_page = page

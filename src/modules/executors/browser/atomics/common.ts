@@ -2,19 +2,22 @@ import { BrowserAction, State } from './../state.js'
 import puppeteer from 'puppeteer'
 import { retrier, log, sleep } from './../../../../utils.js'
 import * as fs from 'fs'
-import { CommandInput } from './../../adapter.js'
+import { CommandInput } from './../../Command.js'
+import { CmdError } from './../../Error.js'
 
-async function captureSelector(page: puppeteer.Page, field: string, frame?: string) {
+async function captureSelector(page: puppeteer.Page, field: string, frame?: string[]) {
         let root = page
         if (frame) {
-                let eh = await page.$(frame)
-                // @ts-ignore
-                root = await eh!.contentFrame()
+                for (const _frame of frame) {
+                        let eh = await page.$(_frame)
+                        // @ts-ignore
+                        root = await eh!.contentFrame()
+                }
         }
         return await root.waitForSelector(field, { timeout: 1000, visible: true })
 }
 
-async function Click(this: State, ...inputs: string[]) {
+async function Click(this: State, ...inputs: any[]) {
         const f = async () => {
                 try {
                         const selector = await captureSelector(this.page, inputs[0], inputs[1])
@@ -30,10 +33,15 @@ async function Click(this: State, ...inputs: string[]) {
                 }
         }
         f.name = "Click"
-        await retrier(f)
+        try {
+                await retrier(f)
+        } catch (e) {
+                return new CmdError("Max tries exeed", "Max tries exeed")
+        }
+        return new CmdError()
 }
 
-async function Type(this: State, ...inputs: string[]) {
+async function Type(this: State, ...inputs: any[]) {
         const f = async () => {
                 try {
                         const selector = await captureSelector(this.page, inputs[0], inputs[1])
@@ -57,9 +65,9 @@ async function Type(this: State, ...inputs: string[]) {
         await retrier(f)
 }
 
-async function Upload(this: State, ...inputs: string[]) {
+async function Upload(this: State, ...inputs: any[]) {
         if (!fs.existsSync(inputs[3])) {
-                throw "Cannot upload unexists file: " + inputs[3]
+                return new CmdError("Unexists", "File unexists")
         }
         const f = async () => {
                 try {
@@ -80,31 +88,47 @@ async function Upload(this: State, ...inputs: string[]) {
                 }
         }
         f.name = "Upload"
-        await retrier(f)
+        try {
+                await retrier(f)
+        } catch (e) {
+                return new CmdError("Max retrier exeed", "Max retrier exeed")
+        }
+        return new CmdError()
 }
 
 async function Scrap(this: State, ...inputs: string[]) {
         switch (inputs[0]) {
             case "URL":
-                await this.account.setDataByPath(
+                await this.profile.setDataByPath(
                     inputs[1],
                     await this.page.url()
                 ).sync()
                 break
             default:
-                throw "No such copy field: " + inputs[0]
+                return new CmdError("Unavalible Operation", "Unavalible Operation")
         }
+        return new CmdError()
 }
 
 async function Goto(this: State, ...inputs: string[]) {
-        await this.page.goto(inputs[0], { waitUntil: 'domcontentloaded' })
+        try {
+                await this.page.goto(inputs[0], { waitUntil: 'domcontentloaded' })
+        } catch (e) {
+                return new CmdError("error", String(e))
+        }
+        return new CmdError()
 }
 
 async function Screenshot(this: State, ...inputs: string[]) {
+        try {
         await this.page.screenshot({
                 path: inputs[0] ?? "~/paragon-screenshot-" +
                         new Date().toLocaleDateString().replaceAll('/', '') + "-" + new Date().toLocaleTimeString("ru").replaceAll(":", '')
         })
+        } catch (e) {
+                return new CmdError("error", String(e))
+        }
+        return new CmdError()
 }
 
 async function Dummy() { }

@@ -1,9 +1,10 @@
 import puppeteer from 'puppeteer'
-import { script, scriptAction } from './../../../script.js'
+import { script, scriptAction } from './../../../Types/script.js'
 import { database } from './../../database/module-manager.js'
-import { ExecutableBase, StateBase, UnitsList } from './../adapter.js'
+import { StateBase } from './../Base.js'
+import { ExecutableBase, UnitsList } from './../Executable.js'
 import * as browserSetuper from './atomics/index.js'
-import { Proxy } from './../../../proxy.js'
+import { Proxy } from './../../../Types/proxy.js'
 
 const actions = [ "Dummy", "Click", "Reload", "Type", "Goto", "Upload", "Scrap", "Screenshot" ]
 
@@ -16,12 +17,3 @@ export interface State extends StateBase {
         initial_page: puppeteer.Page
         previus_page?: puppeteer.Page
 }
-
-// class Executable extends ExecutableBase<State> {
-//         constructor(private script: script, account: database.ORM.Account) {
-//                 super(script, account)
-//         }
-
-//         async run() {
-//         }
-// }
