@@ -2,6 +2,7 @@ import { union, Describe, optional, array, enums, Infer, assert, boolean, object
 import puppeteer from 'puppeteer'
 import { database } from './../modules/database/module-manager.js'
 import { retrier, sleep } from './../utils.js'
+import * as extractors from './extractors/index.js'
 
 const AllowedExtractionSources = [
         "Profile",
@@ -34,48 +35,29 @@ export async function extract(extractable: extractable, account: database.ORM.Ac
                 switch (obj.source) {
                         case "Profile":
                                 ret = await account.getDataByPath(obj.path[0])
-                                break;
-                        case "URL": // TODO move to smrtAction
+                                break
+                        case "PageElementContent": // TODO move to smrtAction
                                 let new_browser = false
                                 let _browser = browser
+                                let page = target_page
+                                if (!target_page && extractable.path[0] != "CURRENT") { throw "No page opened" }
                                 if (!browser) {
                                         new_browser = true
                                         _browser = await puppeteer.launch({})
                                 }
-                                let page = await _browser!.newPage()
-                                if (!extractable.path) {
-                                        throw "No url for text source URL passed"
-                                }
-                                await page.goto(extractable.path[0], { waitUntil: "domcontentloaded" })
-                                await sleep(100)
-
-                                let f = async () => {
-                                        try {
-                                                let _text = await page.$eval((<extractableObj>extractable).path[1], e => e.textContent)
-                                                if (_text) {
-                                                        ret = _text.trim()
-                                                        return true
-                                                }
-                                        } catch (e) {}
-                                        return false
-                                }
-                                await retrier(f, { tries: 5, wait: 700 })
-                                await page.close()
+                                page = target_page ?? await _browser!.newPage()
+                                ret = await extractors.fromOpenedPage.elementTextContent(page, extractable.path[0], extractable.path[1])
 
                                 if (new_browser) {
                                         await _browser!.close()
                                 }
 
                                 break
-                        case "ElementAttr":
+                        case "PageElementAttribute":
                                 if (!target_page) {
                                         throw "No page passed to scrap element attribute from"
                                 }
-                                if (!extractable.path[0]) throw "No field passed to ElementAttr text option"
-                                if (!extractable.path[1]) throw "No attribute passed to ElementAttr text option"
-                                const _AttrName = extractable.path[1]
-                                ret = await target_page.$eval(extractable.path[0],
-                                        ( e, _AttrName ) => e.getAttribute(<string>_AttrName), _AttrName)
+                                ret = await extractors.fromOpenedPage.elementAttr(target_page, extractable.path[0], extractable.path[1])
                                 break
                         default:
                                 throw "Not implemented data extract from source " + obj.source

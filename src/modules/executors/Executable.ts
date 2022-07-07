@@ -58,26 +58,25 @@ export class ExecutableBase<S extends StateBase> {
 
         private async _run(): Promise<void> {
                 do {
-                        let next: number | null = null
+                        let next: string | number | null = null
                         try {
                                 await this.executeAction(this.cur_action)
                                 if (this.cur_action.next) {
                                         next = this.cur_action.next
                                 }               
                         } catch (e) {
-                                // tmp solution
-                                console.error("Command execution error:", e)
-                                // log.echo("Command execution error:", e)
+                                throw "Fatal command execution error: " + e
                         }
 
                         if (next) {
-                                if (next >= 0) {
+                                if (typeof next === 'number') {
                                         let next_action = this.script.actions.find(a => a.id === next)
                                         if (!next_action) {
                                                 throw "Invalid redirection from action id: " + this.cur_action.id + " to action " +  next
                                         }
                                         this.cur_action = next_action
-                                } else {
+                                } else if (typeof next === 'string'){
+                                        let next_action = this.script.procedures[next][0]
                                         this._run()
                                 }
                         } else {

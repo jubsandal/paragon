@@ -4,7 +4,7 @@ export const scriptActionSign = assign(
         object({
                 entryPoint: optional(boolean()),
                 next: optional(number()),
-                id: number(),
+                id: union([number(), string()]),
                 command: string(),
                 description: optional(string()),
         }),
@@ -24,9 +24,9 @@ export const scriptSign = object({
         usePreDefinedProxy: optional(boolean()),
         // timeout trigger
         maxExecutionTime: number(),
-        // reusable procedures, identified by less then zero id
+        // reusable procedures, identified by name
         procedures: record(string(), array(scriptActionSign)),
-        // script actions, identified by grand then zero or eq to zero id
+        // script actions
         actions: array(scriptActionSign),
         // browser type to use, undefined for Common
         browserAdapter: optional(
