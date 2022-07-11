@@ -1,10 +1,13 @@
 import * as ss from 'superstruct'
-import { Command, CommandInput } from './../Command.js'
-import cfg from './../../../config.js'
+import cfg from './../../../../config.js'
 import { State } from './state.js'
 import * as cmd from './atomics/index.js'
 
-import { extractableSign } from './../../../Types/extractable.js'
+import { Command, CommandInput } from './../../../executors/Command.js'
+
+import { extractableSign } from './../../../../Types/extractable.js'
+
+// TODO add register function to add commands from plugins
 
 export const commands: Command<State>[] = [
         {
@@ -18,6 +21,7 @@ export const commands: Command<State>[] = [
                                 path: "account"
                         }
                 ],
+                returnValue: ss.never(),
                 fn: cmd.setupBrowser
         },
 
@@ -38,7 +42,7 @@ export const commands: Command<State>[] = [
                                 path: "iframe"
                         }
                 ],
-                // fn: cmd.Click
+                returnValue: ss.never(),
                 fn: cmd.Click
         },
         {
@@ -64,6 +68,7 @@ export const commands: Command<State>[] = [
                                 path: "inputText"
                         },
                 ],
+                returnValue: ss.never(),
                 fn: cmd.Type
         },
         {
@@ -77,6 +82,7 @@ export const commands: Command<State>[] = [
                                 path: "url"
                         }
                 ],
+                returnValue: ss.never(),
                 fn: cmd.Goto
         },
         {
@@ -90,6 +96,7 @@ export const commands: Command<State>[] = [
                                 path: "outputPath"
                         }
                 ],
+                returnValue: ss.never(),
                 fn: cmd.Screenshot
         },
         {
@@ -109,6 +116,7 @@ export const commands: Command<State>[] = [
                                 path: "selector"
                         }
                 ],
+                returnValue: ss.never(),
                 fn: cmd.Upload
         },
         {
@@ -135,6 +143,7 @@ export const commands: Command<State>[] = [
 
                         },
                 ],
+                returnValue: ss.never(),
                 fn: cmd.Scrap
         },
 ]

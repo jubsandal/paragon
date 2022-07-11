@@ -1,10 +1,10 @@
 import * as ss from 'superstruct'
-import { Command, CommandInput } from './../Command.js'
-import cfg from './../../../config.js'
+import { Command, CommandInput } from './../../../executors/Command.js'
+import cfg from './../../../../config.js'
 import { State } from './state.js'
 import * as cmd from './atomics/index.js'
 
-import { extractableSign } from './../../../Types/extractable.js'
+import { extractableSign } from './../../../../Types/extractable.js'
 
 export const commands: Command<State>[] = [
         {
@@ -24,6 +24,7 @@ export const commands: Command<State>[] = [
                                 path: "value"
                         }
                 ],
+                returnValue: ss.never(),
                 fn: cmd.SetVariable
         },
         {
@@ -37,6 +38,7 @@ export const commands: Command<State>[] = [
                                 path: "name"
                         }
                 ],
+                returnValue: ss.never(),
                 fn: cmd.ExistsVariable
         },
         {
@@ -50,12 +52,14 @@ export const commands: Command<State>[] = [
                                 path: "name"
                         }
                 ],
+                returnValue: ss.never(),
                 fn: cmd.RemoveVariable
         },
         {
                 name: "Dummy",
                 description: "Do click on current target page",
                 inputs: [],
+                returnValue: ss.never(),
                 fn: cmd.Dummy
         },
 

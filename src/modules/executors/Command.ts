@@ -1,31 +1,18 @@
+// TODO move to types
 import { script, scriptAction } from './../../Types/script.js'
-import { CmdError } from './Error.js'
+import { CmdError } from './../lib/Error.js'
 import * as ss from 'superstruct'
 import { extract } from './../../Types/extractable.js'
 import { StateBase } from './Base.js'
 import { getDataByPath } from './../../utils.js'
+import { IBaseInputSign, IBaseInput, BaseInput, getInputs } from './../lib/Input.js'
 
-interface ICommandInput {
-        position: number
-        type: ss.Struct<any, null>
-                required?: boolean
-        description?: string
-        path: string
+interface ICommandInput extends IBaseInput {
 }
 
-export class CommandInput implements ICommandInput {
-        position: number
-        type: ss.Struct<any, null>
-                required?: boolean
-        description?: string
-        path: string
-
+export class CommandInput extends BaseInput implements ICommandInput {
         constructor(obj: ICommandInput) {
-                this.position = obj.position
-                this.type = obj.type
-                this.required = obj.required ?? false
-                this.description = obj.description ?? "no description"
-                this.path = obj.path
+                super(obj)
         }
 }
 
@@ -35,9 +22,18 @@ export type Command<State extends StateBase> = {
         name: string
         description: string
         inputs: CommandInput[]
+        returnValue: ss.Struct<any, null> | ss.Struct<never, null>
         fn: cmdFunction<State>
         // fn: (this: State, ...inputs: string[]) => Promise<void>
 }
+
+export const CommandSign = ss.object({
+        name: ss.string(),
+        description: ss.string(),
+        inputs: ss.array(IBaseInputSign),
+        returnValue: ss.union([ ss.any() ]),
+        fn: ss.func()
+})
 
 export class CommandExecutor<State extends StateBase> {
         constructor(
@@ -48,13 +44,15 @@ export class CommandExecutor<State extends StateBase> {
         }
 
         private async getInputs() {
-                let inputs = new Array()
-                for (const input of this.cmd.inputs) {
-                        inputs.push(
-                                await extract(getDataByPath(this.action, input.path), this.state.profile)
-                        )
-                }
-                return inputs
+                return await getInputs(this.state, this.cmd.inputs, this.action)
+                // let inputs = new Array()
+                // for (const input of this.cmd.inputs) {
+                //         inputs.push(
+                //                 // @ts-ignore :(
+                //                 await extract(getDataByPath(this.action, input.path), this.state.profile, this.state?.browser, this.state?.page)
+                //         )
+                // }
+                // return inputs
         }
 
         async execute() {

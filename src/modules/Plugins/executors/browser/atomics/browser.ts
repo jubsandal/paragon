@@ -5,23 +5,15 @@ import { proxyRequest } from 'puppeteer-proxy'
 import puppeteer_steath from 'puppeteer-extra-plugin-stealth'
 import axios from 'axios'
 
-import { script, scriptAction } from './../../../../Types/script.js'
-import { Proxy, ProxyType } from './../../../../Types/proxy.js'
-import { database } from './../../../database/module-manager.js'
-import { log, sleep } from './../../../../utils.js'
-import cfg from './../../../../config.js'
+import { script, scriptAction } from './../../../../../Types/script.js'
+import { Proxy, ProxyType } from './../../../../../Types/proxy.js'
+import { database } from './../../../../database/module-manager.js'
+import { log, sleep } from './../../../../../utils.js'
+import cfg from './../../../../../config.js'
 
 import { State } from './../state.js'
 import { pageConfig } from './../atomicsTypes.js'
-
-const _lo = () => {
-        return {
-                defaultViewport: null,
-                headless: cfg.headless,
-        }
-}
-
-const launch_opts = _lo()
+import { CmdError } from './../../../../lib/Error.js'
 
 let stealth_enabled = false
 function enablePuppeteerStealth() {
@@ -33,13 +25,13 @@ function enablePuppeteerStealth() {
 
 // -*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-async function setupCommonBrowser() {
-        return await puppeteer.launch(launch_opts)
+async function setupCommonBrowser(script: script) {
+        return await puppeteer.launch(script.browserLaunch)
 }
 
-async function setupStealthBrowser() {
+async function setupStealthBrowser(script: script) {
         enablePuppeteerStealth()
-        return await puppeteer_extra.launch(launch_opts)
+        return await puppeteer_extra.launch(script.browserLaunch)
 }
 
 async function setupAdsBrowser(account: database.ORM.Account, script: script) {
@@ -51,19 +43,19 @@ async function setupAdsBrowser(account: database.ORM.Account, script: script) {
         }
         let res
         try {
-                res = await axios.get('http://' + ( script.adsLocalIPHost ?? "localhost" ) + ':50325/api/v1/browser/start?user_id=' + account.adsUserId)
+                res = await axios.get('http://' + ( script.adsLocalAPIHost ?? "localhost" ) + ':50325/api/v1/browser/start?user_id=' + account.adsUserId)
         } catch (e) {
                 throw "Cannot connect to AdsPower Local API " + e
         }
         try {
                 let puppeteerWs = <string>res.data.data.ws.puppeteer
-                if (script.adsLocalIPHost && script.adsLocalIPHost != "") {
-                        puppeteerWs = puppeteerWs.replace("127.0.0.1", <string>script.adsLocalIPHost)
+                if (script.adsLocalAPIHost && script.adsLocalAPIHost != "") {
+                        puppeteerWs = puppeteerWs.replace("127.0.0.1", <string>script.adsLocalAPIHost)
                 }
                 log.echo("Connecting to ads on", puppeteerWs)
                 browser = await puppeteer.connect({
                         browserWSEndpoint: puppeteerWs,
-                        ...launch_opts
+                        ...script.browserLaunch
                 })
         } catch (e) {
                 throw "Cannot connect to AdsPower user " + account.adsUserId + " browser " + (typeof e === "object" ? JSON.stringify(e, null, '\t') : e)
@@ -72,7 +64,7 @@ async function setupAdsBrowser(account: database.ORM.Account, script: script) {
         return browser
 }
 
-async function assignProxy(this: State, ...inputs: any[]) {
+async function assignProxy(this: State, ...inputs: any[]): Promise<CmdError> {
         let page: puppeteer.Page = inputs[0]
         let proxy: Proxy = inputs[1]
 
@@ -88,11 +80,13 @@ async function assignProxy(this: State, ...inputs: any[]) {
                         })
                 })
         } catch (e) {
-                throw "Proxy setup failed: " + e
+                return new CmdError(false, "Proxy setup failed: " + e, "Proxy setup failed: " + e)
         }
+
+        return new CmdError(true)
 }
 
-async function configurePage(this: State, ...inputs: any[]) {
+async function configurePage(this: State, ...inputs: any[]): Promise<CmdError> {
         let page: puppeteer.Page = inputs[0]
         let config: pageConfig = inputs[1]
         if (config.userAgent) {
@@ -120,9 +114,11 @@ async function configurePage(this: State, ...inputs: any[]) {
                 await page.setViewport(config.viewPort)
         }
         await page.setDefaultNavigationTimeout(500000);
+
+        return new CmdError(true)
 }
 
-async function setupBrowser(this: State, ...inputs: any[]) {
+async function setupBrowser(this: State, ...inputs: any[]): Promise<CmdError> {
         let account = inputs[0]
         let script: script = inputs[1]
         try {
@@ -142,7 +138,7 @@ async function setupBrowser(this: State, ...inputs: any[]) {
                         if (account.forseProxyLink) {
                                 proxy = new Proxy(account.forseProxyLink)
                         } else {
-                                throw "No proxy hard setup for account id " + account.id
+                                return new CmdError(false, "No proxy hard setup for account id " + account.id, "No proxy hard setup for account id " + account.id)
                         }
                 } else if (cfg.proxy != null && cfg.proxy.length > 0) {
                         proxy = randomProxy(cfg.proxy)
@@ -151,21 +147,21 @@ async function setupBrowser(this: State, ...inputs: any[]) {
                 let browser: puppeteer.Browser
                 switch (script.browserAdapter) {
                         case "Common":
-                                setupCommonBrowser()
+                                setupCommonBrowser(script)
                                 break
                         case "AdsPower":
                                 setupAdsBrowser(account, script)
                                 break
                         case "Stealth":
-                                setupStealthBrowser()
+                                setupStealthBrowser(script)
                                 break
                         default:
-                                throw "Unknown browser adapter " + script.browserAdapter
+                                return new CmdError(false, "Unknown browser adapter " + script.browserAdapter, "Unknown browser adapter " + script.browserAdapter)
                 }
 
                 // @ts-ignore
                 if (!browser) {
-                        throw "Cannot create browser"
+                        return new CmdError(false, "Cannot create browser", "Cannot create browser")
                 }
 
                 let page = await browser.newPage()
@@ -182,8 +178,10 @@ async function setupBrowser(this: State, ...inputs: any[]) {
                 this.page = page
                 this.initial_page = page
                 this.proxy = proxy
+
+                return new CmdError(true)
         } catch (err) {
-                throw 'Browser initialization: ' + err
+                return new CmdError(false, "setup browser error", "setup browser error")
         }
 }
 

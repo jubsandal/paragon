@@ -2,14 +2,13 @@ import { union, Describe, optional, array, enums, Infer, assert, boolean, object
 import { readFileSync } from 'fs'
 import * as fs from 'fs'
 
-import { scriptSign, scriptActionSign } from './script.js'
-import { ProxyTypeSign } from './proxy.js'
+import { scriptSign, scriptActionSign } from './Types/script.js'
+import { ProxyTypeSign } from './Types/proxy.js'
 
 const _cfg_path = './config.json'
 
 
 const configSign = object({
-        headless: boolean(),
         concurrency: number(),
         path: object({
                 storage: string(),
@@ -21,7 +20,6 @@ const configSign = object({
 
 if (!fs.existsSync(_cfg_path)) {
         let cfg: ConfigType = {
-                headless: false,
                 concurrency: 1,
                 scripts: new Array(),
                 path: {

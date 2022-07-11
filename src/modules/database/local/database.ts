@@ -4,7 +4,7 @@ import config from './../../../config.js'
 import { nullable, optional, boolean, Describe, Infer, union, number, array, assert, object, string } from 'superstruct'
 import { Database } from 'aloedb-node'
 import { log } from './../../../utils.js'
-import { ProxyTypeSign, ProxyType } from './../../../proxy.js'
+import { ProxyTypeSign, ProxyType } from './../../../Types/proxy.js'
 
 export namespace database {
 

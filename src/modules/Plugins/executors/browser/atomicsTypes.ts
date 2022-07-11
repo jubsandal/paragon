@@ -5,4 +5,3 @@ export interface pageConfig {
         userAgent?: string;
         headers?: Record<string, string>
 }
-

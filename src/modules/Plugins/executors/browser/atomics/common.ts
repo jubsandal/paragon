@@ -1,9 +1,9 @@
 import { BrowserAction, State } from './../state.js'
 import puppeteer from 'puppeteer'
-import { retrier, log, sleep } from './../../../../utils.js'
+import { retrier, log, sleep } from './../../../../../utils.js'
 import * as fs from 'fs'
-import { CommandInput } from './../../Command.js'
-import { CmdError } from './../../Error.js'
+import { CommandInput } from './../../../../executors/Command.js'
+import { CmdError } from './../../../../lib/Error.js'
 
 async function captureSelector(page: puppeteer.Page, field: string, frame?: string[]) {
         let root = page
@@ -36,9 +36,9 @@ async function Click(this: State, ...inputs: any[]) {
         try {
                 await retrier(f)
         } catch (e) {
-                return new CmdError("Max tries exeed", "Max tries exeed")
+                return new CmdError(false, "Max tries exeed", "Max tries exeed")
         }
-        return new CmdError()
+        return new CmdError(true)
 }
 
 async function Type(this: State, ...inputs: any[]) {
@@ -62,12 +62,18 @@ async function Type(this: State, ...inputs: any[]) {
                 }
         }
         f.name = "Type"
-        await retrier(f)
+        try {
+                await retrier(f)
+        } catch (e) {
+                return new CmdError(false, "Max tries exeed", "Max tries exeed")
+        }
+
+        return new CmdError(true)
 }
 
 async function Upload(this: State, ...inputs: any[]) {
         if (!fs.existsSync(inputs[3])) {
-                return new CmdError("Unexists", "File unexists")
+                return new CmdError(false, "Unexists", "File unexists")
         }
         const f = async () => {
                 try {
@@ -91,9 +97,9 @@ async function Upload(this: State, ...inputs: any[]) {
         try {
                 await retrier(f)
         } catch (e) {
-                return new CmdError("Max retrier exeed", "Max retrier exeed")
+                return new CmdError(false, "Max retrier exeed", "Max retrier exeed")
         }
-        return new CmdError()
+        return new CmdError(true)
 }
 
 async function Scrap(this: State, ...inputs: string[]) {
@@ -105,18 +111,18 @@ async function Scrap(this: State, ...inputs: string[]) {
                 ).sync()
                 break
             default:
-                return new CmdError("Unavalible Operation", "Unavalible Operation")
+                return new CmdError(false, "Unavalible Operation", "Unavalible Operation")
         }
-        return new CmdError()
+        return new CmdError(true)
 }
 
 async function Goto(this: State, ...inputs: string[]) {
         try {
                 await this.page.goto(inputs[0], { waitUntil: 'domcontentloaded' })
         } catch (e) {
-                return new CmdError("error", String(e))
+                return new CmdError(false, "error", String(e))
         }
-        return new CmdError()
+        return new CmdError(true)
 }
 
 async function Screenshot(this: State, ...inputs: string[]) {
@@ -126,9 +132,9 @@ async function Screenshot(this: State, ...inputs: string[]) {
                         new Date().toLocaleDateString().replaceAll('/', '') + "-" + new Date().toLocaleTimeString("ru").replaceAll(":", '')
         })
         } catch (e) {
-                return new CmdError("error", String(e))
+                return new CmdError(false, "error", String(e))
         }
-        return new CmdError()
+        return new CmdError(true)
 }
 
 async function Dummy() { }

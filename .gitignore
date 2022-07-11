@@ -7,6 +7,7 @@ import/
 *.log
 accounts.json
 accounts*
+storage/
 config.json
 import*
 near.txt

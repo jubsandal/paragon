@@ -28,6 +28,7 @@ export type extractableObj = Infer<typeof extractableObjSign>;
 export type extractable = Infer<typeof extractableSign>;
 
 // TODO add array and obj optional extraction
+// TODO make input optionaly extendable by plugins
 export async function extract(extractable: extractable, account: database.ORM.Account, browser?: puppeteer.Browser, target_page?: puppeteer.Page): Promise<any> {
         let ret
         if (typeof extractable === "object") {
