@@ -5,9 +5,11 @@ save*
 import/
 *.txt
 *.log
-#accounts.json
-#accounts*
-#config.json
+accounts.json
+accounts*
+storage/
+config.json
+import*
 near.txt
 dist/
 s
