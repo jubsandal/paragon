@@ -19,7 +19,7 @@ export default class Server {
 
         private async setup() {
                 await this.paragon.applyPlguins()
-
+                
                 this.app.get("/scripts/get_scripts", (req, res, next) => {
                         // TODO move to rangeLimit interface
                         let jsonReq = JSON.parse(req.body ?? "{}")
