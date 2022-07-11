@@ -4,7 +4,7 @@ import { CheckerPlugin } from './../../../../Types/Plugin.js'
 
 const plugin: CheckerPlugin = {
         name: "Base chechers",
-        type: "Executor",
+        type: "Checker",
         checkers: checkers
 }
 

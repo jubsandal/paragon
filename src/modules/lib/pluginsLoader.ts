@@ -1,8 +1,6 @@
 import { PathLike } from 'fs'
 import { Plugin } from './../../Types/Plugin.js'
-import path from 'path'
 import glob from 'glob'
-// import * as Plugins from './../../modules/Plugins/*/*/index.js'
 
 class PluginsLoader {
         constructor() {

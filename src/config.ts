@@ -1,4 +1,4 @@
-import { union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
+import { assign, record, union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
 import { readFileSync } from 'fs'
 import * as fs from 'fs'
 
@@ -46,7 +46,7 @@ export function Config(): ConfigType {
         return config;
 }
 
-const cfg = Config()
+let cfg = Config()
 
 for (const path of Object.values(cfg.path)) {
         if (!fs.existsSync(path)) {
