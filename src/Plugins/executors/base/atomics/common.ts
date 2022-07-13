@@ -1,9 +1,6 @@
 import { BaseActions, State } from './../state.js'
-import { CmdError } from './../../../../lib/Error.js'
 import puppeteer from 'puppeteer'
-import { retrier, log, sleep } from './../../../../../utils.js'
-import * as fs from 'fs'
-import { CommandInput } from './../../../../executors/Command.js'
+import { CmdError } from './../../../include.js'
 
 async function SetVariable(this: State, ...inputs: any[]) {
         const var_name = inputs[0]

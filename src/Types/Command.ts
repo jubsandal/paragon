@@ -1,12 +1,13 @@
-// TODO move to types
-import { script, scriptAction } from './../../Types/script.js'
-import { CmdError } from './../lib/Error.js'
 import * as ss from 'superstruct'
-import { extract } from './../../Types/extractable.js'
-import { StateBase } from './Base.js'
-import { getDataByPath } from './../../utils.js'
+
+import { script, scriptAction } from './script.js'
+import { CmdError } from './CmdError.js'
+import { extract } from './../lib/extractable.js'
+import { StateBase } from './State.js'
+import { getDataByPath } from './../lib/data.js'
 import { IBaseInputSign, IBaseInput, BaseInput, getInputs } from './../lib/Input.js'
 
+// TODO remove
 interface ICommandInput extends IBaseInput {
 }
 
@@ -24,7 +25,6 @@ export type Command<State extends StateBase> = {
         inputs: CommandInput[]
         returnValue: ss.Struct<any, null> | ss.Struct<never, null>
         fn: cmdFunction<State>
-        // fn: (this: State, ...inputs: string[]) => Promise<void>
 }
 
 export const CommandSign = ss.object({

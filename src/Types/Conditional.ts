@@ -1,5 +1,5 @@
 import * as ss from 'superstruct'
-import { CmdError } from './../lib/Error.js'
+import { CmdError } from './CmdError.js'
 import { BaseInput, IBaseInputSign } from './../lib/Input.js'
 
 export const check_base_path = "check."

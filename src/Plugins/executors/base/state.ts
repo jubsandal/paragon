@@ -1,6 +1,4 @@
-import { script, scriptAction } from './../../../../Types/script.js'
-import { StateBase, StateBaseSign } from './../../../executors/Base.js'
-import { database } from './../../../database/module-manager.js'
+import { database, script, scriptAction, StateBase, StateBaseSign } from './../../include.js'
 
 export const actions = [
         "Dummy",

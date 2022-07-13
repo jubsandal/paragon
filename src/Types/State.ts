@@ -1,8 +1,8 @@
 // TODO move to types
-import { database } from './../database/module-manager.js'
-import { script, scriptAction } from './../../Types/script.js'
+import { database } from './../Database/module-manager.js'
+import { script, scriptAction } from './script.js'
 import * as ss from 'superstruct'
-import { scriptActionSign } from './../../Types/script.js'
+import { scriptActionSign } from './script.js'
 
 export interface StateBase {
         profile: database.ORM.Account

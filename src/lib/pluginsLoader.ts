@@ -1,5 +1,5 @@
 import { PathLike } from 'fs'
-import { Plugin } from './../../Types/Plugin.js'
+import { Plugin } from './../Types/Plugin.js'
 import glob from 'glob'
 
 class PluginsLoader {

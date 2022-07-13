@@ -1,6 +1,6 @@
-import PluginsLoader from './modules/lib/pluginsLoader.js'
+import PluginsLoader from './lib/pluginsLoader.js'
 import { Plugin } from './Types/Plugin.js'
-import ExecutableBuilder from './ExecutableBuilder.js'
+import { ExecutableBuilder } from './Executable/ExecutableBuilder.js'
 
 export default class Paragon {
         // @ts-ignore

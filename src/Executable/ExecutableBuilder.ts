@@ -1,17 +1,17 @@
+import * as ss from 'superstruct'
+
 import {
         Plugin,
         ExecutorPlugin,
         CheckerPlugin,
         DatabasePlugin
-} from './Types/Plugin.js'
+} from './../Types/Plugin.js'
 
-import * as ss from 'superstruct'
+import { database } from './../Database/module-manager.js'
+import { script } from './../Types/script.js'
+import { Executable } from './../Executable/Executable.js'
 
-import { database } from './modules/database/module-manager.js'
-import { script } from './Types/script.js'
-import { Executable } from './modules/executors/Executable.js'
-
-export default class ExecutableBuilder {
+export class ExecutableBuilder {
         constructor(
                 private plugins: Plugin[],
                 private script: script,
@@ -72,5 +72,6 @@ export default class ExecutableBuilder {
                 const plugins = await this.pluginsMegre()
                 // @ts-ignore
                 let executable = new Executable<typeof plugins.executors.state>(this.script, this.profile, plugins.executors.commands, plugins.checkers.checkers)
+                return executable
         }
 }

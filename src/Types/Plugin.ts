@@ -1,6 +1,6 @@
 import { any, assign, union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
-import { CommandSign } from './../modules/executors/Command.js'
-import { CheckObjSign } from './../modules/checkers/Conditional.js'
+import { CommandSign } from './Command.js'
+import { CheckObjSign } from './Conditional.js'
 
 export const PluginTypeSign = enums([ "Executor", "Checker", "Database", "Merged" ])
 

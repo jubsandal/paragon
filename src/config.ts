@@ -7,14 +7,14 @@ import { ProxyTypeSign } from './Types/proxy.js'
 
 const _cfg_path = './config.json'
 
-
 const configSign = object({
         concurrency: number(),
         path: object({
                 storage: string(),
+                scripts: string(),
                 log: string(),
         }),
-        scripts: array(scriptSign),
+        scripts: array(string()),
         proxy: array(ProxyTypeSign)
 })
 
@@ -24,6 +24,7 @@ if (!fs.existsSync(_cfg_path)) {
                 scripts: new Array(),
                 path: {
                         log: './.log',
+                        scripts: "./scripts",
                         storage: './storage'
                 },
                 proxy: []

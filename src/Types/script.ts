@@ -1,9 +1,13 @@
-import { func, record, unknown, assign, union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
+import { any, func, record, unknown, assign, union, Describe, optional, array, enums, Infer, assert, boolean, object, number, string } from 'superstruct'
+import * as fs from 'fs'
+import cfg from './../config.js'
+import path from "path"
 
 export const scriptActionNextSign = union([number(), string()])
 
 // extendable by cmd plugins inputs parameter
-export const scriptActionSign = assign(
+// TODO add profile schema
+export const scriptActionSign = union([
         object({
                 // access
                 id: number(),
@@ -31,8 +35,8 @@ export const scriptActionSign = assign(
                         )
                 )
         }),
-        object({})
-)
+        any()
+])
 
 // procedure name: actions array
 // actions id must be not intercept other ids
@@ -91,3 +95,11 @@ export const scriptSign = object({
 
 export type script = Infer<typeof scriptSign>;
 export type scriptAction = Infer<typeof scriptActionSign>;
+
+export function readScript(file: string): script {
+        return JSON.parse(fs.readFileSync(cfg.path.scripts + path.delimiter + file).toString())
+}
+
+export function saveScript(file: string, script: script) {
+        fs.writeFileSync(cfg.path.scripts + path.delimiter + file, JSON.stringify(script))
+}

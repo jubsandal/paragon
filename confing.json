@@ -1,0 +1,12 @@
+{
+        "concurrency": 1,
+        "path": {
+                "storage": "storage",
+                "scripts": "scripts",
+                "log": ".log"
+        },
+        "scripts": [
+                ""
+        ],
+
+}

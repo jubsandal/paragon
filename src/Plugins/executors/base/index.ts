@@ -1,6 +1,7 @@
 import { actions, StateSign } from './state.js'
 import { commands } from './commands.js'
-import { ExecutorPlugin } from './../../../../Types/Plugin.js'
+
+import { ExecutorPlugin } from './../../include.js'
 
 const plugin: ExecutorPlugin = {
         name: "Base commands",

@@ -1,10 +1,6 @@
-import * as ss from 'superstruct'
-import { Command, CommandInput } from './../../../executors/Command.js'
-import cfg from './../../../../config.js'
+import { cfg, ss, Command, CommandInput } from './../../include.js'
 import { State } from './state.js'
 import * as cmd from './atomics/index.js'
-
-import { extractableSign } from './../../../../Types/extractable.js'
 
 export const commands: Command<State>[] = [
         {

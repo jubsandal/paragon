@@ -1,12 +1,13 @@
 import * as ss from 'superstruct'
-import { script, scriptAction } from './../../Types/script.js'
-import { database } from './../database/module-manager.js'
-import { timeoutPromise, getDataByPath } from './../../utils.js'
-import { extract } from './../../Types/extractable.js'
-import { Command, CommandExecutor } from './Command.js'
-import { StateBase } from './Base.js'
-import { CheckFn, CheckObj } from './../checkers/Conditional.js'
-import { CmdError } from './../lib/Error.js'
+import { script, scriptAction } from './../Types/script.js'
+import { database } from './../Database/module-manager.js'
+import { timeoutPromise } from './../lib/time.js'
+import { getDataByPath } from './../lib/data.js'
+import { extract } from './../lib/extractable.js'
+import { Command, CommandExecutor } from './../Types/Command.js'
+import { StateBase } from './../Types/State.js'
+import { CheckFn, CheckObj } from './../Types/Conditional.js'
+import { CmdError } from './../Types/CmdError.js'
 
 export class Executable<S extends StateBase> {
         protected state: S
@@ -97,29 +98,6 @@ export class Executable<S extends StateBase> {
         private get isOnProcedure() {
                 return this.procedure_ep_save.length > 0
         }
-
-        // private async nextAction(next: string | number | null) {
-        //         async function actionSearch() {
-
-        //         }
-
-        //         async function procedureSearch() {
-
-        //         }
-
-        //         switch (typeof next) {
-        //                 case "string":
-        //                         await procedureSearch()
-        //                         break
-        //                 case "number":
-        //                         await actionSearch()
-        //                         break
-        //                 default:
-
-        //         }
-
-        //         return 0
-        // }
 
         // used for both of execution common comand query, procedures and finally action of passed script
         // TODO maybe use recursion with this.cur_action as argument?

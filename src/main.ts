@@ -1,7 +1,7 @@
-import Server from './Server.js'
+import Server from './Server/Server.js'
 
-let server = new Server(7200)
-server.listen()
+let s = new Server(7200)
+s.listen()
 
 // import { parse } from 'ts-command-line-args'
 

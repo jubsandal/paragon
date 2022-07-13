@@ -1,5 +1,4 @@
-import { CheckFn, CheckObj, check_path } from './../../../checkers/Conditional.js'
-import * as ss from 'superstruct'
+import { CheckObj, check_path, ss } from './../../include.js'
 
 export const checkers: CheckObj[] = [
         {
