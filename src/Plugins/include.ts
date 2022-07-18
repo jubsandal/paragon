@@ -1,5 +1,5 @@
 export * as ss from 'superstruct'
-import * as fs from 'fs'
+export * as fs from 'fs'
 import cfg from './../config.js'
 export { cfg }
 
@@ -18,3 +18,5 @@ export { extractableSign } from './../lib/extractable.js'
 export { script, scriptAction } from './../Types/script.js'
 export { StateBase, StateBaseSign } from './../Types/State.js'
 export { database } from './../Database/module-manager.js'
+
+export { Proxy, ProxyType, ProxyTypeSign } from './../Types/proxy.js'

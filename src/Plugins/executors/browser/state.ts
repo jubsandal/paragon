@@ -1,11 +1,7 @@
 import puppeteer from 'puppeteer'
-import { script, scriptAction } from './../../../../Types/script.js'
-import { database } from './../../../database/module-manager.js'
-import { StateBase } from './../../../executors/Base.js'
 import * as browserSetuper from './atomics/index.js'
-import { Proxy, ProxyTypeSign } from './../../../../Types/proxy.js'
 
-import * as ss from 'superstruct'
+import { ss, ProxyTypeSign, Proxy, ProxyType, script, scriptAction, database, StateBase } from './../../include.js'
 
 export const actions = [
         "Click",

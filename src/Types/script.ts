@@ -47,14 +47,9 @@ export const scriptProcedureSign = record(string(), array(scriptActionSign))
 // Stealth - will open an Common instance but use stealth pluggin
 export const scriptBrowserAdaptersSign = enums([ "AdsPower", "Common", "Stealth" ])
 
-// TODO move all browser options to inputs of browser plugin;
-// browser options added here at moment where browser automatization was be the main purpose of this program
 export const scriptSign = object({
         // identifier to assign to
         name: string(),
-
-        // triger for sort profiles by proxy pre defenition, undefined for false
-        usePreDefinedProxy: optional(boolean()),
 
         // timeout trigger
         maxExecutionTime: number(),
@@ -67,30 +62,6 @@ export const scriptSign = object({
 
         // finally procedure
         finally: optional(string()),
-
-        // browser type to use, undefined for Common
-        browserAdapter: optional(scriptBrowserAdaptersSign),
-
-        // browser launch settings
-        browserLaunch: optional(
-                object({
-                        Viewport: object({
-                                deviceScaleFactor: optional(number()),
-                                width: number(),
-                                height: number()
-                        }),
-                        args: array(string()),
-                        headless: optional(boolean()),
-                        userDataDir: optional(string()),
-                        executablePath: optional(string()),
-                        waitForInitialPage: optional(boolean()),
-                })
-        ),
-
-        // TODO add optional headers, userAgent and other options...
-
-        // AdsPower local API link, undefined for localhost
-        adsLocalAPIHost: optional(string()),
 })
 
 export type script = Infer<typeof scriptSign>;

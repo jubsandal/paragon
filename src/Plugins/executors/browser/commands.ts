@@ -1,13 +1,8 @@
 import * as ss from 'superstruct'
-import cfg from './../../../../config.js'
 import { State } from './state.js'
 import * as cmd from './atomics/index.js'
 
-import { Command, CommandInput } from './../../../executors/Command.js'
-
-import { extractableSign } from './../../../../Types/extractable.js'
-
-// TODO add register function to add commands from plugins
+import { cfg, Command, CommandInput, extractableSign } from './../../include.js'
 
 export const commands: Command<State>[] = [
         {
@@ -18,8 +13,35 @@ export const commands: Command<State>[] = [
                                 position: 0,
                                 type: new ss.Struct({ type: "any", schema: null }),
                                 description: "",
-                                path: "account"
-                        }
+                                path: "$profile"
+                        },
+                        {
+                                position: 1,
+                                type: new ss.Struct({ type: "string", schema: null }),
+                                description: "browser adapter",
+                                path: "adapter"
+                        },
+                        {
+                                position: 2,
+                                type: new ss.Struct({ type: "boolean", schema: null }),
+                                optional: true,
+                                description: "",
+                                path: "predefinedProxy"
+                        },
+                        {
+                                position: 3,
+                                type: new ss.Struct({ type: "any", schema: null }),
+                                optional: true,
+                                description: "",
+                                path: "launchArg"
+                        },
+                        {
+                                position: 4,
+                                type: new ss.Struct({ type: "string", schema: null }),
+                                optional: true,
+                                description: "",
+                                path: "adsLocalAPIHost"
+                        },
                 ],
                 returnValue: ss.never(),
                 fn: cmd.setupBrowser
@@ -37,7 +59,7 @@ export const commands: Command<State>[] = [
                         },
                         {
                                 position: 1,
-                                type: extractableSign,
+                                type: ss.array(extractableSign),
                                 description: "iframe",
                                 path: "iframe"
                         }
@@ -57,7 +79,7 @@ export const commands: Command<State>[] = [
                         },
                         {
                                 position: 1,
-                                type: extractableSign,
+                                type: ss.array(extractableSign),
                                 description: "iframe",
                                 path: "iframe"
                         },
@@ -111,6 +133,13 @@ export const commands: Command<State>[] = [
                         },
                         {
                                 position: 1,
+                                type: ss.array(extractableSign),
+                                description: "frame from",
+                                path: "iframe"
+
+                        },
+                        {
+                                position: 2,
                                 type: extractableSign,
                                 description: "file path to upload",
                                 path: "selector"
@@ -126,18 +155,24 @@ export const commands: Command<State>[] = [
                         {
                                 position: 0,
                                 type: extractableSign,
+                                description: "source to scrap from",
+                                path: "source"
+                        },
+                        {
+                                position: 1,
+                                type: extractableSign,
                                 description: "page url, \"\" for use current",
                                 path: "url"
                         },
                         {
-                                position: 1,
+                                position: 2,
                                 type: extractableSign,
                                 description: "selector to scrap from",
                                 path: "selector"
                         },
                         {
-                                position: 2,
-                                type: extractableSign,
+                                position: 3,
+                                type: ss.array(extractableSign),
                                 description: "frame from",
                                 path: "iframe"
 

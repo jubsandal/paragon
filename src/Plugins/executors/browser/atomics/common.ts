@@ -1,9 +1,7 @@
 import { BrowserAction, State } from './../state.js'
 import puppeteer from 'puppeteer'
-import { retrier, log, sleep } from './../../../../../utils.js'
-import * as fs from 'fs'
-import { CommandInput } from './../../../../executors/Command.js'
-import { CmdError } from './../../../../lib/Error.js'
+
+import { CommandInput, CmdError, fs, retrier, log, sleep } from './../../../include.js'
 
 async function captureSelector(page: puppeteer.Page, field: string, frame?: string[]) {
         let root = page
@@ -41,6 +39,7 @@ async function Click(this: State, ...inputs: any[]) {
         return new CmdError(true)
 }
 
+// TODO check for the passed selector is an input selector
 async function Type(this: State, ...inputs: any[]) {
         const f = async () => {
                 try {
@@ -72,7 +71,7 @@ async function Type(this: State, ...inputs: any[]) {
 }
 
 async function Upload(this: State, ...inputs: any[]) {
-        if (!fs.existsSync(inputs[3])) {
+        if (!fs.existsSync(inputs[2])) {
                 return new CmdError(false, "Unexists", "File unexists")
         }
         const f = async () => {
@@ -84,7 +83,7 @@ async function Upload(this: State, ...inputs: any[]) {
                                         await selector.click()
                                 ]);
                                 // @ts-ignore
-                                await fileChooser.accept([inputs[3]])
+                                await fileChooser.accept([inputs[2]])
                                 return true
                         } else {
                                 return false
@@ -103,17 +102,15 @@ async function Upload(this: State, ...inputs: any[]) {
 }
 
 async function Scrap(this: State, ...inputs: string[]) {
+        let ret: any
         switch (inputs[0]) {
-            case "URL":
-                await this.profile.setDataByPath(
-                    inputs[1],
-                    await this.page.url()
-                ).sync()
-                break
-            default:
-                return new CmdError(false, "Unavalible Operation", "Unavalible Operation")
+                case "URL":
+                        ret = this.page.url()
+                        break
+                default:
+                        return new CmdError(false, "Unavalible Operation", "Unavalible Operation")
         }
-        return new CmdError(true)
+        return new CmdError(true, ret)
 }
 
 async function Goto(this: State, ...inputs: string[]) {
@@ -127,10 +124,10 @@ async function Goto(this: State, ...inputs: string[]) {
 
 async function Screenshot(this: State, ...inputs: string[]) {
         try {
-        await this.page.screenshot({
-                path: inputs[0] ?? "~/paragon-screenshot-" +
+                await this.page.screenshot({
+                        path: inputs[0] ?? "~/paragon-screenshot-" +
                         new Date().toLocaleDateString().replaceAll('/', '') + "-" + new Date().toLocaleTimeString("ru").replaceAll(":", '')
-        })
+                })
         } catch (e) {
                 return new CmdError(false, "error", String(e))
         }

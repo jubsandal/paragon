@@ -1,12 +1,12 @@
 // TODO move to types
 import * as ss from 'superstruct'
-import { StateBase } from './../executors/Base.js'
-import { extractable, extract } from './../../Types/extractable.js'
-import { getDataByPath } from './../../utils.js'
+import { StateBase } from './../Types/State.js'
+import { extractable, extract } from './../lib/extractable.js'
+import { getDataByPath } from './../lib/data.js'
 
 export interface IBaseInput {
         position: number
-        type: ss.Struct<any, null>;
+        type: ss.Struct<any, any>;
         optional?: boolean
         description?: string
         path: string
@@ -14,7 +14,7 @@ export interface IBaseInput {
 
 export class BaseInput implements IBaseInput {
         position: number
-        type: ss.Struct<any, null>;
+        type: ss.Struct<any, any>;
         optional?: boolean
         description?: string
         path: string
@@ -32,11 +32,16 @@ export async function getInputs(state: StateBase | any, inputs: BaseInput[], obj
         let ret = new Array()
         for (const input of inputs) {
                 let val
-                try {
-                        val = await extract(getDataByPath(obj, input.path), state.profile, state?.browser, state?.page)
-                } catch (e) {
-                        if (!input.optional) {
-                                throw e
+                if (input.path[0] == '$') {
+                        const path = input.path.slice(1)
+                        val = getDataByPath(state, path)
+                } else {
+                        try {
+                                val = await extract(getDataByPath(obj, input.path), state.profile, state?.browser, state?.page)
+                        } catch (e) {
+                                if (!input.optional) {
+                                        throw e
+                                }
                         }
                 }
                 ret.push(val)
