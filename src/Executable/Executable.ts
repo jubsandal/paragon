@@ -8,6 +8,7 @@ import { Command, CommandExecutor } from './../Types/Command.js'
 import { StateBase } from './../Types/State.js'
 import { CheckFn, CheckObj } from './../Types/Conditional.js'
 import { CmdError } from './../Types/CmdError.js'
+import { getInputs } from './../lib/Input.js'
 
 export class Executable<S extends StateBase> {
         protected state: S
@@ -76,7 +77,8 @@ export class Executable<S extends StateBase> {
                                 if (!checker) {
                                         throw "No checkers for action: " + this.cur_action.command
                                 }
-                                if (await checker.fn(cmdRet)) {
+                                // TODO make as the CommandExecutor
+                                if (await checker.fn(cmdRet, await getInputs(this.state, checker.inputs, this.cur_action.conditional))) {
                                         next = checkObj.next
                                         break
                                 }

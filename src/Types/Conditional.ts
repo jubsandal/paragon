@@ -2,7 +2,8 @@ import * as ss from 'superstruct'
 import { CmdError } from './CmdError.js'
 import { BaseInput, IBaseInputSign } from './../lib/Input.js'
 
-export const check_base_path = "check."
+// in script object sub object :) super unambiguously
+export const check_base_path = "inputs."
 
 export function check_path(path: string) {
         if (path[0] === '.') {
